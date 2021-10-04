@@ -1,5 +1,10 @@
 {
     "name": "Annai Store",
-    "version": 2.9,
+    "version": 3.0,
+    "description:": [
+        "Updated Sales Bill Layout",
+        "Updated Quotation Print, View Bill",
+        "Updated Order Print, View Bill"
+    ],
     "file_name": "annai-store.exe"
 }
