@@ -1,8 +1,9 @@
 {
     "name": "Annai Store",
-    "version": 3.4,
+    "version": 3.5,
     "description": [
         "Updated Billing System",
+        "Updated Receipt System",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
