@@ -1,8 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 3.9,
+    "version": 4.0,
     "description": [
-        "Updated Billing System Printing",
+        "Updated Receipt Search by Name and mobile No",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
