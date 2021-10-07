@@ -3,6 +3,7 @@
     "version": 4.0,
     "description": [
         "Updated Receipt Search by Name and mobile No",
+        "Updated Receipt System by adding Put receipt by Bill No",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
