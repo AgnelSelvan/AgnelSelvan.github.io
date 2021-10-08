@@ -1,8 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 4.2,
+    "version": 4.3,
     "description": [
-        "Updated Bill and Receipt alignment",
+        "Added Export option in Estimate to convert from Bill to Estimate",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
