@@ -1,8 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 4.3,
+    "version": 4.4,
     "description": [
-        "Added Export option in Estimate to convert from Bill to Estimate",
+        "Added Dialog for Estimate Convert",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
