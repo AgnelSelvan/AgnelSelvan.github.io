@@ -1,8 +1,9 @@
 {
     "name": "Annai Store",
-    "version": 4.5,
+    "version": 4.6,
     "description": [
-        "Updated Estimate Convert to Bill ",
+        "Updated Voucher Implementation",
+        "Added Database Screen for deleting some Collections",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
