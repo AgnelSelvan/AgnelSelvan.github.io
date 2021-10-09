@@ -1,8 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 4.7,
+    "version": 4.8,
     "description": [
-        "Add Product by Code and Product Name in Billing SYstem",
+        "You can update Sales Bill",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
