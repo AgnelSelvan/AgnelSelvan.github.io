@@ -1,9 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 4.6,
+    "version": 4.7,
     "description": [
-        "Updated Voucher Implementation",
-        "Added Database Screen for deleting some Collections",
+        "Add Product by Code and Product Name in Billing SYstem",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
