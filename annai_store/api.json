@@ -1,10 +1,10 @@
 {
     "name": "Annai Store",
-    "version": 4.92,
+    "version": 4.94,
     "description": [
-        "You can update Sales Bill",
-        "You cannot edit Bill if A4 print taken",
-        "You can take THermal Print in A5 Paper",
+        "Added Some Product",
+        "Updated Company Management",
+        "Udpated Unit Management",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
