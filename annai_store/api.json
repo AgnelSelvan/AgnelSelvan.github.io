@@ -1,8 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 4.95,
+    "version": 4.96,
     "description": [
-        "Added Payment",
+        "Updated Payment",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
