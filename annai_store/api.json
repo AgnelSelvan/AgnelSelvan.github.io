@@ -1,10 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 4.94,
+    "version": 4.95,
     "description": [
-        "Added Some Product",
-        "Updated Company Management",
-        "Udpated Unit Management",
+        "Added Payment",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
