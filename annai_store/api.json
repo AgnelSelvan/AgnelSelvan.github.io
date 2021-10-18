@@ -2,10 +2,7 @@
     "name": "Annai Store",
     "version": 5.5,
     "description": [
-        "Receipt Thermal Print Spacing Fixed",
-        "Fixed A5 Receipt Print",
-        "Edit Bill Option for all Added and Removed Delete option in Billing History",
-        "Voucher A5 Print Now Available",
+        "Payment A5 print",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
