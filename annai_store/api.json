@@ -1,8 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 5.6,
+    "version": 5.7,
     "description": [
-        "Payment A5 print",
+        "Updated Employee Login",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
