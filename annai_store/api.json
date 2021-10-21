@@ -1,8 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 5.9,
+    "version": 6.0,
     "description": [
-        "Whole Application Change",
+        "Added Discount Warning",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
