@@ -1,8 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 5.8,
+    "version": 5.9,
     "description": [
-        "Updated App Database Location",
+        "Whole Application Change",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
