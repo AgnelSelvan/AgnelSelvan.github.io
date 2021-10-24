@@ -1,8 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 6.1,
+    "version": 6.2,
     "description": [
-        "Added Threads Option for Vardhaman, Ameto, etc",
+        "Added Customer details",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
