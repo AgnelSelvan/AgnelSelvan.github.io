@@ -1,8 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 6.4,
+    "version": 6.5,
     "description": [
-        "Added Customer details",
+        "Updated Quantity to double",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
