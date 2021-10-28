@@ -1,8 +1,10 @@
 {
     "name": "Annai Store",
-    "version": 6.5,
+    "version": 6.6,
     "description": [
         "Updated Quantity to double",
+        "Assigned Width to Product",
+        "Updated Thermal Print Estimate to Cash",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
