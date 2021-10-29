@@ -1,9 +1,9 @@
 {
     "name": "Annai Store",
-    "version": 6.7,
+    "version": 6.8,
     "description": [
-        "Search Product by Company Name",
-        "Arrow Up Down in Product Company Category Customer",
+        "Fixed Purchase Discount from Percentage to amount",
+        "Added Product by Price it won't override",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
