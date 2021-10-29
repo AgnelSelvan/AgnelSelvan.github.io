@@ -1,6 +1,6 @@
 {
     "name": "Annai Store",
-    "version": 6.8,
+    "version": 6.9,
     "description": [
         "Fixed Purchase Discount from Percentage to amount",
         "Added Product by Price it won't override",
