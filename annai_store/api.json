@@ -1,8 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 7.0,
+    "version": 7.1,
     "description": [
-        "You can now put multiple bill",
+        "Database Changing",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
