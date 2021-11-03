@@ -1,8 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 7.2,
+    "version": 7.3,
     "description": [
-        "Database Changing",
+        "Database API Calling",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
