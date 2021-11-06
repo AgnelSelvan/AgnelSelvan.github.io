@@ -1,9 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 7.7,
+    "version": 7.8,
     "description": [
-        "Drastic Change in Product",
-        "Added NGROK in EXE",
+        "Added Product No, Cateory No, Unit No",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
