@@ -1,8 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 7.8,
+    "version": 8.0,
     "description": [
-        "Added Product No, Cateory No, Unit No",
+        "Added Percentage wise MRP, Retail, Wholesale calculation",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
