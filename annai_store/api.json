@@ -1,8 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 8.3,
+    "version": 8.4,
     "description": [
-        "Added Percentage wise MRP, Retail, Wholesale calculation",
+        "Added Calculate without Tax in Add Product",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
