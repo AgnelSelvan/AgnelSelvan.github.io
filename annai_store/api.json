@@ -1,8 +1,8 @@
 {
     "name": "Annai Store",
-    "version": 9.2,
+    "version": 10,
     "description": [
-        "Added Calculate without Tax in Add Product",
+        "Added Sewing Service",
         "Minor Bug Fixes"
     ],
     "file_name": "annai-store.exe"
