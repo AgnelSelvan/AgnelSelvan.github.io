@@ -293,17 +293,31 @@ img{
   border-radius: .5rem;
   z-index: var(--z-back);
 }
-.skills__html{
-  width: 95%;
+.skills__swift{
+  width: 70%;
+  color: orange;
+  background-color: orange;
 }
-.skills__css{
-  width: 85%;
+.fa-swift{
+  color: orange;
+}
+.bxs-paint{
+  color: #ec7373
+}
+.skills__flutter{
+  width: 80%;
+  background-color: #57bafc;
 }
 .skills__js{
-  width: 65%;
+  width: 60%;
 }
 .skills__ux{
-  width: 85%;
+  width: 50%;
+  background-color: #ec7373;
+}
+.skills__python{
+  width: 65%;
+  background-color: #f8b82d;
 }
 .skills__img{
   border-radius: .5rem;
