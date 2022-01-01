@@ -23,12 +23,18 @@
   --big-font-size: 2rem;
   --h2-font-size: 1.25rem;
   --normal-font-size: 0.938rem;
+  --blog-normal-font-size: 1.1rem;
 }
 @media screen and (min-width: 768px){
   :root{
     --big-font-size: 3.5rem;
     --h2-font-size: 2rem;
     --normal-font-size: 1rem;
+    --blog-normal-font-size: 1.25rem;
+  }
+
+  .content__spacing{
+    height: 3rem;
   }
 }
 
@@ -133,6 +139,14 @@ img{
   align-items: center;
   font-weight: var(--font-semi);
 }
+.blogs_nav{
+  height: var(--header-height);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: larger;
+  font-weight: 800;
+}
 @media screen and (max-width: 768px){
   .nav__menu{
     position: fixed;
@@ -143,6 +157,9 @@ img{
     padding: 2rem;
     background-color: var(--second-color);
     transition: .5s;
+  }
+  .content__spacing{
+    height: 2rem;
   }
 }
 .nav__item{
@@ -413,7 +430,13 @@ img{
     top: 3rem;
   }
 
+  .content__spacing{
+    height: 5rem;
+  }
   .nav{
+    height: calc(var(--header-height) + 1rem);
+  }
+  .blogs_nav{
     height: calc(var(--header-height) + 1rem);
   }
   .nav__list{
@@ -478,10 +501,17 @@ img{
   margin: 20px
 }
 
+
+
 @media (min-width: 768px) and (max-width: 1024px) {
   .card-wrapper {
     width: 35vw;
     margin: 20px
+
+}
+
+.content__spacing{
+  height: 5rem;
 }
 }
 
@@ -496,7 +526,6 @@ img{
     margin-left: auto;
     margin-right: auto;
   }
-  
   .home__img{
     right: 10%;
   }
