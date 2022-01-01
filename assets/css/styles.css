@@ -173,6 +173,14 @@ img{
   cursor: pointer;
 }
 
+.btn {
+  margin: 10px;
+  padding: 10px 30px 10px 30px;
+  background-color: var(--second-color);
+  
+  color: #fff;
+  border-radius: 10px;
+}
 /*Active menu*/
 .active::after{
   position: absolute;
@@ -304,6 +312,13 @@ img{
 .bxs-paint{
   color: #ec7373
 }
+.bxs-brain{
+  color: #7ceb66
+}
+.card-wrapper {
+    width: 30vw;
+    margin: 20px
+}
 .skills__flutter{
   width: 80%;
   background-color: #57bafc;
@@ -314,6 +329,10 @@ img{
 .skills__ux{
   width: 50%;
   background-color: #ec7373;
+}
+.skills__brain{
+  width: 70%;
+  background-color: #7ceb66;
 }
 .skills__python{
   width: 65%;
@@ -386,6 +405,11 @@ img{
   body{
     margin: 0;
   }
+
+  .card-wrapper {
+    width: 90vw;
+    margin: 20px
+}
   .section{
     padding-top: 4rem;
     padding-bottom: 3rem;
@@ -463,6 +487,11 @@ img{
     margin-left: auto;
     margin-right: auto;
   }
+
+  .card-wrapper {
+    width: 35vw;
+    margin: 20px
+}
   .home__img{
     right: 10%;
   }
