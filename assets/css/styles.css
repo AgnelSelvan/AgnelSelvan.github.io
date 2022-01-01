@@ -473,6 +473,11 @@ img{
   }
 }
 
+.card-wrapper {
+  width: 35vw;
+  margin: 20px
+}
+
 @media (min-width: 768px) and (max-width: 1024px) {
   .card-wrapper {
     width: 35vw;
