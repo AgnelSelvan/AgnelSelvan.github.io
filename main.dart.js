@@ -60655,7 +60655,7 @@ return new A.b4(1/0,null,new A.iz(this.wd(b,b.M(t.w).f.a.a*0.8),r,s,null),null)}
 wd(a,b){var s=null,r=t.D,q=A.ei(A.a([A.cK("Productive ,\n   Experienced",A.dr(B.i,18,B.a1,1.8,2),s,s),A.kL(s,A.jD(A.cK("DOWNLOAD CV",A.dr(B.aM,16,B.a1,s,s),s,s),B.aH,s,s,s),B.a0,!1,s,s,s,s,s,s,s,s,s,s,new A.a1W(),s,s,s,s,s)],r),B.I,B.fs,B.z),p=A.cK("What I Do?",A.dr(B.i,35,B.a1,1.3,s),s,s),o=A.cK("I may not be perfect, but I'm surely of some help",A.dr(B.O.j(0,400),14,s,s,s),s,s),n=a.M(t.w).f.a.a>=1200?140:70,m=this.c,l=A.a4(m).i("X<1,cD>")
 return A.qj(B.aK,s,s,s,s,A.hY(A.a([q,B.ch,p,B.u1,o,new A.b4(s,n,s,s),A.a5e(B.ux,A.V(new A.X(m,new A.a1X(),l),!0,l.i("aB.E")),B.Pr,B.ux,0,0),B.JJ,A.bm(B.P,new A.id(new A.a1Y(a),s),s,s,s,s,s,s,s)],r),B.I,B.V,B.z),!1,s,s,!1,1,s,s,s,b,s,s,b,s,!0,!1)}}
 A.a1W.prototype={
-$0(){A.dM("https://github.com/AgnelSelvan/AgnelSelvan.github.io/raw/main/assets/files/resume.pdf")},
+$0(){A.dM("https://github.com/AgnelSelvan/AgnelSelvan.github.io/raw/main/assets/files/Agnel-Selvan.pdf")},
 $S:0}
 A.a1X.prototype={
 $1(a){var s=null,r=A.C6(10)
