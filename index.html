@@ -1,231 +1,234 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="This is my portfolio website">
+<html>
 
-        <link rel="stylesheet" href="assets/css/styles.css">
+<head>
+    <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
 
-        <!-- =====BOX ICONS===== -->
-        <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
-        <link rel="shortcut icon" href="./assets/img/ag.png" type="image/png" sizes="128x128" />
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
 
-        <title>Agnel Selvan</title>
-    </head>
-    <body>
-        <!--===== HEADER =====-->
-        <header class="l-header">
-            <nav class="nav bd-grid">
-                <div>
-                    <a href="#" class="nav__logo">Agnel <span class="home__title-color">Selvan</span></a>
-                </div>
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
 
-                <div class="nav__menu" id="nav-menu">
-                    <ul class="nav__list">
-                        <li class="nav__item"><a href="#home" class="nav__link active">Home</a></li>
-                        <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
-                        <li class="nav__item"><a href="#skills" class="nav__link">Skills</a></li>
-                        <li class="nav__item"><a href="#work" class="nav__link">Work</a></li>
-                        <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
-                    </ul>
-                </div>
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+    <base href="/">
 
-                <div class="nav__toggle" id="nav-toggle">
-                    <i class='bx bx-menu'></i>
-                </div>
-            </nav>
-        </header>
+    <meta charset="UTF-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="description" content="A new Flutter project.">
 
-        <main class="l-main">
-            <!--===== HOME =====-->
-            <section class="home bd-grid" id="home">
-                <div class="home__data">
-                    <h1 class="home__title">Hi,<br>I'am <span class="home__title-color">Agnel Selvan.</span><br>A Full Stack Web and Mobile Application Developer.</h1>
+    <!-- iOS meta tags & icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="my_portfolio">
+    <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-                    <a href="#" class="button">Contact</a>
-                </div>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png" />
 
-                <div class="home__social">
-                    <a target="_blank" href="https://www.linkedin.com/feed/" class="home__social-icon"><i class='bx bxl-linkedin'></i></a>
-                    <a target="_blank" href="https://github.com/AgnelSelvan" class="home__social-icon"><i class='bx bxl-github' ></i></a>
-                    <a target="_blank" href="https://www.instagram.com/_agnel.selvan_/" class="home__social-icon"><i class='bx bxl-instagram' ></i></a>
-                </div>
+    <title>Agnel Selvan</title>
+    <link rel="manifest" href="manifest.json">
+    <style>
+        body {
+            background-color: rgba(7, 17, 26, 1);
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+        
+        .loader {
+            border: 10px solid #f3f3f3;
+            border-radius: 50%;
+            border: 10px solid;
+            border-top: 10px solid #FFD800;
+            border-right: 10px solid rgba(7, 17, 26, 1);
+            border-bottom: 10px solid #FFD800;
+            border-left: 10px solid rgba(7, 17, 26, 1);
+            width: 70px;
+            height: 70px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+        
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 
-                <div class="home__img">    
-                    <img src="assets/img/My-CurvePhoto.png" width="3000" alt="">
-                </div>
-            </section>
+</head>
 
-            <!--===== ABOUT =====-->
-            <section class="about section " id="about">
-                <h2 class="section-title">About</h2>
+<body>
 
-                <div class="about__container bd-grid">
-                    <div class="about__img">
-                        <img src="assets/img/Portfolio.jpg" alt="">
-                    </div>
-                    
-                    <div>
-                        <h2 class="about__subtitle">I'am Agnel <span class="home__title-color"> Selvan</span></h2>
-                        <p class="about__text">I love developing <span class="home__title-color"> Mobile</span> and <span class="home__title-color"> Web</span> application and its my <span class="home__title-color">  passion</span>. Always love to learn new technologies and to succeed in an environment of growth and excellence and earn a job which provides me job satisfaction and self-development and help me achieve personal as well as organisational goals.</p>           
-                    </div>                                   
-                </div>
-            </section>
+    <div class="loading">
+        <div class="loader"></div>
+    </div>
+    <script type="text/javascript" defer>
+        (function(e, t) {
+            var n = e.amplitude || {
+                _q: [],
+                _iq: {}
+            };
+            var r = t.createElement("script");
+            r.type = "text/javascript";
+            r.integrity = "sha384-UcvEbHmT0LE2ZB30Y3FmY3Nfw6puAKXz/LpCFuoywywYikMOr/519Uu1yNq2nL9w";
+            r.crossOrigin = "anonymous";
+            r.async = true;
+            r.src = "https://cdn.amplitude.com/libs/amplitude-8.12.0-min.gz.js";
+            r.onload = function() {
+                if (!e.amplitude.runQueuedFunctions) {
+                    console.log("[Amplitude] Error: could not load SDK")
+                }
+            };
+            var s = t.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(r, s);
 
-            <!--===== SKILLS =====-->
-            <section class="skills section" id="skills">
-                <h2 class="section-title">Skills</h2>
+            function i(e, t) {
+                e.prototype[t] = function() {
+                    this._q.push([t].concat(Array.prototype.slice.call(arguments, 0)));
+                    return this
+                }
+            }
+            var o = function() {
+                this._q = [];
+                return this
+            };
+            var a = ["add", "append", "clearAll", "prepend", "set", "setOnce", "unset", "preInsert", "postInsert", "remove"];
+            for (var c = 0; c < a.length; c++) {
+                i(o, a[c])
+            }
+            n.Identify = o;
+            var u = function() {
+                this._q = [];
+                return this
+            };
+            var l = ["setProductId", "setQuantity", "setPrice", "setRevenueType", "setEventProperties"];
+            for (var p = 0; p < l.length; p++) {
+                i(u, l[p])
+            }
+            n.Revenue = u;
+            var d = ["init", "logEvent", "logRevenue", "setUserId", "setUserProperties", "setOptOut", "setVersionName", "setDomain", "setDeviceId", "enableTracking", "setGlobalUserProperties", "identify", "clearUserProperties", "setGroup", "logRevenueV2", "regenerateDeviceId", "groupIdentify", "onInit", "logEventWithTimestamp", "logEventWithGroups", "setSessionId", "resetSessionId", "getDeviceId", "getUserId", "setMinTimeBetweenSessionsMillis", "setEventUploadThreshold", "setUseDynamicConfig", "setServerZone", "setServerUrl", "sendEvents", "setLibrary", "setTransport"];
 
-                <div class="skills__container bd-grid">          
-                    <div>
-                        <h2 class="skills__subtitle">Profesional Skills</h2>
-                        <!-- <p class="skills__text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit optio id vero amet, alias architecto consectetur error eum eaque sit.</p> -->
-                        <div class="skills__data">
-                            <div class="skills__names">
-                                <i class='bx bxl-html5 skills__icon'></i>
-                                <span class="skills__name">HTML5</span>
-                            </div>
-                            <div class="skills__bar skills__html">
+            function v(e) {
+                function t(t) {
+                    e[t] = function() {
+                        e._q.push([t].concat(Array.prototype.slice.call(arguments, 0)))
+                    }
+                }
+                for (var n = 0; n < d.length; n++) {
+                    t(d[n])
+                }
+            }
+            v(n);
+            n.getInstance = function(e) {
+                e = (!e || e.length === 0 ? "$default_instance" : e).toLowerCase();
+                if (!Object.prototype.hasOwnProperty.call(n._iq, e)) {
+                    n._iq[e] = {
+                        _q: []
+                    };
+                    v(n._iq[e])
+                }
+                return n._iq[e]
+            };
+            e.amplitude = n
+        })(window, document);
+    </script>
 
-                            </div>
-                            <div>
-                                <span class="skills__percentage">95%</span>
-                            </div>
-                        </div>
-                        <div class="skills__data">
-                            <div class="skills__names">
-                                <i class='bx bxl-css3 skills__icon'></i>
-                                <span class="skills__name">CSS3</span>
-                            </div>
-                            <div class="skills__bar skills__css">
-                                
-                            </div>
-                            <div>
-                                <span class="skills__percentage">85%</span>
-                            </div>
-                        </div>
-                        <div class="skills__data">
-                            <div class="skills__names">
-                                <i class='bx bxl-javascript skills__icon' ></i>
-                                <span class="skills__name">JAVASCRIPT</span>
-                            </div>
-                            <div class="skills__bar skills__js">
-                                
-                            </div>
-                            <div>
-                                <span class="skills__percentage">65%</span>
-                            </div>
-                        </div>
-                        <div class="skills__data">
-                            <div class="skills__names">
-                                <i class='bx bxs-paint skills__icon'></i>
-                                <span class="skills__name">UX/UI</span>
-                            </div>
-                            <div class="skills__bar skills__ux">
-                                
-                            </div>
-                            <div>
-                                <span class="skills__percentage">50%</span>
-                            </div>
-                        </div>
-                        <div class="skills__data">
-                            <div class="skills__names">
-                                <i class='bx bxs-paint skills__icon'></i>
-                                <span class="skills__name">Python</span>
-                            </div>
-                            <div class="skills__bar skills__ux">
-                                
-                            </div>
-                            <div>
-                                <span class="skills__percentage">85%</span>
-                            </div>
-                        </div>
-                        <div class="skills__data">
-                            <div class="skills__names">
-                                <i class='bx bxs-paint skills__icon'></i>
-                                <span class="skills__name">Flutter</span>
-                            </div>
-                            <div class="skills__bar skills__ux">
-                                
-                            </div>
-                            <div>
-                                <span class="skills__percentage">80%</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div>              
-                        <img src="assets/img/work3.jpg" alt="" class="skills__img">
-                    </div>
-                </div>
-            </section>
+    <script src="main.dart.js" type="application/javascript"></script>
 
-            <!--===== WORK =====-->
-            <section class="work section" id="work">
-                <h2 class="section-title">Work</h2>
+    <!-- This script installs service_worker.js to provide PWA functionality to
+       application. For more information, see:
+       https://developers.google.com/web/fundamentals/primers/service-workers -->
+    <!-- <script>
+    const serviceWorkerVersion = "816954857";
+    var scriptLoaded = false;
+    function loadMainDartJs() {
+      if (scriptLoaded) {
+        return;
+      }
+      scriptLoaded = true;
+      var scriptTag = document.createElement('script');
+      scriptTag.src = 'main.dart.js';
+      scriptTag.type = 'application/javascript';
+      document.body.append(scriptTag);
+    }
 
-                <div class="work__container bd-grid">
-                    <div class="work__img">
-                        <!-- <div class="skills__name">Computer E-Commerce website</div> -->
-                        <!-- <br /> -->
-                        <img src="assets/img/computerstore/1.png" alt="">
-                    </div>
-                    <div class="work__img">
-                        <!-- <div class="skills__name">Face Recognition</div> -->
-                        <!-- <br /> -->
-                        <img src="assets/img/ml/1.png" alt="">
-                    </div>
-                    <div class="work__img" style="text-align: center;">
-                        <!-- <div class="skills__name">NewsUp mobile app</div> -->
-                        <!-- <br /> -->
-                        <img src="assets/img/newsup/logo.png" alt="">
-                    </div>
-                    <div class="work__img">
-                        <!-- <div class="skills__name">SocialPark mobile app</div> -->
-                        <!-- <br /> -->
-                        <img src="assets/img/socialpark/logo.png" alt="">
-                    </div>
-                    <!-- <div class="work__img">
-                        <img src="assets/img/work5.jpg" alt="">
-                    </div>
-                    <div class="work__img">
-                        <img src="assets/img/work6.jpg" alt="">
-                    </div> -->
-                </div>
-            </section>
+    if ('serviceWorker' in navigator) {
+      // Service workers are supported. Use them.
+      window.addEventListener('load', function () {
+        // Wait for registration to finish before dropping the <script> tag.
+        // Otherwise, the browser will load the script multiple times,
+        // potentially different versions.
+        var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
+        navigator.serviceWorker.register(serviceWorkerUrl)
+          .then((reg) => {
+            function waitForActivation(serviceWorker) {
+              serviceWorker.addEventListener('statechange', () => {
+                if (serviceWorker.state == 'activated') {
+                  console.log('Installed new service worker.');
+                  loadMainDartJs();
+                }
+              });
+            }
+            if (!reg.active && (reg.installing || reg.waiting)) {
+              // No active web worker and we have installed or are installing
+              // one for the first time. Simply wait for it to activate.
+              waitForActivation(reg.installing || reg.waiting);
+            } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
+              // When the app updates the serviceWorkerVersion changes, so we
+              // need to ask the service worker to update.
+              console.log('New service worker available.');
+              reg.update();
+              waitForActivation(reg.installing);
+            } else {
+              // Existing service worker is still good.
+              console.log('Loading app from service worker.');
+              loadMainDartJs();
+            }
+          });
 
-            <!--===== CONTACT =====-->
-            <section class="contact section" id="contact">
-                <h2 class="section-title">Contact</h2>
+        // If service worker doesn't succeed in a reasonable amount of time,
+        // fallback to plaint <script> tag.
+        setTimeout(() => {
+          if (!scriptLoaded) {
+            console.warn(
+              'Failed to load app from service worker. Falling back to plain <script> tag.',
+            );
+            loadMainDartJs();
+          }
+        }, 4000);
+      });
+    } else {
+      // Service workers not supported. Just drop the <script> tag.
+      loadMainDartJs();
+    }
+  </script> -->
+</body>
 
-                <div class="contact__container bd-grid">
-                    <form action="" class="contact__form">
-                        <input type="text" placeholder="Name" class="contact__input">
-                        <input type="mail" placeholder="Email" class="contact__input">
-                        <textarea name="" id="" cols="0" rows="10" class="contact__input"></textarea>
-                        <input type="button" value="Contact" class="contact__button button">
-                    </form>
-                </div>
-            </section>
-        </main>
-
-        <!--===== FOOTER =====-->
-        <footer class="footer">
-            <p class="footer__title">Agnel Selvan</p>
-            <div class="footer__social">
-                <a target="_blank" href="https://www.linkedin.com/feed/" class="footer__icon"><i class='bx bxl-linkedin'></i></a>
-                <a target="_blank" href="https://www.instagram.com/_agnel.selvan_/" class="footer__icon"><i class='bx bxl-instagram' ></i></a>
-                <a target="_blank" href="https://github.com/AgnelSelvan" class="footer__icon"><i class='bx bxl-github' ></i></a>
-            </div>
-            <p>&#169; 2020 copyright all right reserved</p>
-        </footer>
-
-
-        <!--===== SCROLL REVEAL =====-->
-        <script src="https://unpkg.com/scrollreveal"></script>
-
-        <!--===== MAIN JS =====-->
-        <script src="assets/js/main.js"></script>
-    </body>
 </html>
