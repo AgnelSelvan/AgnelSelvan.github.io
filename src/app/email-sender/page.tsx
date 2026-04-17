@@ -9,6 +9,8 @@ export default function BulkUpload() {
   const [results, setResults] = useState<any[]>([]);
   const [resume, setResume] = useState<{ content: string; filename: string } | null>(null);
   const [form, setForm] = useState({
+    senderEmail: '',
+    senderPassword: '',
     body: `Hi {hr_name},\n\nI am writing to express my interest in the {role} role at {company_name}. I am an immediate joiner with extensive experience in mobile development.\n\nPlease find my resume attached.\n\nBest regards,\nAgnel Selvan`
   });
 
@@ -39,11 +41,9 @@ export default function BulkUpload() {
     }
   };
 
-  const [relayUrl, setRelayUrl] = useState('');
-
   const handleSend = async () => {
-    if (!csvData.length || !relayUrl) {
-      alert('Please upload CSV and provide your Google Script Relay URL');
+    if (!csvData.length || !form.senderEmail || !form.senderPassword) {
+      alert('Please fill all fields and upload CSV');
       return;
     }
 
@@ -51,25 +51,34 @@ export default function BulkUpload() {
     setResults([]);
 
     try {
-      // We send to the Google Apps Script Relay
-      const response = await fetch(relayUrl, {
+      // GitHub Pages is static; we need to call the API where it's actually hosted.
+      // If you deploy to Vercel, replace this with your Vercel URL.
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
+      const response = await fetch(`${API_BASE}/api/send-bulk-email`, {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain' }, // Using text/plain prevents CORS preflight issues with GAS
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           csvData,
+          senderEmail: form.senderEmail,
+          senderPassword: form.senderPassword,
           body: form.body,
           resume: resume
         })
       });
 
+      if (!response.ok) {
+        if (response.status === 404 || response.status === 405) {
+          throw new Error('API Route not found. GitHub Pages does not support server-side APIs. Please host the API on Vercel.');
+        }
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to send emails');
+      }
+
       const data = await response.json();
-
-      if (data.error) throw new Error(data.error);
-
       setResults(data.results || []);
     } catch (err: any) {
       console.error(err);
-      alert('Relay Error: ' + (err.message || 'Failed to connect to Google Script. Check your URL and Deployment settings.'));
+      alert(err.message || 'Failed to send emails. Make sure your API is hosted on a platform that supports Node.js (like Vercel).');
     } finally {
       setLoading(false);
     }
@@ -97,19 +106,26 @@ export default function BulkUpload() {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
               <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, fontSize: '0.9rem' }}>Google Script Relay URL</label>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, fontSize: '0.9rem' }}>Gmail Address</label>
                 <input
-                  type="url"
-                  value={relayUrl}
-                  onChange={e => setRelayUrl(e.target.value)}
-                  placeholder="https://script.google.com/macros/s/.../exec"
+                  type="email"
+                  value={form.senderEmail}
+                  onChange={e => setForm({ ...form, senderEmail: e.target.value })}
+                  placeholder="you@gmail.com"
                   style={{ width: '100%', padding: '12px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', border: '1px solid var(--card-border)', color: 'white' }}
                 />
-                <p style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginTop: '0.4rem' }}>
-                  Deploy your Google App Script as a Web App to get this URL.
-                </p>
+              </div>
+              <div>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, fontSize: '0.9rem' }}>App Password</label>
+                <input
+                  type="password"
+                  value={form.senderPassword}
+                  onChange={e => setForm({ ...form, senderPassword: e.target.value })}
+                  placeholder="xxxx xxxx xxxx xxxx"
+                  style={{ width: '100%', padding: '12px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', border: '1px solid var(--card-border)', color: 'white' }}
+                />
               </div>
             </div>
 
