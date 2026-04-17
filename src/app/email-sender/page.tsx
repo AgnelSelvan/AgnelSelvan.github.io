@@ -51,10 +51,7 @@ export default function BulkUpload() {
     setResults([]);
 
     try {
-      // GitHub Pages is static; we need to call the API where it's actually hosted.
-      // If you deploy to Vercel, replace this with your Vercel URL.
-      const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
-      const response = await fetch(`${API_BASE}/api/send-bulk-email`, {
+      const response = await fetch('/api/send-bulk-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -67,9 +64,6 @@ export default function BulkUpload() {
       });
 
       if (!response.ok) {
-        if (response.status === 404 || response.status === 405) {
-          throw new Error('API Route not found. GitHub Pages does not support server-side APIs. Please host the API on Vercel.');
-        }
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to send emails');
       }
@@ -78,7 +72,7 @@ export default function BulkUpload() {
       setResults(data.results || []);
     } catch (err: any) {
       console.error(err);
-      alert(err.message || 'Failed to send emails. Make sure your API is hosted on a platform that supports Node.js (like Vercel).');
+      alert(err.message || 'An unexpected error occurred while sending emails.');
     } finally {
       setLoading(false);
     }
