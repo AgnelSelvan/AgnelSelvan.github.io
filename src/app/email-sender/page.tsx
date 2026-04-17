@@ -92,6 +92,9 @@ export default function BulkUpload() {
               <div>
                 <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, fontSize: '0.9rem' }}>1. Upload Contacts (CSV)</label>
                 <input type="file" accept=".csv" onChange={handleFileUpload} style={{ width: '100%', padding: '10px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', border: '1px solid var(--card-border)', fontSize: '0.8rem' }} />
+                <p style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginTop: '0.4rem' }}>
+                  Required columns: <code style={{ color: '#FFD700' }}>email, name, company, role</code>
+                </p>
               </div>
               <div>
                 <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, fontSize: '0.9rem' }}>2. Select Resume (PDF)</label>
