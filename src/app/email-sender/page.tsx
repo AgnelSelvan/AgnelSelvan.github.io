@@ -51,7 +51,10 @@ export default function BulkUpload() {
     setResults([]);
 
     try {
-      const response = await fetch('/api/send-bulk-email', {
+      // GitHub Pages is static; we need to call the API where it's actually hosted.
+      // If you deploy to Vercel, replace this with your Vercel URL.
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
+      const response = await fetch(`${API_BASE}/api/send-bulk-email`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -63,11 +66,19 @@ export default function BulkUpload() {
         })
       });
 
+      if (!response.ok) {
+        if (response.status === 404 || response.status === 405) {
+          throw new Error('API Route not found. GitHub Pages does not support server-side APIs. Please host the API on Vercel.');
+        }
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to send emails');
+      }
+
       const data = await response.json();
       setResults(data.results || []);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert('Failed to send emails');
+      alert(err.message || 'Failed to send emails. Make sure your API is hosted on a platform that supports Node.js (like Vercel).');
     } finally {
       setLoading(false);
     }
@@ -79,7 +90,7 @@ export default function BulkUpload() {
         <h1 style={{ fontSize: '2.5rem', marginBottom: '2rem', lineHeight: 1.2 }}>
           Send Resume to <span className="gradient-text">Multiple companies in one click</span>
         </h1>
-        
+
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '3rem' }}>
           {/* Form */}
           <div className="glass-card" style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
@@ -98,32 +109,32 @@ export default function BulkUpload() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
               <div>
                 <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, fontSize: '0.9rem' }}>Gmail Address</label>
-                <input 
-                  type="email" 
-                  value={form.senderEmail} 
-                  onChange={e => setForm({...form, senderEmail: e.target.value})}
-                  placeholder="you@gmail.com" 
-                  style={{ width: '100%', padding: '12px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', border: '1px solid var(--card-border)', color: 'white' }} 
+                <input
+                  type="email"
+                  value={form.senderEmail}
+                  onChange={e => setForm({ ...form, senderEmail: e.target.value })}
+                  placeholder="you@gmail.com"
+                  style={{ width: '100%', padding: '12px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', border: '1px solid var(--card-border)', color: 'white' }}
                 />
               </div>
               <div>
                 <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, fontSize: '0.9rem' }}>App Password</label>
-                <input 
-                  type="password" 
-                  value={form.senderPassword} 
-                  onChange={e => setForm({...form, senderPassword: e.target.value})}
-                  placeholder="xxxx xxxx xxxx xxxx" 
-                  style={{ width: '100%', padding: '12px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', border: '1px solid var(--card-border)', color: 'white' }} 
+                <input
+                  type="password"
+                  value={form.senderPassword}
+                  onChange={e => setForm({ ...form, senderPassword: e.target.value })}
+                  placeholder="xxxx xxxx xxxx xxxx"
+                  style={{ width: '100%', padding: '12px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', border: '1px solid var(--card-border)', color: 'white' }}
                 />
               </div>
             </div>
 
             <div>
               <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>Message Template</label>
-              <textarea 
+              <textarea
                 rows={6}
                 value={form.body}
-                onChange={e => setForm({...form, body: e.target.value})}
+                onChange={e => setForm({ ...form, body: e.target.value })}
                 style={{ width: '100%', padding: '12px', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', border: '1px solid var(--card-border)', color: 'white', fontSize: '0.9rem' }}
               />
               <p style={{ fontSize: '0.75rem', color: 'var(--text-dim)', marginTop: '0.5rem' }}>
@@ -131,10 +142,10 @@ export default function BulkUpload() {
               </p>
             </div>
 
-            <button 
-              onClick={handleSend} 
+            <button
+              onClick={handleSend}
               disabled={loading}
-              className="btn-primary" 
+              className="btn-primary"
               style={{ width: '100%', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1, padding: '1.25rem' }}
             >
               {loading ? 'Sending Emails...' : `Send Application to ${csvData.length} Recipients`}
@@ -176,7 +187,7 @@ export default function BulkUpload() {
           </div>
         </div>
       </div>
-      
+
       <style jsx global>{`
         .premium-container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
         .gradient-text { background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
