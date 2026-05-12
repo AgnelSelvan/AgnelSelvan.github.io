@@ -114,22 +114,26 @@ export default function ValentinePage() {
 
           /* floating hearts */
           .float-heart {
-            position:absolute; width:16px; height:16px; z-index:20;
+            position:absolute; z-index:20;
+            width:20px; height:20px;
+            background:#e91e63;
+            transform: rotate(-45deg);
             animation: heartRise 3s ease-in-out infinite;
           }
           .float-heart::before,.float-heart::after {
-            content:''; position:absolute; width:10px; height:14px;
-            background:#e91e63; border-radius:10px 10px 0 0;
+            content:''; position:absolute;
+            width:20px; height:20px;
+            background:#e91e63; border-radius:50%;
           }
-          .float-heart::before { left:0; transform:rotate(-45deg); transform-origin:bottom right; }
-          .float-heart::after  { left:5px; transform:rotate(45deg); transform-origin:bottom left; }
+          .float-heart::before { top:-10px; left:0; }
+          .float-heart::after  { top:0; right:-10px; }
           .fh1 { top:20px; left:40px; animation-delay:0s; }
           .fh2 { top:10px; right:50px; animation-delay:1s; }
           .fh3 { top:60px; left:50%; animation-delay:2s; }
           @keyframes heartRise {
-            0%{transform:translateY(0) scale(1);opacity:1}
-            50%{transform:translateY(-30px) scale(1.3);opacity:.7}
-            100%{transform:translateY(0) scale(1);opacity:1}
+            0%{transform:rotate(-45deg) translateY(0) scale(1);opacity:1}
+            50%{transform:rotate(-45deg) translateY(-30px) scale(1.3);opacity:.7}
+            100%{transform:rotate(-45deg) translateY(0) scale(1);opacity:1}
           }
 
           .hug-wrap {
