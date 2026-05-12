@@ -255,7 +255,7 @@ export default function ValentinePage() {
    * ============================================================ */
   return (
     <main className="vc">
-      <h1 className="v-title">Today is May 13, What <strong>Mei Tera</strong>...?</h1>
+      <h1 className="v-title">Today is May 13, What<br /><strong>Mei Tera</strong>...?</h1>
 
       <div className="buttons-row">
         <button className="btn-yes" onClick={() => setYesClicked(true)} style={yesButtonStyle}>YES</button>
