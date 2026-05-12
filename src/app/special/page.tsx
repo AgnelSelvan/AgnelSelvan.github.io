@@ -342,23 +342,7 @@ export default function ValentinePage() {
             <div className="p-mouth"></div>
           </div>
 
-          {/* Body with belly + breathing */}
-          <div className="p-body">
-            <div className="p-belly"></div>
-            <div className="p-body-shine"></div>
-          </div>
 
-          {/* Arms with paw pads */}
-          <div className="p-arm p-arm-l">
-            <div className="p-paw"></div>
-          </div>
-          <div className="p-arm p-arm-r">
-            <div className="p-paw"></div>
-          </div>
-
-          {/* Feet with paw detail */}
-          <div className="p-foot p-foot-l"><div className="p-foot-pad"></div></div>
-          <div className="p-foot p-foot-r"><div className="p-foot-pad"></div></div>
         </div>
       </div>
 
@@ -466,7 +450,7 @@ export default function ValentinePage() {
          * ================================================================ */
         .p {
           position: relative;
-          width: 220px; height: 310px;
+          width: 220px; height: 180px;
           z-index: 1;
           transition: all .4s ease;
         }
