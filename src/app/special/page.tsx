@@ -255,7 +255,7 @@ export default function ValentinePage() {
    * ============================================================ */
   return (
     <main className="vc">
-      <h1 className="v-title">Today is May 13, What Mei Tera...?</h1>
+      <h1 className="v-title">Today is May 13, What <strong>Mei Tera</strong>...?</h1>
 
       <div className="buttons-row">
         <button className="btn-yes" onClick={() => setYesClicked(true)} style={yesButtonStyle}>YES</button>
@@ -397,8 +397,11 @@ export default function ValentinePage() {
 
         .v-title {
           font-size: 3rem; color: #5d4037; margin-bottom: 2rem;
-          text-align: center; font-weight: 700;
+          text-align: center; font-weight: 400;
           text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .v-title strong {
+          font-weight: 700;
         }
 
         .buttons-row {
