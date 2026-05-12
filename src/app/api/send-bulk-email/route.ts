@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+export const dynamic = 'force-static';
+
 export async function POST(req: Request) {
   try {
     const { csvData, subject, body, senderEmail, senderPassword, resume } = await req.json();
@@ -21,10 +23,10 @@ export async function POST(req: Request) {
 
     for (const row of csvData) {
       const { email, name, company, role } = row;
-      
+
       const hrName = name || 'Hiring Manager';
       const companyName = company || 'your company';
-      
+
       const dynamicSubject = `Application for ${role} Role - Immediate Joiner`;
       const dynamicBody = body
         .replace(/{hr_name}/g, hrName)
