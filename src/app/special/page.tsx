@@ -46,7 +46,7 @@ export default function ValentinePage() {
   if (yesClicked) {
     return (
       <main className="vc yes-screen">
-        <h1 className="yes-title">Knew you would say YES!!</h1>
+        <h1 className="yes-title">This May 13<br/> I found my mei tera... &gt;&lt;</h1>
 
         <div className="hug-scene">
           {/* floating hearts */}
