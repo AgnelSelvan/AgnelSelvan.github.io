@@ -7,6 +7,7 @@ export default function ForYou() {
   const [accepted, setAccepted] = useState(false);
   const [rejected, setRejected] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
+  const [showVolumePrompt, setShowVolumePrompt] = useState(false);
   const [hearts, setHearts] = useState<{ id: number; left: number; delay: number; duration: number; size: number }[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -38,10 +39,12 @@ export default function ForYou() {
     setAccepted(false);
     setRejected(false);
     setShowVideo(false);
+    setShowVolumePrompt(false);
   };
 
   const handleCloseVideo = () => {
     setShowVideo(false);
+    setShowVolumePrompt(false);
     if (typeof document !== 'undefined') {
       if (document.fullscreenElement) {
         if (document.exitFullscreen) {
@@ -108,19 +111,51 @@ export default function ForYou() {
               id="next-button"
               className="btn-next"
               onClick={() => {
+                // 1. Open the video player and show custom animated volume prompt
                 setShowVideo(true);
+                setShowVolumePrompt(true);
+
+                // 2. Request fullscreen on the document (perfect for Desktop / Android)
                 if (typeof document !== 'undefined') {
                   const docEl = document.documentElement;
                   if (docEl.requestFullscreen) {
-                    docEl.requestFullscreen().catch(err => {
-                      console.log("Fullscreen request failed", err);
-                    });
+                    docEl.requestFullscreen().catch(() => { });
                   } else if ((docEl as any).webkitRequestFullscreen) {
                     (docEl as any).webkitRequestFullscreen();
                   } else if ((docEl as any).msRequestFullscreen) {
                     (docEl as any).msRequestFullscreen();
                   }
+
+                  // 3. Try targeted elements (overlay / iframe) specifically for iOS/WKWebView compatibilities
+                  setTimeout(() => {
+                    const overlay = document.querySelector('.video-overlay');
+                    const iframe = document.querySelector('.video-iframe');
+                    const targets = [overlay, iframe];
+                    for (const target of targets) {
+                      if (target) {
+                        try {
+                          if (target.requestFullscreen) {
+                            target.requestFullscreen().catch(() => { });
+                            break;
+                          } else if ((target as any).webkitRequestFullscreen) {
+                            (target as any).webkitRequestFullscreen();
+                            break;
+                          } else if ((target as any).webkitEnterFullscreen) {
+                            (target as any).webkitEnterFullscreen();
+                            break;
+                          }
+                        } catch (e) {
+                          console.log("iOS/Targeted fullscreen fallback tried: ", e);
+                        }
+                      }
+                    }
+                  }, 80);
                 }
+
+                // 4. Automatically dismiss the volume prompt after 2 seconds to reveal the video
+                setTimeout(() => {
+                  setShowVolumePrompt(false);
+                }, 2200);
               }}
             >
               NEXT 💖
@@ -225,7 +260,25 @@ export default function ForYou() {
           >
             ✕ CLOSE PLAYER
           </button>
-          <div className="video-iframe-wrapper">
+
+          {/* Custom Animated Volume Dialog */}
+          {showVolumePrompt && (
+            <div className="volume-prompt-overlay">
+              <div className="volume-prompt-card">
+                <div className="volume-speaker-outer">
+                  <div className="volume-speaker-pulse" />
+                  <span className="speaker-emoji">🔊</span>
+                </div>
+                <h2 className="volume-prompt-title">RAISE YOUR VOLUME!</h2>
+                <p className="volume-prompt-subtitle">Turn your volume to 100% for the best surprise 💖</p>
+                <div className="volume-progress-track">
+                  <div className="volume-progress-fill" />
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="video-iframe-wrapper" style={{ opacity: showVolumePrompt ? 0 : 1, transition: 'opacity 0.5s ease-in-out' }}>
             <iframe
               className="video-iframe"
               src="https://www.youtube.com/embed/mpxEUex3dek?start=107&autoplay=1&mute=0&playsinline=1&rel=0&modestbranding=1"
@@ -239,6 +292,122 @@ export default function ForYou() {
 
       {/* Styled JSX Styles */}
       <style jsx global>{`
+        /* Volume Prompt Styling */
+        .volume-prompt-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: #000000;
+          z-index: 100000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .volume-prompt-card {
+          background: rgba(255, 255, 255, 0.08);
+          backdrop-filter: blur(25px);
+          -webkit-backdrop-filter: blur(25px);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          border-radius: 28px;
+          padding: 2.5rem 2rem;
+          width: 90%;
+          max-width: 400px;
+          text-align: center;
+          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 100px rgba(255, 75, 114, 0.15);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          transform: scale(0.95);
+          animation: volumePop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .volume-speaker-outer {
+          position: relative;
+          width: 90px;
+          height: 90px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 1.5rem;
+        }
+
+        .volume-speaker-pulse {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          background: rgba(255, 75, 114, 0.2);
+          animation: speakerPulse 1.2s infinite ease-out;
+        }
+
+        .speaker-emoji {
+          font-size: 3.5rem;
+          z-index: 2;
+          filter: drop-shadow(0 0 10px rgba(255, 75, 114, 0.4));
+          animation: speakerShake 0.6s infinite ease-in-out alternate;
+        }
+
+        .volume-prompt-title {
+          font-size: 1.6rem;
+          font-weight: 900;
+          color: #ffffff;
+          letter-spacing: 1px;
+          margin-bottom: 0.75rem;
+          text-transform: uppercase;
+          background: linear-gradient(45deg, #ff4b72, #ff85a2);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .volume-prompt-subtitle {
+          font-size: 0.95rem;
+          color: #cccccc;
+          font-weight: 500;
+          line-height: 1.5;
+          margin-bottom: 2rem;
+        }
+
+        .volume-progress-track {
+          width: 100%;
+          height: 8px;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 10px;
+          overflow: hidden;
+          position: relative;
+        }
+
+        .volume-progress-fill {
+          height: 100%;
+          width: 0%;
+          background: linear-gradient(90deg, #ff4b72 0%, #ff85a2 100%);
+          border-radius: 10px;
+          animation: progressFillUp 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          box-shadow: 0 0 10px #ff4b72;
+        }
+
+        @keyframes volumePop {
+          to { transform: scale(1); }
+        }
+
+        @keyframes speakerPulse {
+          0% { transform: scale(0.9); opacity: 0.8; }
+          100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        @keyframes speakerShake {
+          0% { transform: rotate(-5deg) scale(1); }
+          100% { transform: rotate(5deg) scale(1.08); }
+        }
+
+        @keyframes progressFillUp {
+          0% { width: 0%; }
+          100% { width: 100%; }
+        }
+
         /* Fullscreen Landscape Video Player Overlay */
         .video-overlay {
           position: fixed;
