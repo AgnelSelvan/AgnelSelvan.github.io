@@ -201,7 +201,7 @@ export default function ForYou() {
           <div className="video-iframe-wrapper">
             <iframe
               className="video-iframe"
-              src="https://www.youtube.com/embed/mpxEUex3dek?start=107&autoplay=1&mute=0&rel=0&modestbranding=1"
+              src="https://www.youtube.com/embed/mpxEUex3dek?start=107&autoplay=1&mute=0&playsinline=1&rel=0&modestbranding=1"
               title="Special Surprise Video"
               allow="autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
