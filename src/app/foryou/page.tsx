@@ -40,6 +40,21 @@ export default function ForYou() {
     setShowVideo(false);
   };
 
+  const handleCloseVideo = () => {
+    setShowVideo(false);
+    if (typeof document !== 'undefined') {
+      if (document.fullscreenElement) {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(err => console.log(err));
+        } else if ((document as any).webkitExitFullscreen) {
+          (document as any).webkitExitFullscreen();
+        } else if ((document as any).msExitFullscreen) {
+          (document as any).msExitFullscreen();
+        }
+      }
+    }
+  };
+
   return (
     <main className={`foryou-page ${rejected ? 'theme-red' : accepted ? 'theme-accepted' : ''}`}>
       {/* Background Animated Gradient */}
@@ -94,6 +109,18 @@ export default function ForYou() {
               className="btn-next"
               onClick={() => {
                 setShowVideo(true);
+                if (typeof document !== 'undefined') {
+                  const docEl = document.documentElement;
+                  if (docEl.requestFullscreen) {
+                    docEl.requestFullscreen().catch(err => {
+                      console.log("Fullscreen request failed", err);
+                    });
+                  } else if ((docEl as any).webkitRequestFullscreen) {
+                    (docEl as any).webkitRequestFullscreen();
+                  } else if ((docEl as any).msRequestFullscreen) {
+                    (docEl as any).msRequestFullscreen();
+                  }
+                }
               }}
             >
               NEXT 💖
@@ -193,7 +220,7 @@ export default function ForYou() {
         <div className="video-overlay animate-video-fade">
           <button
             className="video-close-btn"
-            onClick={() => setShowVideo(false)}
+            onClick={handleCloseVideo}
             aria-label="Close Video Player"
           >
             ✕ CLOSE PLAYER
