@@ -5,6 +5,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 export default function ForYou() {
+  return <FlowerSketchPage />;
+}
+
+function LegacyGiftCard() {
   const [viewMode, setViewMode] = useState<'gift' | 'flower'>('gift');
 
   useEffect(() => {
@@ -84,7 +88,7 @@ export default function ForYou() {
   };
 
   if (viewMode === 'flower') {
-    return <FlowerSketchPage onViewChange={setViewMode} />;
+    return <FlowerSketchPage />;
   }
 
   return (
@@ -1155,20 +1159,32 @@ interface GlowingPlant {
   delay: number;
 }
 
-function FlowerSketchPage({ onViewChange }: { onViewChange: (view: 'gift' | 'flower') => void }) {
+function FlowerSketchPage() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   // Settings
   const [showVolumeHint, setShowVolumeHint] = useState(true);
+  const [fadeOutHint, setFadeOutHint] = useState(false);
   const [audioPlaying, setAudioPlaying] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
+  const handleDismissVolumeHint = () => {
+    if (fadeOutHint) return;
+    if (audioRef.current) {
+      audioRef.current.play()
+        .then(() => {
+          setAudioPlaying(true);
+        })
+        .catch(err => {
+          console.log("Audio play error on dismiss:", err);
+          setAudioPlaying(false);
+        });
+    }
+    setFadeOutHint(true);
+    setTimeout(() => {
       setShowVolumeHint(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
+    }, 500);
+  };
 
   // Background Music Playback (unedited.mp3 on repeat, played automatically after intro is dismissed)
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -2751,11 +2767,16 @@ function FlowerSketchPage({ onViewChange }: { onViewChange: (view: 'gift' | 'flo
       />
 
       {showVolumeHint && (
-        <div className="volume-hint-overlay">
+        <div 
+          className={`volume-hint-overlay ${fadeOutHint ? 'fade-out' : ''}`}
+          onClick={handleDismissVolumeHint}
+          style={{ cursor: 'pointer' }}
+        >
           <div className="volume-hint-content">
             <span className="volume-icon">🔊</span>
             <h2 className="volume-text">RAISE YOUR VOLUME</h2>
             <p className="volume-subtext">Beautiful sounds ahead</p>
+            <p className="volume-tap-instruction">Tap anywhere to start 💖</p>
           </div>
         </div>
       )}
@@ -2766,14 +2787,7 @@ function FlowerSketchPage({ onViewChange }: { onViewChange: (view: 'gift' | 'flo
         </div>
       )}
 
-      {/* Floating Toggle View Button (Top-Right) */}
-      <button
-        className="btn-view-toggle glass-button"
-        onClick={() => onViewChange('gift')}
-        title="Switch back to puppy gift card"
-      >
-        🐶 GIFT CARD VIEW
-      </button>
+
       <style jsx global>{`
         /* Flower Sketch Screen Styling */
         .flower-sketch-container {
@@ -3105,11 +3119,17 @@ function FlowerSketchPage({ onViewChange }: { onViewChange: (view: 'gift' | 'flo
           display: flex;
           align-items: center;
           justify-content: center;
-          background: rgba(5, 7, 10, 0.88);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
+          background: rgba(5, 7, 10, 0.92);
+          backdrop-filter: blur(15px);
+          -webkit-backdrop-filter: blur(15px);
           z-index: 1010;
-          animation: fadeOverlayOut 0.5s cubic-bezier(0.16, 1, 0.3, 1) 1.6s forwards;
+          transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+          opacity: 1;
+        }
+
+        .volume-hint-overlay.fade-out {
+          opacity: 0;
+          pointer-events: none;
         }
 
         .volume-hint-content {
@@ -3149,9 +3169,20 @@ function FlowerSketchPage({ onViewChange }: { onViewChange: (view: 'gift' | 'flo
           text-transform: uppercase;
         }
 
-        @keyframes fadeOverlayOut {
-          from { opacity: 1; }
-          to { opacity: 0; pointer-events: none; visibility: hidden; }
+        .volume-tap-instruction {
+          margin-top: 1.8rem;
+          font-size: 0.95rem;
+          font-weight: 800;
+          color: #ff7b92;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          text-shadow: 0 0 10px rgba(255, 123, 146, 0.55);
+          animation: textPulseGlow 1.8s infinite ease-in-out;
+        }
+
+        @keyframes textPulseGlow {
+          0%, 100% { opacity: 0.6; transform: scale(0.96); }
+          50% { opacity: 1; transform: scale(1.04); }
         }
 
         @keyframes bounceIcon {
