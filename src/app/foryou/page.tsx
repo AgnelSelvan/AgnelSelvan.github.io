@@ -5,7 +5,205 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 export default function ForYou() {
+  const [isMay15, setIsMay15] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const dateParam = params.get('date');
+      if (dateParam === '2026-05-25' || dateParam?.includes('25')) {
+        setIsMay15(true);
+        return;
+      }
+    }
+
+    const today = new Date();
+    // Month is 0-indexed (4 = May)
+    const isMay15Date = today.getDate() === 25 && today.getMonth() === 4;
+    if (isMay15Date) {
+      setIsMay15(true);
+    }
+  }, []);
+
+  if (isMay15) {
+    return <PageNotAvailable />;
+  }
+
   return <FlowerSketchPage />;
+}
+
+function PageNotAvailable() {
+  return (
+    <main className="na-page">
+      <div className="na-bg" />
+      <div className="na-card animate-fade-in">
+        <div className="na-icon-container">
+          <div className="na-icon-ring" />
+          <span className="na-icon">🌸</span>
+        </div>
+        <h1 className="na-title">Page Not Available</h1>
+        <p className="na-message">
+          This page is currently undergoing seasonal updates. Please reach out to the administrator for access or try again later.
+        </p>
+        <div className="na-divider" />
+        <p className="na-footer">Reach out to Admin</p>
+      </div>
+
+      <style jsx global>{`
+        .na-page {
+          min-height: 100vh;
+          width: 100vw;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          overflow: hidden;
+          font-family: 'Outfit', 'Inter', sans-serif;
+          background-color: #0d0914;
+        }
+
+        .na-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          background: radial-gradient(circle at 50% 50%, #20132b 0%, #0d0914 100%);
+        }
+
+        /* Glowing background blobs */
+        .na-bg::before {
+          content: '';
+          position: absolute;
+          top: -20%;
+          left: -20%;
+          width: 60%;
+          height: 60%;
+          background: radial-gradient(circle, rgba(255, 75, 114, 0.15) 0%, transparent 70%);
+          filter: blur(50px);
+          animation: floatBlob1 20s infinite alternate ease-in-out;
+        }
+
+        .na-bg::after {
+          content: '';
+          position: absolute;
+          bottom: -20%;
+          right: -20%;
+          width: 60%;
+          height: 60%;
+          background: radial-gradient(circle, rgba(189, 0, 255, 0.15) 0%, transparent 70%);
+          filter: blur(50px);
+          animation: floatBlob2 20s infinite alternate ease-in-out;
+        }
+
+        @keyframes floatBlob1 {
+          0% { transform: translate(0, 0) scale(1); }
+          100% { transform: translate(10%, 10%) scale(1.1); }
+        }
+
+        @keyframes floatBlob2 {
+          0% { transform: translate(0, 0) scale(1.1); }
+          100% { transform: translate(-10%, -10%) scale(1); }
+        }
+
+        .na-card {
+          position: relative;
+          z-index: 10;
+          width: 90%;
+          max-width: 440px;
+          background: rgba(255, 255, 255, 0.03);
+          backdrop-filter: blur(25px);
+          -webkit-backdrop-filter: blur(25px);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 32px;
+          padding: 3rem 2rem;
+          text-align: center;
+          box-shadow:
+            0 30px 60px rgba(0, 0, 0, 0.6),
+            0 0 100px rgba(255, 75, 114, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          transform: translateY(0);
+          animation: cardPop 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .na-icon-container {
+          position: relative;
+          width: 80px;
+          height: 80px;
+          margin: 0 auto 2rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .na-icon-ring {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          border: 2px dashed rgba(255, 75, 114, 0.3);
+          animation: spinRing 15s infinite linear;
+        }
+
+        .na-icon {
+          font-size: 3rem;
+          filter: drop-shadow(0 0 10px rgba(255, 75, 114, 0.5));
+          animation: floatIcon 4s infinite ease-in-out alternate;
+        }
+
+        .na-title {
+          font-size: 1.85rem;
+          font-weight: 800;
+          letter-spacing: -0.5px;
+          margin-bottom: 1rem;
+          background: linear-gradient(135deg, #ffffff 0%, #ff85a2 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .na-message {
+          font-size: 0.95rem;
+          color: rgba(255, 255, 255, 0.65);
+          line-height: 1.6;
+          font-weight: 500;
+          margin-bottom: 2rem;
+          padding: 0 0.5rem;
+        }
+
+        .na-divider {
+          width: 50px;
+          height: 2px;
+          background: linear-gradient(90deg, transparent, #ff4b72, transparent);
+          margin: 0 auto 1.5rem;
+        }
+
+        .na-footer {
+          font-size: 0.85rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1.5px;
+          color: #ff4b72;
+          text-shadow: 0 0 8px rgba(255, 75, 114, 0.3);
+        }
+
+        @keyframes cardPop {
+          from { opacity: 0; transform: translateY(30px) scale(0.95); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes spinRing {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        @keyframes floatIcon {
+          0% { transform: translateY(0) rotate(-5deg); }
+          100% { transform: translateY(-8px) rotate(5deg); }
+        }
+      `}</style>
+    </main>
+  );
 }
 
 function LegacyGiftCard() {
@@ -2767,7 +2965,7 @@ function FlowerSketchPage() {
       />
 
       {showVolumeHint && (
-        <div 
+        <div
           className={`volume-hint-overlay ${fadeOutHint ? 'fade-out' : ''}`}
           onClick={handleDismissVolumeHint}
           style={{ cursor: 'pointer' }}
