@@ -326,10 +326,6 @@ export default function BiodataPage() {
       alt: 'Agnel Selvan Portrait',
     },
     {
-      src: '/mine/many/IMG_2064.webp',
-      alt: 'Agnel Selvan Lifestyle',
-    },
-    {
       src: '/mine/many/IMG_2113.webp',
       alt: 'Agnel Selvan Portrait',
     },
@@ -505,7 +501,7 @@ export default function BiodataPage() {
                 </div>
 
                 {/* Nav Links */}
-                <div className="px-5 py-6 flex-1 flex flex-col gap-2.5 overflow-y-auto">
+                <div style={{ padding: "8px 20px" }} className="px-5 py-6 flex-1 flex flex-col gap-2.5 overflow-y-auto">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 px-3 pb-1">
                     Sections
                   </span>
@@ -520,6 +516,7 @@ export default function BiodataPage() {
                     const IconComponent = item.icon;
                     return (
                       <a
+                        style={{ padding: "8px 20px" }}
                         key={idx}
                         href={item.href}
                         onClick={() => setIsMenuOpen(false)}
@@ -547,7 +544,7 @@ export default function BiodataPage() {
                       onClick={() => setIsMenuOpen(false)}
                       className="flex items-center justify-between p-3.5 rounded-2xl text-neutral-700 hover:text-neutral-950 bg-amber-500/10 hover:bg-amber-500/15 border border-amber-500/25 transition-all group shadow-2xs"
                     >
-                      <div className="flex items-center gap-3.5">
+                      <div className="flex items-center gap-3.5" style={{ padding: "8px 20px" }}>
                         <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-800 flex items-center justify-center shrink-0">
                           <Briefcase className="w-4 h-4" />
                         </div>
@@ -562,8 +559,9 @@ export default function BiodataPage() {
                 </div>
 
                 {/* Drawer Footer */}
-                <div className="p-5 bg-white/80 border-t border-[#E8DFE2] flex flex-col gap-3.5">
+                <div className="p-5 bg-white/80 border-t border-[#E8DFE2] flex flex-col gap-3.5" style={{ padding: "8px 20px" }}>
                   <a
+                    style={{ padding: "8px 20px" }}
                     href="https://wa.me/919167877725?text=Hello%20Agnel,%20connecting%20regarding%20your%20biodata"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -1697,7 +1695,7 @@ export default function BiodataPage() {
           </div>
 
           <div>
-            &copy; {new Date().getFullYear()} Agnel Selvan &bull; Built with Next.js &amp; Framer Motion
+            &copy; {new Date().getFullYear()} Agnel Selvan
           </div>
 
           <a

@@ -914,7 +914,7 @@ export default function Home() {
           </div>
 
           <div>
-            &copy; {new Date().getFullYear()} Agnel Selvan &bull; Built with Next.js &amp; Tailwind CSS
+            &copy; {new Date().getFullYear()} Agnel Selvan
           </div>
 
           <a href="#" className="hover:text-neutral-300 transition-colors">
