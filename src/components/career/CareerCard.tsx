@@ -162,7 +162,7 @@ export function CareerCard({
       {step.skills && step.skills.length > 0 && (
         <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-2.5 border-t border-neutral-100/90" aria-label="Skills & Technologies">
           {step.skills.map((skill, idx) => (
-            <Chip key={idx} className="px-2.5 sm:px-3 py-0.5 sm:py-1 text-[11px] sm:text-xs font-medium">
+            <Chip key={idx} className="px-2.5 sm:px-3 py-0.5 sm:py-1 text-[11px] sm:text-xs font-medium" style={{ padding: "4px 10px" }}>
               {skill}
             </Chip>
           ))}
