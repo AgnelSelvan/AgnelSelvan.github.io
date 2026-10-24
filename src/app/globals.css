@@ -1133,43 +1133,15 @@ body {
   z-index: 0;
 }
 
-@media (min-width: 1024px) {
-  .bio-preferences-section {
-    min-height: calc(100vh - 4.5rem);
-    padding-top: calc(4.5rem + 1rem) !important;
-    padding-bottom: 1.5rem !important;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .bio-preferences-grid {
-    height: calc(100vh - 4.5rem - 2.5rem);
-    min-height: 580px;
-  }
-  .bio-preferences-section .about-photo-wrapper {
-    height: 100%;
-    min-height: 580px;
-    width: 100%;
-    border-radius: 1rem; /* rounded-2xl */
-    border: 1px solid rgba(0, 0, 0, 0.08);
-  }
-  .bio-preferences-section .about-photo-frame {
-    height: 100%;
-    width: 100%;
-    aspect-ratio: unset;
-    border-radius: inherit;
-  }
-}
-
 /* Individual Preference Pillar Cards */
 .preference-pillar-card {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-radius: 1rem; /* rounded-2xl */
+  border-radius: 1.25rem; /* rounded-2xl */
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
-  padding: 1.25rem 1.35rem;
+  padding: 1.5rem 1.6rem;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
@@ -1179,13 +1151,7 @@ body {
 
 @media (min-width: 640px) {
   .preference-pillar-card {
-    padding: 1.45rem 1.6rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .preference-pillar-card {
-    padding: 1.6rem 1.75rem;
+    padding: 1.65rem 1.85rem;
   }
 }
 
@@ -1194,7 +1160,7 @@ body {
   box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.07);
 }
 
-/* Contact / Let's Connect Section - Alternating with Right Photo */
+/* Contact / Let's Connect Section */
 .contact-ambient-glow {
   position: absolute;
   top: 15%;
@@ -1221,43 +1187,15 @@ body {
   z-index: 0;
 }
 
-@media (min-width: 1024px) {
-  .bio-contact-section {
-    min-height: calc(100vh - 4.5rem);
-    padding-top: calc(4.5rem + 1rem) !important;
-    padding-bottom: 1.5rem !important;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .bio-contact-grid {
-    height: calc(100vh - 4.5rem - 2.5rem);
-    min-height: 580px;
-  }
-  .bio-contact-section .about-photo-wrapper {
-    height: 100%;
-    min-height: 580px;
-    width: 100%;
-    border-radius: 1rem; /* rounded-2xl */
-    border: 1px solid rgba(0, 0, 0, 0.08);
-  }
-  .bio-contact-section .about-photo-frame {
-    height: 100%;
-    width: 100%;
-    aspect-ratio: unset;
-    border-radius: inherit;
-  }
-}
-
 /* Individual Contact Cards */
 .contact-pillar-card {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-radius: 1rem; /* rounded-2xl */
+  border-radius: 1.25rem; /* rounded-2xl */
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
-  padding: 1.25rem 1.35rem;
+  padding: 1.5rem 1.5rem;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
@@ -1267,13 +1205,7 @@ body {
 
 @media (min-width: 640px) {
   .contact-pillar-card {
-    padding: 1.35rem 1.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .contact-pillar-card {
-    padding: 1.45rem 1.6rem;
+    padding: 1.65rem 1.75rem;
   }
 }
 
