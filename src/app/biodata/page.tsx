@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import CareerSection from '@/components/career/CareerSection';
 import { motion, AnimatePresence, useMotionValue, useSpring, useScroll, type Variants } from 'framer-motion';
 import {
   Phone,
@@ -27,6 +28,9 @@ import {
   Camera,
   User,
   ChevronRight,
+  TrendingUp,
+  ArrowRight,
+  Award,
 } from 'lucide-react';
 
 const InstagramIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
@@ -52,6 +56,29 @@ export default function BiodataPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isPhotoColored, setIsPhotoColored] = useState(false);
   const [isAgnelHovered, setIsAgnelHovered] = useState(false);
+  const [isAgnelHighlighted, setIsAgnelHighlighted] = useState(false);
+  const [isShimmering, setIsShimmering] = useState(false);
+
+  const isAgnelActive = isAgnelHovered || isAgnelHighlighted;
+
+  // After 2 seconds: bottom-left to top-right shimmer reveal, transition photo to color and Agnel to orange
+  useEffect(() => {
+    let shimmerEndTimer: NodeJS.Timeout;
+    const triggerTimer = setTimeout(() => {
+      setIsShimmering(true);
+      setIsPhotoColored(true);
+      setIsAgnelHighlighted(true);
+
+      shimmerEndTimer = setTimeout(() => {
+        setIsShimmering(false);
+      }, 1800);
+    }, 2000);
+
+    return () => {
+      clearTimeout(triggerTimer);
+      if (shimmerEndTimer) clearTimeout(shimmerEndTimer);
+    };
+  }, []);
   const [cursorHovered, setCursorHovered] = useState(false);
   const [isMouseDown, setIsMouseDown] = useState(false);
 
@@ -322,6 +349,10 @@ export default function BiodataPage() {
       src: '/mine/many/new.webp',
       alt: 'Agnel Selvan Portrait',
     },
+    {
+      src: '/mine/work.webp',
+      alt: 'Agnel Selvan Software Engineer & Workspace',
+    },
   ];
 
   return (
@@ -448,25 +479,25 @@ export default function BiodataPage() {
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
                 transition={{ type: 'spring', damping: 28, stiffness: 280 }}
-                className="fixed top-0 right-0 bottom-0 w-[86vw] max-w-[340px] z-[101] bg-[#FAF5F6] border-l border-[#EADFE2] shadow-2xl flex flex-col justify-between overflow-y-auto lg:hidden"
+                className="fixed top-0 right-0 bottom-0 w-[88vw] max-w-[360px] z-[101] bg-[#FAF5F6] border-l border-[#EADFE2] shadow-2xl flex flex-col justify-between overflow-y-auto lg:hidden"
                 role="dialog"
                 aria-modal="true"
                 aria-label="Navigation Menu"
               >
                 {/* Drawer Header */}
-                <div className="p-5 pb-4 border-b border-[#E8DFE2]/80 flex items-center justify-between bg-white/50">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                <div className="px-6 py-5 border-b border-[#E8DFE2]/80 flex items-center justify-between bg-white/70">
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold text-xs shadow-xs">
                       AS
                     </div>
                     <div>
                       <h3 className="text-sm font-bold text-neutral-900 leading-tight">Agnel Selvan</h3>
-                      <p className="text-[11px] font-medium text-neutral-500">Biodata &bull; 2026</p>
+                      <p className="text-xs font-medium text-neutral-500">Biodata &bull; 2026</p>
                     </div>
                   </div>
                   <button
                     onClick={() => setIsMenuOpen(false)}
-                    className="w-8 h-8 rounded-full bg-white hover:bg-neutral-100 text-neutral-600 hover:text-neutral-900 border border-neutral-200/80 flex items-center justify-center transition shadow-2xs active:scale-95"
+                    className="w-9 h-9 rounded-full bg-white hover:bg-neutral-100 text-neutral-600 hover:text-neutral-900 border border-neutral-200/80 flex items-center justify-center transition shadow-2xs active:scale-95"
                     aria-label="Close menu"
                   >
                     <X className="w-4 h-4" />
@@ -474,8 +505,8 @@ export default function BiodataPage() {
                 </div>
 
                 {/* Nav Links */}
-                <div className="px-4 py-5 flex-1 flex flex-col gap-1.5 overflow-y-auto">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 px-3 pb-1">
+                <div className="px-5 py-6 flex-1 flex flex-col gap-2.5 overflow-y-auto">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 px-3 pb-1">
                     Sections
                   </span>
                   {[
@@ -492,37 +523,37 @@ export default function BiodataPage() {
                         key={idx}
                         href={item.href}
                         onClick={() => setIsMenuOpen(false)}
-                        className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-neutral-700 hover:text-neutral-950 bg-white/40 hover:bg-white border border-transparent hover:border-[#E8DFE2] transition-all group active:scale-[0.99] shadow-2xs"
+                        className="flex items-center justify-between px-4 py-3 rounded-2xl text-neutral-700 hover:text-neutral-950 bg-white/60 hover:bg-white border border-neutral-200/40 hover:border-[#E8DFE2] transition-all group active:scale-[0.99] shadow-2xs"
                       >
-                        <div className="flex items-center gap-3">
-                          <div className="w-7 h-7 rounded-lg bg-[#F0E6E8] text-neutral-700 flex items-center justify-center group-hover:bg-neutral-900 group-hover:text-white transition-colors">
-                            <IconComponent className="w-3.5 h-3.5" />
+                        <div className="flex items-center gap-3.5">
+                          <div className="w-9 h-9 rounded-xl bg-[#F0E6E8] text-neutral-700 flex items-center justify-center group-hover:bg-neutral-900 group-hover:text-white transition-colors shrink-0">
+                            <IconComponent className="w-4 h-4" />
                           </div>
-                          <span className="text-xs font-semibold">{item.name}</span>
+                          <span className="text-[13.5px] font-semibold">{item.name}</span>
                         </div>
-                        <span className="text-[10px] font-mono font-medium text-neutral-400 group-hover:text-neutral-600">
+                        <span className="text-xs font-mono font-medium text-neutral-400 group-hover:text-neutral-600">
                           {item.num}
                         </span>
                       </a>
                     );
                   })}
 
-                  <div className="pt-3 mt-1 border-t border-[#E8DFE2]/60">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 px-3 pb-1.5 block">
+                  <div className="pt-4 mt-2 border-t border-[#E8DFE2]/70">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 px-3 pb-1.5 block">
                       Professional
                     </span>
                     <Link
                       href="/"
                       onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-neutral-700 hover:text-neutral-950 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 transition-all group"
+                      className="flex items-center justify-between p-3.5 rounded-2xl text-neutral-700 hover:text-neutral-950 bg-amber-500/10 hover:bg-amber-500/15 border border-amber-500/25 transition-all group shadow-2xs"
                     >
-                      <div className="flex items-center gap-3">
-                        <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-800 flex items-center justify-center">
-                          <Briefcase className="w-3.5 h-3.5" />
+                      <div className="flex items-center gap-3.5">
+                        <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-800 flex items-center justify-center shrink-0">
+                          <Briefcase className="w-4 h-4" />
                         </div>
                         <div>
-                          <div className="text-xs font-bold text-neutral-900">Career Portfolio</div>
-                          <div className="text-[10px] text-neutral-500">Engineering Work &amp; Resume</div>
+                          <div className="text-[13px] font-bold text-neutral-900">Career Portfolio</div>
+                          <div className="text-[11px] text-neutral-500">Engineering Work &amp; Resume</div>
                         </div>
                       </div>
                       <ChevronRight className="w-4 h-4 text-amber-700 group-hover:translate-x-0.5 transition-transform" />
@@ -531,55 +562,55 @@ export default function BiodataPage() {
                 </div>
 
                 {/* Drawer Footer */}
-                <div className="p-4 bg-white/70 border-t border-[#E8DFE2] flex flex-col gap-3">
+                <div className="p-5 bg-white/80 border-t border-[#E8DFE2] flex flex-col gap-3.5">
                   <a
                     href="https://wa.me/919167877725?text=Hello%20Agnel,%20connecting%20regarding%20your%20biodata"
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setIsMenuOpen(false)}
-                    className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-semibold shadow-xs transition active:scale-[0.99]"
+                    className="w-full flex items-center justify-center gap-2.5 py-3 px-5 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-semibold shadow-xs transition active:scale-[0.99]"
                   >
-                    <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
+                    <MessageCircle className="w-4 h-4 text-emerald-400" />
                     <span>Connect on WhatsApp</span>
                   </a>
 
                   {/* Quick Contact Icons */}
-                  <div className="flex items-center justify-center gap-2 pt-1">
+                  <div className="flex items-center justify-center gap-2.5 pt-1">
                     <a
                       href="tel:+919167877725"
                       aria-label="Direct Phone Call"
-                      className="w-8 h-8 rounded-full border border-neutral-200/80 bg-white text-neutral-700 flex items-center justify-center hover:bg-neutral-100 transition shadow-2xs"
+                      className="w-10 h-10 rounded-full border border-neutral-200/90 bg-white text-neutral-700 flex items-center justify-center hover:bg-neutral-50 transition shadow-2xs"
                     >
-                      <Phone className="w-3.5 h-3.5" />
+                      <Phone className="w-4 h-4" />
                     </a>
                     <a
                       href="mailto:agnelselvan007@gmail.com"
                       aria-label="Email Agnel"
-                      className="w-8 h-8 rounded-full border border-neutral-200/80 bg-white text-neutral-700 flex items-center justify-center hover:bg-neutral-100 transition shadow-2xs"
+                      className="w-10 h-10 rounded-full border border-neutral-200/90 bg-white text-neutral-700 flex items-center justify-center hover:bg-neutral-50 transition shadow-2xs"
                     >
-                      <Mail className="w-3.5 h-3.5" />
+                      <Mail className="w-4 h-4" />
                     </a>
                     <a
-                      href="https://www.instagram.com/agnel.selvan/"
+                      href="https://www.instagram.com/build.with.agnel/"
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Instagram Profile"
-                      className="w-8 h-8 rounded-full border border-neutral-200/80 bg-white text-neutral-700 flex items-center justify-center hover:bg-neutral-100 transition shadow-2xs"
+                      className="w-10 h-10 rounded-full border border-neutral-200/90 bg-white text-neutral-700 flex items-center justify-center hover:bg-neutral-50 transition shadow-2xs"
                     >
-                      <InstagramIcon className="w-3.5 h-3.5" />
+                      <InstagramIcon className="w-4 h-4" />
                     </a>
                     <a
                       href="https://linkedin.com/in/agnel-selvan"
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="LinkedIn Profile"
-                      className="w-8 h-8 rounded-full border border-neutral-200/80 bg-white text-neutral-700 flex items-center justify-center hover:bg-neutral-100 transition shadow-2xs"
+                      className="w-10 h-10 rounded-full border border-neutral-200/90 bg-white text-neutral-700 flex items-center justify-center hover:bg-neutral-50 transition shadow-2xs"
                     >
-                      <LinkedinIcon className="w-3.5 h-3.5" />
+                      <LinkedinIcon className="w-4 h-4" />
                     </a>
                   </div>
 
-                  <p className="text-[10px] text-center text-neutral-400 font-medium">
+                  <p className="text-[11px] text-center text-neutral-400 font-medium">
                     &bull; Bengaluru &bull; Mumbai &bull;
                   </p>
                 </div>
@@ -594,10 +625,15 @@ export default function BiodataPage() {
         id="hero"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="bio-hero-section"
+        className="bio-hero-section relative overflow-hidden"
       >
         {/* Soft background glow */}
         <div className="hero-glow" />
+
+        {/* Global diagonal shimmer light beam (bottom-left to top-right) */}
+        <div className={`hero-diagonal-shimmer-track ${isShimmering ? 'active' : ''}`} aria-hidden="true">
+          <div className="hero-diagonal-shimmer-beam" />
+        </div>
 
         {/* 1. HUGE NAME BEHIND THE PHOTO */}
         <div className="hero-name-wrapper">
@@ -616,7 +652,7 @@ export default function BiodataPage() {
               className="hero-huge-name"
             >
               <span
-                className={`hero-name-agnel ${isAgnelHovered ? 'active' : ''}`}
+                className={`hero-name-agnel ${isAgnelActive ? 'active' : ''} ${isShimmering ? 'shimmering' : ''}`}
                 onMouseEnter={() => {
                   setIsAgnelHovered(true);
                   setCursorHovered(true);
@@ -693,6 +729,10 @@ export default function BiodataPage() {
                 loading="eager"
                 className="hero-photo-img"
               />
+              {/* Photo-focused diagonal shimmer sweep */}
+              <div className={`hero-photo-shimmer-wrapper ${isShimmering ? 'active' : ''}`} aria-hidden="true">
+                <div className="hero-photo-shimmer-beam" />
+              </div>
               {/* Bottom anchor fade overlay */}
               <div className="hero-photo-fade" />
             </div>
@@ -744,7 +784,7 @@ export default function BiodataPage() {
         >
           {/* Instagram */}
           <a
-            href="https://www.instagram.com/agnel.selvan/"
+            href="https://www.instagram.com/build.with.agnel/"
             target="_blank"
             rel="noopener noreferrer"
             className="link-pill"
@@ -1198,243 +1238,9 @@ export default function BiodataPage() {
         </motion.div>
       </section>
 
-      {/* 05. EDUCATION & CAREER / PROFESSIONAL JOURNEY */}
-      <section id="education" className="bio-section bio-career-section relative overflow-hidden">
-        {/* Anchor for career nav link */}
-        <div id="career" className="absolute top-0 left-0 scroll-mt-28" />
+      {/* 05. CAREER & PROFESSIONAL JOURNEY */}
+      <CareerSection />
 
-        {/* Ambient Background Glows */}
-        <div className="career-ambient-glow" />
-        <div className="career-ambient-glow-left" />
-
-        <motion.div
-          initial={{ opacity: 0, y: 32, filter: 'blur(6px)' }}
-          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          className="bio-container relative z-10 w-full"
-        >
-          {/* Unified Desktop View: Left Column (Content & Standalone Cards) & Right Column (Photo) */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch bio-career-grid">
-            {/* Left Column: Title Section + 4 Standalone Career Pillar Cards */}
-            <div className="order-1 lg:order-1 lg:col-span-7 xl:col-span-7 flex flex-col justify-between py-1 lg:py-2">
-              {/* Title / Header Section - Centered in Available Space */}
-              <motion.div
-                initial={{ opacity: 0, y: 15, filter: 'blur(6px)' }}
-                whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full flex flex-col items-center justify-center text-center mb-3 sm:mb-4 px-2"
-              >
-                <span className="section-badge inline-flex items-center justify-center gap-1.5 leading-none !mb-1.5 py-0.5 px-2.5 text-[10px] shadow-xs">
-                  <Briefcase className="w-3 h-3 text-amber-600 shrink-0" />
-                  <span className="leading-none">Education &amp; Professional Journey</span>
-                </span>
-                <h2 className="section-title text-xl sm:text-2xl lg:text-[2rem] text-center font-extrabold tracking-tight">
-                  Craft, Code &amp; Building SaaS
-                </h2>
-                <p className="section-sub text-[11px] sm:text-xs text-neutral-600 !mt-1 max-w-md mx-auto text-center leading-normal">
-                  Engineering foundation from Mumbai, mobile software engineering, and independent SaaS building.
-                </p>
-              </motion.div>
-
-              {/* Individual Career Structure & Pillars Cards (Outside standalone cards) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 lg:gap-4.5 my-auto flex-1">
-                {/* 1. Current Full-Time Role: The Family Office */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20, scale: 0.98, filter: 'blur(4px)' }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
-                  viewport={{ once: true, margin: '-50px' }}
-                  transition={{ duration: 0.55, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  className="career-pillar-card hover:border-emerald-400/40"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-2.5 sm:mb-3">
-                      <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider text-emerald-600">
-                        2024 &ndash; Present &bull; Bengaluru
-                      </span>
-                      <div className="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
-                        <Building2 className="w-3.5 h-3.5" />
-                      </div>
-                    </div>
-                    <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">
-                      Software Engineer
-                    </h3>
-                    <p className="text-[11px] font-semibold text-neutral-700 mt-0.5">
-                      The Family Office &bull; Mobile Engineering
-                    </p>
-                    <p className="text-xs sm:text-[12.5px] text-neutral-600 leading-relaxed mt-2">
-                      Engineering reliable, high-performance mobile applications and seamless financial technology workflows.
-                    </p>
-                  </div>
-                  <div className="mt-4 pt-3 border-t border-black/[0.06] flex items-center justify-between text-[11px] sm:text-xs font-semibold text-neutral-500">
-                    <span>Mobile Apps &bull; Fintech</span>
-                    <span className="text-emerald-600 font-bold">&bull; Full-Time</span>
-                  </div>
-                </motion.div>
-
-                {/* 2. Side Ventures: Independent SaaS Builder */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20, scale: 0.98, filter: 'blur(4px)' }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
-                  viewport={{ once: true, margin: '-50px' }}
-                  transition={{ duration: 0.55, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                  className="career-pillar-card hover:border-amber-400/40"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-2.5 sm:mb-3">
-                      <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider text-amber-700">
-                        After 9-to-5 &bull; Personal Priority
-                      </span>
-                      <div className="w-6 h-6 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center">
-                        <Rocket className="w-3.5 h-3.5" />
-                      </div>
-                    </div>
-                    <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">
-                      Independent SaaS Creator
-                    </h3>
-                    <p className="text-[11px] font-semibold text-neutral-700 mt-0.5">
-                      Self-Funded Digital Products
-                    </p>
-                    <p className="text-xs sm:text-[12.5px] text-neutral-600 leading-relaxed mt-2">
-                      Actively architecting, designing, and launching independent software products with long-term compound value.
-                    </p>
-                  </div>
-                  <div className="mt-4 pt-3 border-t border-black/[0.06] flex items-center justify-between text-[11px] sm:text-xs font-semibold text-neutral-500">
-                    <span>Full-Stack &bull; SaaS</span>
-                    <span className="text-amber-600 font-bold">&bull; Builder</span>
-                  </div>
-                </motion.div>
-
-                {/* 3. Prior Role: Neosoft Technologies */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20, scale: 0.98, filter: 'blur(4px)' }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
-                  viewport={{ once: true, margin: '-50px' }}
-                  transition={{ duration: 0.55, delay: 0.26, ease: [0.16, 1, 0.3, 1] }}
-                  className="career-pillar-card hover:border-sky-400/40"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-2.5 sm:mb-3">
-                      <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider text-neutral-400">
-                        2021 &ndash; 2024 &bull; Mumbai
-                      </span>
-                      <div className="w-6 h-6 rounded-lg bg-sky-500/10 text-sky-600 flex items-center justify-center">
-                        <Code2 className="w-3.5 h-3.5" />
-                      </div>
-                    </div>
-                    <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">
-                      Software Engineer
-                    </h3>
-                    <p className="text-[11px] font-semibold text-neutral-700 mt-0.5">
-                      Neosoft Technologies &bull; 3 Years
-                    </p>
-                    <p className="text-xs sm:text-[12.5px] text-neutral-600 leading-relaxed mt-2">
-                      Architected robust cross-platform mobile solutions, client architectures, and enterprise feature sets.
-                    </p>
-                  </div>
-                  <div className="mt-4 pt-3 border-t border-black/[0.06] flex items-center justify-between text-[11px] sm:text-xs font-semibold text-neutral-500">
-                    <span>Cross-Platform &bull; Mobile</span>
-                    <span className="text-sky-600 font-bold">&bull; Enterprise</span>
-                  </div>
-                </motion.div>
-
-                {/* 4. Academic Foundation: Xavier Institute of Engineering */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20, scale: 0.98, filter: 'blur(4px)' }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
-                  viewport={{ once: true, margin: '-50px' }}
-                  transition={{ duration: 0.55, delay: 0.34, ease: [0.16, 1, 0.3, 1] }}
-                  className="career-pillar-card hover:border-purple-400/40"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-2.5 sm:mb-3">
-                      <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider text-neutral-400">
-                        2017 &ndash; 2021 &bull; Mumbai
-                      </span>
-                      <div className="w-6 h-6 rounded-lg bg-purple-500/10 text-purple-600 flex items-center justify-center">
-                        <GraduationCap className="w-3.5 h-3.5" />
-                      </div>
-                    </div>
-                    <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">
-                      B.E. Computer Engineering
-                    </h3>
-                    <p className="text-[11px] font-semibold text-neutral-700 mt-0.5">
-                      Xavier Institute of Engineering
-                    </p>
-                    <p className="text-xs sm:text-[12.5px] text-neutral-600 leading-relaxed mt-2">
-                      Comprehensive 4-year degree focusing on software algorithms, systems design, and computer engineering foundation.
-                    </p>
-                  </div>
-                  <div className="mt-4 pt-3 border-t border-black/[0.06] flex items-center justify-between text-[11px] sm:text-xs font-semibold text-neutral-500">
-                    <span>Xavier &bull; Mumbai Univ</span>
-                    <span className="text-purple-600 font-bold">&bull; First Class</span>
-                  </div>
-                </motion.div>
-              </div>
-
-              {/* Card Footer with Details */}
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="mt-3.5 sm:mt-4 pt-3 sm:pt-3.5 border-t border-black/[0.06] flex flex-wrap items-center justify-between gap-3 px-1"
-              >
-                <div className="flex flex-wrap items-center gap-4 text-[11px] text-neutral-500 font-medium">
-                  <div className="flex items-center gap-1.5">
-                    <Laptop className="w-3.5 h-3.5 text-neutral-700 shrink-0" />
-                    <span>Specialization: Mobile Apps &bull; React Native &bull; TypeScript</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <MapPin className="w-3.5 h-3.5 text-neutral-700 shrink-0" />
-                    <span>Work: Bengaluru &bull; Native: Mumbai</span>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-
-            {/* Right Column: Work Photo Showcase taking Desktop Height - Navbar Height */}
-            <motion.div
-              initial={{ opacity: 0, x: 35, scale: 0.96, filter: 'blur(6px)' }}
-              whileInView={{ opacity: 1, x: 0, scale: 1, filter: 'blur(0px)' }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-              className="order-2 lg:order-2 lg:col-span-5 xl:col-span-5 flex justify-center h-full"
-            >
-              <div
-                className="about-photo-wrapper w-full h-full group"
-                onMouseEnter={() => setCursorHovered(true)}
-                onMouseLeave={() => setCursorHovered(false)}
-              >
-                <div className="about-photo-frame">
-                  <Image
-                    src="/mine/work.webp"
-                    alt="Agnel Selvan at Work"
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 45vw"
-                    className="about-photo-img object-cover object-center"
-                    priority={false}
-                  />
-                  {/* Creative Animation: Specular Light Sheen Sweep */}
-                  <div className="about-photo-shimmer" />
-                  {/* Rounded border fade opacity overlay */}
-                  <div className="about-photo-fade-border" />
-
-                  {/* Floating romantic/professional badge with Live Pulsing Dot */}
-                  <div className="about-photo-badge flex items-center gap-2">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                    </span>
-                    <span>Software Engineer &bull; The Family Office</span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </motion.div>
-      </section>
 
       {/* 07. PHOTO GALLERY */}
       <section id="gallery" className="bio-section bio-gallery-section relative overflow-hidden bg-alt-section">
@@ -1529,7 +1335,7 @@ export default function BiodataPage() {
             <div className="flex flex-wrap items-center gap-4 text-xs text-neutral-500 font-medium">
               <div className="flex items-center gap-1.5">
                 <Camera className="w-3.5 h-3.5 text-neutral-700 shrink-0" />
-                <span>7 Photographs &bull; Candid &amp; Lifestyle Moments</span>
+                <span>8 Photographs &bull; Candid, Lifestyle &amp; Workspace Moments</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-neutral-700 shrink-0" />
@@ -1814,7 +1620,7 @@ export default function BiodataPage() {
 
               {/* Instagram */}
               <a
-                href="https://www.instagram.com/agnel.selvan/"
+                href="https://www.instagram.com/build.with.agnel/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram (@agnel.selvan)"

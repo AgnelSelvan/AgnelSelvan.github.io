@@ -129,7 +129,7 @@ body {
   color: var(--color-name-text);
   cursor: pointer;
   display: inline-block;
-  transition: color 0.35s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.35s ease;
+  transition: color 0.8s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.8s ease;
 }
 
 .hero-name-agnel:hover,
@@ -137,6 +137,36 @@ body {
 .hero-name-agnel.active {
   color: #fd8d00 !important;
   text-shadow: 0 0 45px rgba(253, 141, 0, 0.28);
+}
+
+.hero-name-agnel.shimmering {
+  background: linear-gradient(
+    135deg,
+    var(--color-name-text) 0%,
+    #fd8d00 35%,
+    #ffffff 50%,
+    #fd8d00 65%,
+    #fd8d00 100%
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: agnelShimmerSweep 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes agnelShimmerSweep {
+  0% {
+    background-position: 0% 100%;
+    filter: drop-shadow(0 0 0px transparent);
+  }
+  50% {
+    filter: drop-shadow(0 0 28px rgba(253, 141, 0, 0.7));
+  }
+  100% {
+    background-position: 100% 0%;
+    filter: drop-shadow(0 0 40px rgba(253, 141, 0, 0.35));
+  }
 }
 
 .hero-name-selvan {
@@ -183,13 +213,129 @@ body {
   object-fit: contain;
   filter: drop-shadow(0 24px 35px rgba(15, 23, 42, 0.16)) grayscale(100%);
   animation: heroPhotoBreathe 6.5s ease-in-out infinite;
-  transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease;
+  transition: filter 1.2s cubic-bezier(0.22, 1, 0.36, 1), transform 0.3s ease;
   will-change: filter, transform;
 }
 
 .hero-photo-box:hover .hero-photo-img,
 .hero-photo-box.colored .hero-photo-img {
   filter: drop-shadow(0 24px 35px rgba(15, 23, 42, 0.22)) grayscale(0%);
+}
+
+/* Diagonal Shimmer Loading Effects (Bottom-Left to Top-Right) */
+.hero-diagonal-shimmer-track {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 15;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hero-diagonal-shimmer-track.active {
+  opacity: 1;
+}
+
+.hero-diagonal-shimmer-beam {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 280vw;
+  height: 240px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(253, 141, 0, 0.12) 25%,
+    rgba(255, 255, 255, 0.85) 50%,
+    rgba(253, 141, 0, 0.45) 75%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 60px 25px rgba(253, 141, 0, 0.32),
+    0 0 120px 50px rgba(255, 255, 255, 0.35);
+  transform-origin: center center;
+  transform: translate(-140%, 140%) rotate(45deg);
+  mix-blend-mode: screen;
+}
+
+.hero-diagonal-shimmer-track.active .hero-diagonal-shimmer-beam {
+  animation: heroGlobalShimmerWipe 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes heroGlobalShimmerWipe {
+  0% {
+    transform: translate(-140%, 140%) rotate(45deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(140%, -140%) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+/* Photo-specific Shimmer Sweep */
+.hero-photo-shimmer-wrapper {
+  position: absolute;
+  inset: -12%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 12;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.hero-photo-shimmer-wrapper.active {
+  opacity: 1;
+}
+
+.hero-photo-shimmer-beam {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 260%;
+  height: 100px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(253, 141, 0, 0.25) 20%,
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(253, 141, 0, 0.6) 80%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 50px 22px rgba(253, 141, 0, 0.45),
+    0 0 90px 40px rgba(255, 255, 255, 0.4);
+  transform-origin: center center;
+  transform: translate(-130%, 130%) rotate(45deg);
+  mix-blend-mode: screen;
+}
+
+.hero-photo-shimmer-wrapper.active .hero-photo-shimmer-beam {
+  animation: photoShimmerWipe 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes photoShimmerWipe {
+  0% {
+    transform: translate(-130%, 130%) rotate(45deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(130%, -130%) rotate(45deg);
+    opacity: 0;
+  }
 }
 
 /* Remove default mouse pointer on desktop and show custom circle cursor */
@@ -1072,32 +1218,43 @@ body {
   z-index: 0;
 }
 
-@media (min-width: 1024px) {
-  .bio-career-section {
-    min-height: calc(100vh - 4.5rem);
-    padding-top: calc(4.5rem + 1rem) !important;
-    padding-bottom: 1.5rem !important;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+/* Career Ladder Stepper Styles */
+.career-ladder-track {
+  position: relative;
+}
+
+.career-ladder-rail {
+  position: absolute;
+  top: 1.5rem;
+  bottom: 2rem;
+  left: 1.25rem;
+  width: 2px;
+  background: linear-gradient(180deg, #fd8d00 0%, #f43f5e 40%, #8b5cf6 75%, #94a3b8 100%);
+  border-radius: 9999px;
+  z-index: 1;
+}
+
+@media (min-width: 768px) {
+  .career-ladder-rail {
+    left: 2rem;
   }
-  .bio-career-grid {
-    height: calc(100vh - 4.5rem - 2.5rem);
-    min-height: 580px;
-  }
-  .bio-career-section .about-photo-wrapper {
-    height: 100%;
-    min-height: 580px;
-    width: 100%;
-    border-radius: 1rem; /* rounded-2xl */
-    border: 1px solid rgba(0, 0, 0, 0.08);
-  }
-  .bio-career-section .about-photo-frame {
-    height: 100%;
-    width: 100%;
-    aspect-ratio: unset;
-    border-radius: inherit;
-  }
+}
+
+.career-ladder-rung-card {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 1.25rem;
+  border: 1px solid rgba(232, 223, 226, 0.85);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.career-ladder-rung-card:hover {
+  background: #ffffff;
+  border-color: rgba(253, 141, 0, 0.35);
+  box-shadow: 0 10px 30px -4px rgba(253, 141, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03);
+  transform: translateY(-2px);
 }
 
 /* Individual Career Pillar Cards - Generous LTRB Padding & Soft Blur */

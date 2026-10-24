@@ -50,6 +50,14 @@ const TwitterIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
   </svg>
 );
 
+const InstagramIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+  </svg>
+);
+
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -270,25 +278,25 @@ export default function Home() {
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
                 transition={{ type: 'spring', damping: 28, stiffness: 280 }}
-                className="fixed top-0 right-0 bottom-0 w-[86vw] max-w-[340px] z-[101] bg-[#0A0D15] border-l border-white/[0.1] shadow-2xl flex flex-col justify-between overflow-y-auto md:hidden"
+                className="fixed top-0 right-0 bottom-0 w-[88vw] max-w-[360px] z-[101] bg-[#0A0D15] border-l border-white/[0.1] shadow-2xl flex flex-col justify-between overflow-y-auto md:hidden"
                 role="dialog"
                 aria-modal="true"
                 aria-label="Navigation Menu"
               >
                 {/* Header */}
-                <div className="p-5 pb-4 border-b border-white/[0.08] flex items-center justify-between bg-white/[0.02]">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-amber-400 to-orange-500 text-black flex items-center justify-center font-bold text-xs shadow-xs">
+                <div className="px-6 py-5 border-b border-white/[0.08] flex items-center justify-between bg-white/[0.02]">
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-400 to-orange-500 text-black flex items-center justify-center font-bold text-xs shadow-xs">
                       AS
                     </div>
                     <div>
                       <h3 className="text-sm font-bold text-white leading-tight">Agnel Selvan</h3>
-                      <p className="text-[11px] font-medium text-neutral-400">Software Engineer</p>
+                      <p className="text-xs font-medium text-neutral-400">Software Engineer</p>
                     </div>
                   </div>
                   <button
                     onClick={() => setMobileMenuOpen(false)}
-                    className="w-8 h-8 rounded-full bg-white/[0.08] hover:bg-white/[0.15] text-neutral-300 hover:text-white border border-white/[0.1] flex items-center justify-center transition active:scale-95"
+                    className="w-9 h-9 rounded-full bg-white/[0.08] hover:bg-white/[0.15] text-neutral-300 hover:text-white border border-white/[0.1] flex items-center justify-center transition active:scale-95"
                     aria-label="Close menu"
                   >
                     <X className="w-4 h-4" />
@@ -296,8 +304,8 @@ export default function Home() {
                 </div>
 
                 {/* Navigation Links */}
-                <div className="px-4 py-5 flex-1 flex flex-col gap-1.5 overflow-y-auto">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 px-3 pb-1">
+                <div className="px-5 py-6 flex-1 flex flex-col gap-2.5 overflow-y-auto">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-500 px-3 pb-1">
                     Navigation
                   </span>
                   {[
@@ -313,15 +321,15 @@ export default function Home() {
                         key={idx}
                         href={item.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-neutral-300 hover:text-white bg-white/[0.02] hover:bg-white/[0.06] border border-transparent hover:border-white/[0.08] transition-all group active:scale-[0.99]"
+                        className="flex items-center justify-between px-4 py-3 rounded-2xl text-neutral-300 hover:text-white bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.04] hover:border-white/[0.1] transition-all group active:scale-[0.99]"
                       >
-                        <div className="flex items-center gap-3">
-                          <div className="w-7 h-7 rounded-lg bg-white/[0.05] text-amber-400 flex items-center justify-center group-hover:bg-amber-400 group-hover:text-black transition-colors">
-                            <IconComponent className="w-3.5 h-3.5" />
+                        <div className="flex items-center gap-3.5">
+                          <div className="w-9 h-9 rounded-xl bg-white/[0.05] text-amber-400 flex items-center justify-center group-hover:bg-amber-400 group-hover:text-black transition-colors shrink-0">
+                            <IconComponent className="w-4 h-4" />
                           </div>
-                          <span className="text-xs font-semibold">{item.name}</span>
+                          <span className="text-[13.5px] font-semibold">{item.name}</span>
                         </div>
-                        <span className="text-[10px] font-mono font-medium text-neutral-500 group-hover:text-neutral-300">
+                        <span className="text-xs font-mono font-medium text-neutral-500 group-hover:text-neutral-300">
                           {item.num}
                         </span>
                       </a>
@@ -329,22 +337,22 @@ export default function Home() {
                   })}
 
                   {/* Biodata & Utilities */}
-                  <div className="pt-3 mt-1 border-t border-white/[0.08]">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 px-3 pb-1.5 block">
+                  <div className="pt-4 mt-2 border-t border-white/[0.08]">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-500 px-3 pb-1.5 block">
                       Quick Portals
                     </span>
                     <Link
                       href="/biodata"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-neutral-200 hover:text-white bg-gradient-to-r from-rose-500/10 to-amber-500/10 hover:from-rose-500/20 hover:to-amber-500/20 border border-rose-500/20 transition-all group mb-1.5"
+                      className="flex items-center justify-between p-3.5 rounded-2xl text-neutral-200 hover:text-white bg-gradient-to-r from-rose-500/10 to-amber-500/10 hover:from-rose-500/20 hover:to-amber-500/20 border border-rose-500/25 transition-all group mb-2"
                     >
-                      <div className="flex items-center gap-3">
-                        <div className="w-7 h-7 rounded-lg bg-rose-500/20 text-rose-300 flex items-center justify-center">
-                          <Sparkles className="w-3.5 h-3.5" />
+                      <div className="flex items-center gap-3.5">
+                        <div className="w-9 h-9 rounded-xl bg-rose-500/20 text-rose-300 flex items-center justify-center shrink-0">
+                          <Sparkles className="w-4 h-4" />
                         </div>
                         <div>
-                          <div className="text-xs font-bold text-white">Matrimonial Biodata</div>
-                          <div className="text-[10px] text-neutral-400">Personal &amp; Family Profile</div>
+                          <div className="text-[13px] font-bold text-white">Matrimonial Biodata</div>
+                          <div className="text-[11px] text-neutral-400">Personal &amp; Family Profile</div>
                         </div>
                       </div>
                       <ChevronRight className="w-4 h-4 text-rose-400 group-hover:translate-x-0.5 transition-transform" />
@@ -353,67 +361,76 @@ export default function Home() {
                     <Link
                       href="/email-sender"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center justify-between px-3.5 py-2 rounded-xl text-neutral-400 hover:text-neutral-200 bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.04] transition-all group"
+                      className="flex items-center justify-between px-4 py-2.5 rounded-2xl text-neutral-400 hover:text-neutral-200 bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.04] transition-all group"
                     >
-                      <div className="flex items-center gap-3">
-                        <div className="w-7 h-7 rounded-lg bg-white/[0.05] text-neutral-400 flex items-center justify-center">
-                          <Mail className="w-3.5 h-3.5" />
+                      <div className="flex items-center gap-3.5">
+                        <div className="w-9 h-9 rounded-xl bg-white/[0.05] text-neutral-400 flex items-center justify-center shrink-0">
+                          <Mail className="w-4 h-4" />
                         </div>
-                        <span className="text-xs font-medium">Bulk Email Sender</span>
+                        <span className="text-[13px] font-medium">Bulk Email Sender</span>
                       </div>
-                      <ChevronRight className="w-3.5 h-3.5 text-neutral-500 group-hover:translate-x-0.5 transition-transform" />
+                      <ChevronRight className="w-4 h-4 text-neutral-500 group-hover:translate-x-0.5 transition-transform" />
                     </Link>
                   </div>
                 </div>
 
                 {/* Footer */}
-                <div className="p-4 bg-white/[0.02] border-t border-white/[0.08] flex flex-col gap-3">
+                <div className="p-5 bg-white/[0.02] border-t border-white/[0.08] flex flex-col gap-3.5">
                   <a
                     href="#contact"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-full bg-white hover:bg-neutral-100 text-black text-xs font-bold shadow-xs transition active:scale-[0.99]"
+                    className="w-full flex items-center justify-center gap-2.5 py-3 px-5 rounded-full bg-white hover:bg-neutral-100 text-black text-xs font-bold shadow-xs transition active:scale-[0.99]"
                   >
                     <span>Get in Touch</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </a>
 
                   {/* Social Profile Row */}
-                  <div className="flex items-center justify-center gap-2 pt-1">
+                  <div className="flex items-center justify-center gap-2.5 pt-1">
                     <a
                       href="tel:+919167877725"
                       aria-label="Direct Phone Call"
-                      className="w-8 h-8 rounded-full border border-white/[0.1] bg-white/[0.05] text-neutral-300 hover:text-white hover:bg-white/[0.1] flex items-center justify-center transition"
+                      className="w-10 h-10 rounded-full border border-white/[0.1] bg-white/[0.05] text-neutral-300 hover:text-white hover:bg-white/[0.1] flex items-center justify-center transition"
                     >
-                      <Phone className="w-3.5 h-3.5" />
+                      <Phone className="w-4 h-4" />
                     </a>
                     <a
                       href="mailto:agnelselvan007@gmail.com"
                       aria-label="Email Agnel"
-                      className="w-8 h-8 rounded-full border border-white/[0.1] bg-white/[0.05] text-neutral-300 hover:text-white hover:bg-white/[0.1] flex items-center justify-center transition"
+                      className="w-10 h-10 rounded-full border border-white/[0.1] bg-white/[0.05] text-neutral-300 hover:text-white hover:bg-white/[0.1] flex items-center justify-center transition"
                     >
-                      <Mail className="w-3.5 h-3.5" />
+                      <Mail className="w-4 h-4" />
+                    </a>
+                    <a
+                      href="https://www.instagram.com/build.with.agnel"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Instagram Profile (@build.with.agnel)"
+                      className="w-10 h-10 rounded-full border border-white/[0.1] bg-white/[0.05] text-neutral-300 hover:text-pink-400 hover:bg-white/[0.1] flex items-center justify-center transition"
+                    >
+                      <InstagramIcon className="w-4 h-4" />
                     </a>
                     <a
                       href="https://linkedin.com/in/agnel-selvan"
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="LinkedIn Profile"
-                      className="w-8 h-8 rounded-full border border-white/[0.1] bg-white/[0.05] text-neutral-300 hover:text-white hover:bg-white/[0.1] flex items-center justify-center transition"
+                      className="w-10 h-10 rounded-full border border-white/[0.1] bg-white/[0.05] text-neutral-300 hover:text-white hover:bg-white/[0.1] flex items-center justify-center transition"
                     >
-                      <LinkedinIcon className="w-3.5 h-3.5" />
+                      <LinkedinIcon className="w-4 h-4" />
                     </a>
                     <a
                       href="https://github.com/AgnelSelvan"
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="GitHub Profile"
-                      className="w-8 h-8 rounded-full border border-white/[0.1] bg-white/[0.05] text-neutral-300 hover:text-white hover:bg-white/[0.1] flex items-center justify-center transition"
+                      className="w-10 h-10 rounded-full border border-white/[0.1] bg-white/[0.05] text-neutral-300 hover:text-white hover:bg-white/[0.1] flex items-center justify-center transition"
                     >
-                      <GithubIcon className="w-3.5 h-3.5" />
+                      <GithubIcon className="w-4 h-4" />
                     </a>
                   </div>
 
-                  <p className="text-[10px] text-center text-neutral-500 font-medium">
+                  <p className="text-[11px] text-center text-neutral-500 font-medium">
                     &bull; Bengaluru, India &bull;
                   </p>
                 </div>
@@ -484,6 +501,16 @@ export default function Home() {
               >
                 <LinkedinIcon className="w-4 h-4 text-sky-400" />
                 <span>LinkedIn</span>
+              </a>
+
+              <a
+                href="https://www.instagram.com/build.with.agnel"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.12] text-white transition-all"
+              >
+                <InstagramIcon className="w-4 h-4 text-pink-400" />
+                <span>Instagram</span>
               </a>
             </div>
 
@@ -843,6 +870,15 @@ export default function Home() {
               className="p-3 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-neutral-400 hover:text-white transition-all"
             >
               <LinkedinIcon className="w-5 h-5" />
+            </a>
+            <a
+              href="https://www.instagram.com/build.with.agnel"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram (@build.with.agnel)"
+              className="p-3 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-neutral-400 hover:text-pink-400 transition-all"
+            >
+              <InstagramIcon className="w-5 h-5" />
             </a>
             <a
               href="https://medium.com/@agnelselvan"
