@@ -580,23 +580,40 @@ export default function BiodataPage() {
                   </p>
                 </div>
 
-                {/* Essential Biodata Details Ribbon - Evenly Spaced & Draggable */}
-                <div className="my-3 sm:my-3.5 pt-3 sm:pt-3.5 pb-2.5 sm:pb-3 border-t border-black/[0.06]">
-                  <div className="flex items-center justify-between gap-2 mb-2.5 px-0.5">
-                    <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-neutral-800">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-                      <span>Essential Biodata Details</span>
+                {/* Essential Biodata Details Sub-Card - Elegant, Minimal, Modern & Trustworthy */}
+                <div className="my-3 sm:my-3.5 essential-bio-card rounded-2xl">
+                  <div className="flex items-center justify-between gap-3 mb-2.5">
+                    <div className="flex items-center gap-2">
+                      <div className="w-5 h-5 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-600 shrink-0">
+                        <Sparkles className="w-3 h-3" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-neutral-900 leading-tight">
+                          Essential Biodata Details
+                        </span>
+                        <span className="text-[10px] text-neutral-400 font-medium flex items-center gap-1.5 mt-0.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                          Auto-scrolling &bull; Drag or scroll
+                        </span>
+                      </div>
                     </div>
-                    <span className="text-[10px] font-medium text-neutral-400 hidden sm:inline-flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                      Drag or scroll &bull; Hover to pause
-                    </span>
+
+                    {/* Black Pill Button with Hover Arrow Animation */}
+                    <a
+                      href="#family"
+                      className="btn-pill-black !py-1 !px-3 !text-[11px] shrink-0"
+                      onMouseEnter={() => setCursorHovered(true)}
+                      onMouseLeave={() => setCursorHovered(false)}
+                    >
+                      <span>Family Profile</span>
+                      <span className="arrow-icon">&rarr;</span>
+                    </a>
                   </div>
 
                   {/* One-Line Draggable & Auto-Scrollable Track */}
                   <div
                     ref={biodataScrollRef}
-                    className="bio-draggable-ribbon"
+                    className="bio-draggable-ribbon mt-1"
                     onMouseDown={handleBiodataMouseDown}
                     onMouseMove={handleBiodataMouseMove}
                     onMouseUp={handleBiodataMouseUp}
@@ -645,12 +662,12 @@ export default function BiodataPage() {
 
                   {/* Black Pill Button with Hover Arrow Animation */}
                   <a
-                    href="#family"
-                    className="btn-pill-black !py-1.5 !px-3.5 !text-xs"
+                    href="#contact"
+                    className="btn-pill-black !py-1.5 !px-3.5 !text-xs shadow-xs"
                     onMouseEnter={() => setCursorHovered(true)}
                     onMouseLeave={() => setCursorHovered(false)}
                   >
-                    <span>Family Details</span>
+                    <span>Express Interest</span>
                     <span className="arrow-icon">&rarr;</span>
                   </a>
                 </div>
