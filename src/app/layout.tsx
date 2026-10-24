@@ -2,14 +2,20 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Agnel Selvan | Senior Software Engineer & Mobile Developer",
-  description: "Senior Software Engineer specializing in Flutter, iOS, and high-performance mobile architectures. Explorer of AR/VR and Shaders.",
-  keywords: ["Agnel Selvan", "Flutter Developer", "Mobile App Developer", "Senior Software Engineer", "iOS Developer", "Mumbai"],
-  authors: [{ name: "Agnel Selvan" }],
-  openGraph: {
-    title: "Agnel Selvan | Portfolio",
-    description: "Senior Mobile Application Developer building the future of mobile experiences.",
-    type: "website",
+  title: "Agnel Selvan | Marriage Biodata",
+  description: "Personal marriage biodata of Agnel Selvan — Software Engineer born and raised in Mumbai, based in Bengaluru.",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'none',
+      'max-snippet': -1,
+    },
   },
 };
 
@@ -20,7 +26,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <head>
+        <meta name="robots" content="noindex, nofollow, noarchive" />
+        <meta name="googlebot" content="noindex, nofollow, noarchive" />
+      </head>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
