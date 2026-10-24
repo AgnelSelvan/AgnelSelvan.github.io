@@ -44,30 +44,6 @@ export const career: CareerStep[] = [
     income: "Competitive / Disclosed on Request",
   },
   {
-    id: "independent-saas",
-    role: "Founder & Independent SaaS Creator",
-    company: "Self-Funded Digital Products",
-    location: "Bengaluru & Remote",
-    type: "Self-employed",
-    category: "work",
-    startDate: "2023-01",
-    endDate: "Present",
-    description:
-      "Actively architecting, designing, and launching independent software products with long-term compound value. Creator of open-source packages adopted across fintech developer ecosystems.",
-    highlights: [
-      "Creator of 'upi_payment_qrcode_generator' Flutter library with thousands of merchant checkouts",
-      "Building developer tools and production SaaS architectures with Next.js and Cloudflare",
-      "Documenting build journeys and architecture insights on @build.with.agnel",
-    ],
-    skills: [
-      "Full-Stack",
-      "Next.js",
-      "Flutter",
-      "Fintech Open Source",
-      "SaaS Architecture",
-    ],
-  },
-  {
     id: "neosoft-technologies",
     role: "Software Engineer",
     company: "Neosoft Technologies",

@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
-import { Briefcase, Building2, Rocket, GraduationCap, Code2 } from "lucide-react";
+import { Briefcase, Building2, GraduationCap, Code2 } from "lucide-react";
 import { CareerStep } from "@/data/biodata";
 import { formatCareerDate, calculateDuration, cn } from "@/lib/utils";
 import CareerCard from "./CareerCard";
@@ -17,9 +17,6 @@ export interface CareerStepItemProps {
 function getStepIcon(step: CareerStep) {
   if (step.category === "education" || step.id.includes("xavier") || step.id.includes("engineering")) {
     return GraduationCap;
-  }
-  if (step.id.includes("saas") || step.type === "Self-employed") {
-    return Rocket;
   }
   if (step.id.includes("neosoft")) {
     return Code2;
@@ -56,28 +53,27 @@ export function CareerStepItem({
 
   const StepIcon = getStepIcon(step);
 
-  // Desktop slide-in animation variants: left cards from x: -40, right from x: 40
   const cardVariants: Variants = {
     hidden: shouldReduceMotion
       ? { opacity: 0 }
-      : { opacity: 0, x: isLeft ? -40 : 40 },
+      : { opacity: 0, x: isLeft ? -30 : 30 },
     visible: {
       opacity: 1,
       x: 0,
       transition: {
-        duration: 0.65,
+        duration: 0.6,
         ease: [0.22, 1, 0.36, 1] as const,
       },
     },
   };
 
   const mobileCardVariants: Variants = {
-    hidden: shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 28 },
+    hidden: shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.55,
         ease: [0.22, 1, 0.36, 1] as const,
       },
     },
@@ -99,18 +95,21 @@ export function CareerStepItem({
   return (
     <li
       ref={itemRef}
-      className="relative list-none"
+      className="relative list-none w-full"
+      style={{
+        marginBottom: index === total - 1 ? "0px" : "clamp(64px, 10vw, 110px)",
+      }}
       aria-label={`${step.role} at ${step.company}`}
     >
       {/* ========================================================
-          DESKTOP LAYOUT (md and up): Alternating Left and Right
-          with Line running down the exact Middle
+          DESKTOP LAYOUT (md and up): Alternating Left / Right
+          CSS Grid with strict 2-column split and middle gap.
          ======================================================== */}
-      <div className="hidden md:flex items-center w-full relative">
-        {/* LEFT COLUMN (50% width) */}
-        <div className="w-[calc(50%-22px)] flex items-center justify-end pr-8 lg:pr-12">
+      <div className="hidden md:grid md:grid-cols-2 md:gap-x-14 lg:gap-x-20 xl:gap-x-24 w-full relative items-start">
+        {/* LEFT COLUMN (Column 1) */}
+        <div className="min-w-0 w-full flex items-start justify-end">
           {isLeft ? (
-            <div className="w-full relative flex items-center justify-end">
+            <div className="w-full relative my-3">
               <motion.div
                 variants={cardVariants}
                 initial="hidden"
@@ -124,23 +123,26 @@ export function CareerStepItem({
                   showIncome={showIncome}
                 />
               </motion.div>
-              {/* Horizontal Connector to Center Middle Line */}
+              {/* Horizontal Connector bridging the margin to center line */}
               <div
                 aria-hidden="true"
-                className="absolute -right-8 lg:-right-12 w-8 lg:w-12 h-[2px] bg-[#E4DDE0]"
+                className="absolute right-0 translate-x-full top-8 w-7 lg:w-10 xl:w-12 h-[2px] bg-[#E4DDE0]"
               />
             </div>
           ) : (
             /* Balanced opposite side displaying period & category */
-            <div className="text-right pr-4 lg:pr-6 flex flex-col items-end">
-              <span className="text-xs font-bold uppercase tracking-wider text-neutral-400">
+            <div className="w-full text-right my-3 pt-2 pr-3 lg:pr-5 flex flex-col items-end justify-center">
+              <span
+                className="career-milestone-pill"
+                style={{ padding: "8px 20px" }}
+              >
                 {step.category === "education" ? "Academic Foundation" : "Career Milestone"}
               </span>
-              <span className="text-base lg:text-lg font-bold text-neutral-800 mt-1">
+              <span className="text-xl sm:text-2xl lg:text-[26px] font-extrabold text-neutral-900 mt-2.5 break-words">
                 {dateRangeDisplay}
               </span>
               {duration && (
-                <span className="text-xs text-neutral-500 font-medium mt-0.5">
+                <span className="text-xs sm:text-sm text-neutral-500 font-medium mt-1">
                   {duration} &bull; {step.location}
                 </span>
               )}
@@ -148,37 +150,14 @@ export function CareerStepItem({
           )}
         </div>
 
-        {/* CENTER NODE (44px circle right on the middle line) */}
-        <div className="shrink-0 relative z-10">
-          <motion.div
-            variants={nodeVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            <div
-              className={cn(
-                "w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300",
-                "border-2 border-black",
-                isActive
-                  ? "bg-black text-white shadow-lg ring-4 ring-black/10 scale-105"
-                  : "bg-white text-neutral-800 shadow-sm hover:scale-105"
-              )}
-              aria-hidden="true"
-            >
-              <StepIcon className="w-4.5 h-4.5" />
-            </div>
-          </motion.div>
-        </div>
-
-        {/* RIGHT COLUMN (50% width) */}
-        <div className="w-[calc(50%-22px)] flex items-center justify-start pl-8 lg:pl-12">
+        {/* RIGHT COLUMN (Column 2) */}
+        <div className="min-w-0 w-full flex items-start justify-start">
           {!isLeft ? (
-            <div className="w-full relative flex items-center justify-start">
-              {/* Horizontal Connector to Center Middle Line */}
+            <div className="w-full relative my-3">
+              {/* Horizontal Connector bridging the margin to center line */}
               <div
                 aria-hidden="true"
-                className="absolute -left-8 lg:-left-12 w-8 lg:w-12 h-[2px] bg-[#E4DDE0]"
+                className="absolute left-0 -translate-x-full top-8 w-7 lg:w-10 xl:w-12 h-[2px] bg-[#E4DDE0]"
               />
               <motion.div
                 variants={cardVariants}
@@ -196,52 +175,78 @@ export function CareerStepItem({
             </div>
           ) : (
             /* Balanced opposite side displaying period & category */
-            <div className="text-left pl-4 lg:pl-6 flex flex-col items-start">
-              <span className="text-xs font-bold uppercase tracking-wider text-neutral-400">
+            <div className="w-full text-left my-3 pt-2 pl-3 lg:pl-5 flex flex-col items-start justify-center">
+              <span
+                className="career-milestone-pill"
+                style={{ padding: "8px 20px" }}
+              >
                 {step.category === "education" ? "Academic Foundation" : "Career Milestone"}
               </span>
-              <span className="text-base lg:text-lg font-bold text-neutral-800 mt-1">
+              <span className="text-xl sm:text-2xl lg:text-[26px] font-extrabold text-neutral-900 mt-2.5 break-words">
                 {dateRangeDisplay}
               </span>
               {duration && (
-                <span className="text-xs text-neutral-500 font-medium mt-0.5">
+                <span className="text-xs sm:text-sm text-neutral-500 font-medium mt-1">
                   {duration} &bull; {step.location}
                 </span>
               )}
             </div>
           )}
         </div>
+
+        {/* CENTER NODE: Anchored directly at 50% dead center in the middle gap */}
+        <div className="absolute left-1/2 -translate-x-1/2 top-[23px] z-10 shrink-0 pointer-events-none">
+          <motion.div
+            variants={nodeVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+          >
+            <div
+              className={cn(
+                "w-10 h-10 lg:w-11 lg:h-11 rounded-full flex items-center justify-center transition-all duration-300",
+                "border-2 border-black pointer-events-auto",
+                isActive
+                  ? "bg-black text-white shadow-lg ring-4 ring-black/10 scale-105"
+                  : "bg-white text-neutral-800 shadow-sm hover:scale-105"
+              )}
+              aria-hidden="true"
+            >
+              <StepIcon className="w-4 h-4 lg:w-4.5 lg:h-4.5" />
+            </div>
+          </motion.div>
+        </div>
       </div>
 
       {/* ========================================================
-          MOBILE LAYOUT (below md): Stacked with Left Stepper Line
+          MOBILE LAYOUT (below md): Fully responsive single column
          ======================================================== */}
-      <div className="md:hidden relative pl-14 sm:pl-16 w-full">
+      <div className="md:hidden relative pl-10 sm:pl-12 w-full my-2">
         {/* Node sitting on left line */}
         <motion.div
           variants={nodeVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="absolute left-5 sm:left-6 top-8 -translate-x-1/2 z-10"
+          className="absolute left-3.5 top-6 -translate-x-1/2 z-10"
         >
           <div
             className={cn(
-              "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border-2 border-black",
+              "w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 border-2 border-black",
               isActive
-                ? "bg-black text-white shadow-md ring-4 ring-black/10"
-                : "bg-white text-neutral-800 shadow-xs"
+                ? "bg-black text-white shadow-md ring-3 ring-black/10"
+                : "bg-white text-neutral-800 shadow-2xs"
             )}
             aria-hidden="true"
           >
-            <StepIcon className="w-4 h-4" />
+            <StepIcon className="w-3.5 h-3.5" />
           </div>
         </motion.div>
 
         {/* Short horizontal connector from left line to card */}
         <div
           aria-hidden="true"
-          className="absolute left-5 sm:left-6 top-[3.25rem] w-9 sm:w-10 h-[2px] bg-[#E4DDE0]"
+          className="absolute left-3.5 top-10 w-6.5 sm:w-8.5 h-[2px] bg-[#E4DDE0]"
         />
 
         {/* Stacked Card */}

@@ -32,7 +32,7 @@ export function CareerSection({
     <section
       id="career"
       aria-label="Professional Career & Education Journey"
-      className="relative py-20 md:py-28 bg-[#F7F1F2] overflow-hidden"
+      className="bio-section relative overflow-hidden bg-[#F7F1F2]"
     >
       {/* Anchor for education nav links */}
       <div id="education" className="absolute top-0 left-0 scroll-mt-28" />
@@ -47,14 +47,14 @@ export function CareerSection({
         className="pointer-events-none absolute -bottom-40 left-0 w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-rose-200/20 to-neutral-200/20 blur-3xl"
       />
 
-      {/* WHOLE WIDTH CONTAINER */}
-      <div className="max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* STANDARDIZED BIO CONTAINER: Perfectly aligns with all other sections */}
+      <div className="bio-container relative z-10 w-full px-3.5 sm:px-6 md:px-8">
         {/* ========================================================
             CENTERED SECTION HEADING
            ======================================================== */}
         <div className="flex flex-col items-center justify-center text-center mb-16 md:mb-24">
           {/* Eyebrow Label */}
-          <span className="text-xs font-bold tracking-widest text-neutral-500 uppercase px-3.5 py-1.5 rounded-full bg-white/70 border border-neutral-200/80 shadow-2xs mb-3.5">
+          <span style={{ padding: "8px 20px" }} className="text-xs font-bold tracking-widest text-neutral-500 uppercase px-3.5 py-1.5 rounded-full bg-white/80 border border-neutral-200/80 shadow-2xs mb-3.5">
             CAREER &amp; EDUCATION
           </span>
 
@@ -65,7 +65,7 @@ export function CareerSection({
 
           {/* Muted One-line Subtitle */}
           <p className="text-neutral-500 max-w-2xl text-center text-sm md:text-base mt-3 leading-relaxed">
-            A chronological timeline of engineering leadership, enterprise mobile architecture, independent SaaS products, and computer engineering foundation.
+            A chronological timeline of engineering leadership, enterprise mobile architecture, and computer engineering foundation.
           </p>
         </div>
 
@@ -73,7 +73,7 @@ export function CareerSection({
             TIMELINE CONTAINER (Line in middle, alternating cards)
            ======================================================== */}
         <div ref={containerRef} className="relative w-full">
-          {/* DESKTOP TIMELINE TRACK: Exact Middle */}
+          {/* DESKTOP TIMELINE TRACK: Exact 50% Center Middle */}
           <div
             aria-hidden="true"
             className="hidden md:block absolute left-1/2 -translate-x-1/2 top-6 bottom-6 w-[2px] bg-[#E4DDE0]"
@@ -85,10 +85,10 @@ export function CareerSection({
             />
           </div>
 
-          {/* MOBILE TIMELINE TRACK: Left aligned */}
+          {/* MOBILE TIMELINE TRACK: Left aligned on left-3.5 */}
           <div
             aria-hidden="true"
-            className="md:hidden block absolute left-5 sm:left-6 -translate-x-1/2 top-6 bottom-6 w-[2px] bg-[#E4DDE0]"
+            className="md:hidden block absolute left-3.5 -translate-x-1/2 top-6 bottom-6 w-[2px] bg-[#E4DDE0]"
           >
             {/* Scroll-driven black progress line fill */}
             <motion.div
@@ -100,7 +100,7 @@ export function CareerSection({
           {/* ========================================================
               ACCESSIBLE ORDERED LIST OF STEPS (Left & Right Alternating)
              ======================================================== */}
-          <ol className="relative space-y-16 md:space-y-24 p-0 m-0">
+          <ol className="relative p-0 m-0">
             {steps.map((step, index) => (
               <CareerStepItem
                 key={step.id}
