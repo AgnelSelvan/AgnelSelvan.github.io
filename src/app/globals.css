@@ -4,10 +4,10 @@
 :root {
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-heading: 'Plus Jakarta Sans', 'Inter', sans-serif;
-  --bg-primary: #FBF7F8;
+  --bg-primary: #FCF8F9;
   --bg-hero-start: #F7F1F2;
-  --bg-hero-end: #FBF7F8;
-  --bg-section-alt: #F6EEF0;
+  --bg-hero-end: #FCF8F9;
+  --bg-section-alt: #F2E9EE;
   --color-name-text: #E4DDE0;
   --border-subtle: #E8DFE2;
   --border-card: #EBE2E5;
@@ -1339,7 +1339,6 @@ body {
 /* Gallery Section Styling */
 .bio-gallery-section {
   position: relative;
-  background-color: var(--bg-section-alt);
   padding: 4.5rem 0 3.5rem 0;
 }
 
