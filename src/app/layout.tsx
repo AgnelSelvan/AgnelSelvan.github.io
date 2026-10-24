@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Agnel Selvan | Marriage Biodata",
-  description: "Personal marriage biodata of Agnel Selvan — Software Engineer born and raised in Mumbai, based in Bengaluru.",
+  description: "Personal marriage biodata of Agnel Selvan - Software Engineer born and raised in Mumbai, based in Bengaluru.",
   robots: {
     index: false,
     follow: false,

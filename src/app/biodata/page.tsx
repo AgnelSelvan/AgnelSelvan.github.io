@@ -19,6 +19,7 @@ import {
   X,
   Menu,
   ShieldCheck,
+  Code2,
 } from 'lucide-react';
 
 const InstagramIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
@@ -44,20 +45,31 @@ export default function BiodataPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isPhotoColored, setIsPhotoColored] = useState(false);
   const [cursorHovered, setCursorHovered] = useState(false);
+  const [isMouseDown, setIsMouseDown] = useState(false);
 
   // Mouse cursor follower coordinates & springs
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
-  const cursorXSpring = useSpring(cursorX, { damping: 25, stiffness: 350 });
-  const cursorYSpring = useSpring(cursorY, { damping: 25, stiffness: 350 });
+  const cursorXSpring = useSpring(cursorX, { damping: 28, stiffness: 450 });
+  const cursorYSpring = useSpring(cursorY, { damping: 28, stiffness: 450 });
 
   useEffect(() => {
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
     };
+    const handleDown = () => setIsMouseDown(true);
+    const handleUp = () => setIsMouseDown(false);
+
     window.addEventListener('mousemove', moveCursor);
-    return () => window.removeEventListener('mousemove', moveCursor);
+    window.addEventListener('mousedown', handleDown);
+    window.addEventListener('mouseup', handleUp);
+
+    return () => {
+      window.removeEventListener('mousemove', moveCursor);
+      window.removeEventListener('mousedown', handleDown);
+      window.removeEventListener('mouseup', handleUp);
+    };
   }, [cursorX, cursorY]);
 
   // Scroll listener for sticky navbar
@@ -89,6 +101,82 @@ export default function BiodataPage() {
 
   const handleMouseLeave = () => {
     setMousePosition({ x: 0, y: 0 });
+  };
+
+  // Essential Biodata Facts list
+  const essentialFacts = [
+    { label: 'Full Name', value: 'Agnel Selvan' },
+    { label: 'Age / DOB', value: '1999 (27 Years)' },
+    { label: 'Height', value: "5' 9\" (175 cm)" },
+    { label: 'Birth Place', value: 'Mumbai, Maharashtra' },
+    { label: 'Religion / Rite', value: 'Roman Catholic' },
+    { label: 'Mother Tongue', value: 'Tamil' },
+    { label: 'Languages', value: 'Tamil, English, Hindi, Marathi' },
+    { label: 'Profession', value: 'Software Engineer @ The Family Office' },
+    { label: 'Marital Status', value: 'Never Married' },
+    { label: 'Diet', value: 'Non-Vegetarian / Flexible' },
+    { label: 'Current City', value: 'Bengaluru, Karnataka' },
+    { label: 'Roots', value: 'Tamil Nadu' },
+  ];
+
+  // Mouse & Touch Dragging + Smooth Auto-scroll for Essential Biodata Ribbon
+  const biodataScrollRef = React.useRef<HTMLDivElement>(null);
+  const isDraggingBiodataRef = React.useRef(false);
+  const startXBiodataRef = React.useRef(0);
+  const scrollLeftBiodataRef = React.useRef(0);
+  const isHoveredBiodataRef = React.useRef(false);
+
+  useEffect(() => {
+    const el = biodataScrollRef.current;
+    if (!el) return;
+
+    let animId: number;
+    const speed = 0.5; // gentle continuous auto-scroll
+
+    const step = () => {
+      if (!isHoveredBiodataRef.current && !isDraggingBiodataRef.current && el) {
+        el.scrollLeft += speed;
+        // Continuous wrap-around loop
+        if (el.scrollLeft >= el.scrollWidth / 2) {
+          el.scrollLeft = 0;
+        }
+      }
+      animId = requestAnimationFrame(step);
+    };
+
+    animId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(animId);
+  }, []);
+
+  const handleBiodataMouseDown = (e: React.MouseEvent) => {
+    const el = biodataScrollRef.current;
+    if (!el) return;
+    isDraggingBiodataRef.current = true;
+    startXBiodataRef.current = e.pageX - el.offsetLeft;
+    scrollLeftBiodataRef.current = el.scrollLeft;
+  };
+
+  const handleBiodataMouseMove = (e: React.MouseEvent) => {
+    if (!isDraggingBiodataRef.current) return;
+    e.preventDefault();
+    const el = biodataScrollRef.current;
+    if (!el) return;
+    const x = e.pageX - el.offsetLeft;
+    const walk = (x - startXBiodataRef.current) * 1.5;
+    el.scrollLeft = scrollLeftBiodataRef.current - walk;
+  };
+
+  const handleBiodataMouseUp = () => {
+    isDraggingBiodataRef.current = false;
+  };
+
+  const handleBiodataMouseLeave = () => {
+    isDraggingBiodataRef.current = false;
+    isHoveredBiodataRef.current = false;
+  };
+
+  const handleBiodataMouseEnter = () => {
+    isHoveredBiodataRef.current = true;
   };
 
   // Letter stagger animation config for the HUGE name
@@ -158,49 +246,47 @@ export default function BiodataPage() {
 
   return (
     <div className="min-h-screen bg-[#FBF7F8] text-[#111827]">
-      {/* Round circle border follower replacing default mouse pointer */}
-      <motion.div
-        className="cursor-ring-container pointer-events-none"
-        style={{
-          x: cursorXSpring,
-          y: cursorYSpring,
-        }}
-      >
+      {/* Precision contact-centered custom cursor system */}
+      <div className="cursor-canvas-fixed">
+        {/* Outer Spring Follower Ring */}
         <motion.div
-          animate={{
-            width: cursorHovered ? 48 : 34,
-            height: cursorHovered ? 48 : 34,
-            borderColor: cursorHovered ? '#000000' : 'rgba(17, 24, 39, 0.7)',
-            backgroundColor: cursorHovered ? 'rgba(0, 0, 0, 0.04)' : 'transparent',
-            scale: cursorHovered ? 1.15 : 1,
-          }}
-          transition={{ type: 'spring', damping: 22, stiffness: 320 }}
+          className="cursor-outer-spring"
           style={{
-            borderRadius: '50%',
-            borderWidth: '2px',
-            borderStyle: 'solid',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            pointerEvents: 'none',
+            x: cursorXSpring,
+            y: cursorYSpring,
           }}
         >
-          {/* Inner precision center dot */}
+          <motion.div
+            animate={{
+              width: cursorHovered ? 46 : 32,
+              height: cursorHovered ? 46 : 32,
+              borderColor: cursorHovered ? '#fd8d00' : 'rgba(17, 24, 39, 0.75)',
+              backgroundColor: cursorHovered ? 'rgba(253, 141, 0, 0.08)' : 'transparent',
+              scale: isMouseDown ? 0.88 : cursorHovered ? 1.12 : 1,
+            }}
+            transition={{ type: 'spring', damping: 24, stiffness: 360 }}
+            className="cursor-ring-shape"
+          />
+        </motion.div>
+
+        {/* Real-time Precision Contact Center Dot (Point of contact) */}
+        <motion.div
+          className="cursor-inner-dot-wrapper"
+          style={{
+            x: cursorX,
+            y: cursorY,
+          }}
+        >
           <motion.div
             animate={{
               scale: cursorHovered ? 0 : 1,
               opacity: cursorHovered ? 0 : 1,
             }}
-            transition={{ duration: 0.15 }}
-            style={{
-              width: '4px',
-              height: '4px',
-              borderRadius: '50%',
-              backgroundColor: '#111827',
-            }}
+            transition={{ duration: 0.12 }}
+            className="cursor-precision-dot"
           />
         </motion.div>
-      </motion.div>
+      </div>
 
       {/* 01. STICKY NAVBAR */}
       <header className={`bio-navbar print:hidden ${isScrolled ? 'scrolled' : ''}`}>
@@ -446,127 +532,168 @@ export default function BiodataPage() {
       </section>
 
       {/* 03. ABOUT ME SECTION */}
-      <section id="about" className="bio-section">
-        <div className="bio-container">
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="section-header"
-          >
-            <span className="section-badge">
-              About Me
-            </span>
-            <h2 className="section-title">
-              A Genuine Glimpse Into My Life
-            </h2>
-            <p className="section-sub">
-              Software engineer born and raised in Mumbai, now based in Bengaluru. Grounded, calm, ambitious, and family-first.
-            </p>
-          </motion.div>
+      <section id="about" className="bio-section bio-about-section relative overflow-hidden">
+        {/* Ambient Romantic Background Glows */}
+        <div className="about-ambient-glow" />
+        <div className="about-ambient-glow-left" />
 
-          {/* Narrative & SaaS Highlight */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-12">
-            {/* Main Story */}
+        <div className="bio-container relative z-10 w-full">
+          {/* Unified Desktop View: Left Column (Centered Title + Cool Card) & Right Column (Desktop Height - Navbar Height Photo) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch bio-about-grid">
+            {/* Left Column: Title Section (Centered in Available Space) + Cool Story & One-Line Auto-Scrollable Marquee */}
+            <div className="lg:col-span-7 xl:col-span-7 flex flex-col justify-between">
+              {/* Title / Header Section - Centered in Available Space */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="w-full flex flex-col items-center justify-center text-center mb-3 lg:mb-4 px-2"
+              >
+                <span className="section-badge inline-flex items-center justify-center gap-1.5 leading-none !mb-2 shadow-xs">
+                  <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500/20 shrink-0" />
+                  <span className="leading-none">About Me &amp; Outlook</span>
+                </span>
+                <h2 className="section-title text-2xl sm:text-3xl lg:text-[2.25rem] text-center font-extrabold tracking-tight">
+                  Who am I?
+                </h2>
+                <p className="section-sub text-xs sm:text-sm text-neutral-600 !mt-1 max-w-lg mx-auto text-center leading-normal">
+                  Software engineer born &amp; raised in Mumbai, based in Bengaluru. Grounded, calm, ambitious, and looking forward to building a loving life partnership.
+                </p>
+              </motion.div>
+
+              {/* Romantic & Cool Narrative Card - Minimal, Modern, Trustworthy */}
+              <motion.div
+                initial={{ opacity: 0, y: 25 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="about-card-romantic rounded-2xl flex-1 flex flex-col justify-between"
+              >
+                {/* Narrative Story - Clean & Generously Spaced */}
+                <div className="space-y-4 sm:space-y-5 text-neutral-700 text-sm sm:text-[0.95rem] leading-relaxed">
+                  <p>
+                    Hello! I was born and brought up in <span className="inline-highlight-tag">Mumbai</span> in a Roman Catholic family with strong moral and family values. After completing my B.E. in Computer Engineering from <span className="inline-highlight-tag">Xavier Institute of Engineering</span>, I moved to <span className="inline-highlight-tag">Bengaluru</span>, where I currently work full-time as a Software Engineer at <span className="inline-highlight-tag">The Family Office</span>.
+                  </p>
+                  <p>
+                    After my 9-to-5, I build <span className="inline-highlight-tag">independent SaaS applications</span> and monetize them. Outside work and coding, I love taking trips &mdash; monsoon trekking around Mumbai, camping outdoors, and scenic road trips (like my recent drive exploring the backwaters of <span className="inline-highlight-tag">Kerala</span>), along with good music and coffee conversations.
+                  </p>
+                </div>
+
+                {/* Essential Biodata Details Ribbon - Evenly Spaced & Draggable */}
+                <div className="my-6 sm:my-8 pt-6 sm:pt-7 border-t border-black/[0.06]">
+                  <div className="flex items-center justify-between gap-2 mb-3.5 px-0.5">
+                    <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-neutral-800">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                      <span>Essential Biodata Details</span>
+                    </div>
+                    <span className="text-[11px] font-medium text-neutral-400 hidden sm:inline-flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      Drag or scroll &bull; Hover to pause
+                    </span>
+                  </div>
+
+                  {/* One-Line Draggable & Auto-Scrollable Track */}
+                  <div
+                    ref={biodataScrollRef}
+                    className="bio-draggable-ribbon"
+                    onMouseDown={handleBiodataMouseDown}
+                    onMouseMove={handleBiodataMouseMove}
+                    onMouseUp={handleBiodataMouseUp}
+                    onMouseLeave={handleBiodataMouseLeave}
+                    onMouseEnter={handleBiodataMouseEnter}
+                  >
+                    <div className="flex items-center gap-2.5 flex-nowrap w-max py-1 select-none">
+                      {essentialFacts.map((fact, idx) => (
+                        <div key={`fact-1-${idx}`} className="fact-pill-inline select-none">
+                          <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
+                            {fact.label}
+                          </span>
+                          <span className="text-neutral-300 font-light">&bull;</span>
+                          <span className="text-xs font-semibold text-neutral-800">
+                            {fact.value}
+                          </span>
+                        </div>
+                      ))}
+                      {essentialFacts.map((fact, idx) => (
+                        <div key={`fact-2-${idx}`} className="fact-pill-inline select-none" aria-hidden="true">
+                          <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
+                            {fact.label}
+                          </span>
+                          <span className="text-neutral-300 font-light">&bull;</span>
+                          <span className="text-xs font-semibold text-neutral-800">
+                            {fact.value}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card Footer with Location/Faith & Black Pill Button with Hover Arrow Animation */}
+                <div className="mt-auto pt-5 sm:pt-6 border-t border-black/[0.06] flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex flex-wrap items-center gap-5 text-xs text-neutral-500 font-medium">
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-4 h-4 text-neutral-700 shrink-0" />
+                      <span>Born in Mumbai &bull; Based in Bengaluru</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <ShieldCheck className="w-4 h-4 text-neutral-700 shrink-0" />
+                      <span>Roman Catholic Faith &bull; Roots: Tamil Nadu</span>
+                    </div>
+                  </div>
+
+                  {/* Black Pill Button with Hover Arrow Animation */}
+                  <a
+                    href="#family"
+                    className="btn-pill-black"
+                    onMouseEnter={() => setCursorHovered(true)}
+                    onMouseLeave={() => setCursorHovered(false)}
+                  >
+                    <span>Family Details</span>
+                    <span className="arrow-icon">&rarr;</span>
+                  </a>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Right Column: Romantic Photo Showcase taking Desktop Height - Navbar Height */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.96 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="lg:col-span-7 bio-card flex flex-col justify-between"
+              transition={{ duration: 0.65, delay: 0.2 }}
+              className="lg:col-span-5 xl:col-span-5 flex justify-center h-full"
             >
-              <div className="space-y-4 text-neutral-700 text-sm md:text-base leading-relaxed">
-                <p>
-                  Hello and welcome! I was born and brought up in <b>Mumbai</b> in a warm, supportive Roman Catholic household. Having completed my graduation in Computer Engineering from <b>Xavier Institute of Engineering</b>, I currently work in <b>Bengaluru</b> as a Software Engineer at <b>The Family Office</b>.
-                </p>
-                <p>
-                  People often describe me as calm, respectful, composed, and dependable. I believe in maintaining strong family bonds, open communication, and treating others with kindness and humility.
-                </p>
-                <p>
-                  Outside my regular schedule, I enjoy peaceful road trips (recently traveled through picturesque spots across <b>Kerala</b>), listening to good music, exploring tech concepts, and sharing meaningful conversations over coffee.
-                </p>
-              </div>
+              <div
+                className="about-photo-wrapper w-full h-full group"
+                onMouseEnter={() => setCursorHovered(true)}
+                onMouseLeave={() => setCursorHovered(false)}
+              >
+                <div className="about-photo-frame">
+                  <Image
+                    src="/mine/IMG_1578.jpg"
+                    alt="Agnel Selvan"
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 45vw"
+                    className="about-photo-img"
+                    priority={false}
+                  />
+                  {/* Rounded border fade opacity overlay */}
+                  <div className="about-photo-fade-border" />
 
-              <div className="mt-8 pt-6 border-t border-neutral-100 flex flex-wrap items-center gap-6 text-xs text-neutral-500 font-medium">
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-neutral-700" />
-                  <span>Born in Mumbai &bull; Based in Bengaluru</span>
+                  {/* Floating romantic badge with Live Pulsing Dot */}
+                  <div className="about-photo-badge flex items-center gap-2">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                    </span>
+                    <span>Agnel Selvan &bull; 27 Years (1999) &bull; Software Engineer</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-neutral-700" />
-                  <span>Roman Catholic Faith &amp; Moral Values</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Top Priority: Independent SaaS Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="lg:col-span-5 saas-priority-card"
-            >
-              <div className="absolute -top-12 -right-12 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
-
-              <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-blue-200 text-xs font-semibold tracking-wide mb-4">
-                  <Sparkles className="w-3.5 h-3.5 text-blue-300" />
-                  <span>Top Passion &amp; Focus</span>
-                </div>
-                <h3 className="text-2xl font-bold tracking-tight text-white mb-3" style={{ fontFamily: 'var(--font-heading)' }}>
-                  Building Independent SaaS
-                </h3>
-                <p className="text-neutral-300 text-sm leading-relaxed">
-                  In my free time, my primary passion and priority is building and scaling <b>independent SaaS applications</b>. I genuinely love architecting digital tools from scratch, turning ideas into useful products, and building with long-term ownership and purpose.
-                </p>
-              </div>
-
-              <div className="mt-8 pt-6 border-t border-white/10 flex items-center justify-between text-xs text-neutral-400">
-                <span>Creator &bull; Problem Solver &bull; Builder</span>
-                <span className="font-mono text-emerald-400 font-semibold">&#9679; Actively Shipping</span>
               </div>
             </motion.div>
           </div>
-
-          {/* Quick Facts Grid */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="bio-card"
-          >
-            <h3 className="text-lg font-bold text-neutral-900 mb-6 flex items-center gap-2">
-              <CheckCircle2 className="w-5 h-5 text-neutral-800" />
-              <span>Essential Biodata Details</span>
-            </h3>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-              {[
-                { label: 'Full Name', value: 'Agnel Selvan' },
-                { label: 'Age / DOB', value: '27 Years (1997)' },
-                { label: 'Height', value: "5' 9\" (175 cm)" },
-                { label: 'Birth Place', value: 'Mumbai, Maharashtra' },
-                { label: 'Religion / Rite', value: 'Roman Catholic' },
-                { label: 'Mother Tongue', value: 'Tamil' },
-                { label: 'Languages', value: 'English, Hindi, Marathi, Tamil' },
-                { label: 'Marital Status', value: 'Never Married' },
-                { label: 'Diet', value: 'Non-Vegetarian / Flexible' },
-                { label: 'Current Residence', value: 'Bengaluru, Karnataka' },
-              ].map((fact, idx) => (
-                <div key={idx} className="flex flex-col">
-                  <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider mb-1">
-                    {fact.label}
-                  </span>
-                  <span className="text-sm font-semibold text-neutral-800 leading-snug">
-                    {fact.value}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
         </div>
       </section>
 
@@ -591,7 +718,7 @@ export default function BiodataPage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-7 lg:gap-8 mb-12 sm:mb-14">
             {/* Father */}
             <motion.div
               initial={{ opacity: 0, y: 25 }}
@@ -600,18 +727,18 @@ export default function BiodataPage() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="bio-card flex flex-col justify-between"
             >
-              <div>
-                <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider">
+              <div className="space-y-2.5">
+                <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider block">
                   Father
                 </span>
-                <h3 className="text-xl font-bold text-neutral-900 mt-1 mb-2">
+                <h3 className="text-xl font-bold text-neutral-900">
                   Father
                 </h3>
-                <p className="text-sm text-neutral-600 leading-relaxed">
+                <p className="text-sm text-neutral-600 leading-relaxed pt-1">
                   Supportive family head with business / private service background. Instilled values of discipline, honesty, and hard work.
                 </p>
               </div>
-              <div className="mt-6 pt-4 border-t border-neutral-100 text-xs font-medium text-neutral-500">
+              <div className="mt-8 pt-5 sm:mt-10 sm:pt-6 border-t border-neutral-100 text-xs font-semibold text-neutral-500">
                 Grounded &bull; Guiding Pillar
               </div>
             </motion.div>
@@ -624,18 +751,18 @@ export default function BiodataPage() {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="bio-card flex flex-col justify-between"
             >
-              <div>
-                <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider">
+              <div className="space-y-2.5">
+                <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider block">
                   Mother
                 </span>
-                <h3 className="text-xl font-bold text-neutral-900 mt-1 mb-2">
+                <h3 className="text-xl font-bold text-neutral-900">
                   Mother
                 </h3>
-                <p className="text-sm text-neutral-600 leading-relaxed">
+                <p className="text-sm text-neutral-600 leading-relaxed pt-1">
                   Homemaker. The emotional anchor and heart of our family, known for her warmth, hospitality, and devout faith.
                 </p>
               </div>
-              <div className="mt-6 pt-4 border-t border-neutral-100 text-xs font-medium text-neutral-500">
+              <div className="mt-8 pt-5 sm:mt-10 sm:pt-6 border-t border-neutral-100 text-xs font-semibold text-neutral-500">
                 Loving &bull; Homemaker
               </div>
             </motion.div>
@@ -648,18 +775,18 @@ export default function BiodataPage() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="bio-card flex flex-col justify-between"
             >
-              <div>
-                <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider">
+              <div className="space-y-2.5">
+                <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider block">
                   Family Structure
                 </span>
-                <h3 className="text-xl font-bold text-neutral-900 mt-1 mb-2">
+                <h3 className="text-xl font-bold text-neutral-900">
                   Nuclear &bull; Close-Knit
                 </h3>
-                <p className="text-sm text-neutral-600 leading-relaxed">
+                <p className="text-sm text-neutral-600 leading-relaxed pt-1">
                   Close family with loving sibling bond. We celebrate family milestones together, respect individuality, and maintain strong roots in Mumbai.
                 </p>
               </div>
-              <div className="mt-6 pt-4 border-t border-neutral-100 text-xs font-medium text-neutral-500">
+              <div className="mt-8 pt-5 sm:mt-10 sm:pt-6 border-t border-neutral-100 text-xs font-semibold text-neutral-500">
                 Native Place: Mumbai / Tamil Nadu roots
               </div>
             </motion.div>
@@ -671,11 +798,13 @@ export default function BiodataPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bio-card flex items-start gap-4"
+            className="bio-card flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-6"
           >
-            <Users className="w-6 h-6 text-neutral-700 shrink-0 mt-1" />
-            <div>
-              <h4 className="font-bold text-neutral-900 text-base mb-1">
+            <div className="w-12 h-12 rounded-2xl bg-neutral-100 flex items-center justify-center text-neutral-800 shrink-0">
+              <Users className="w-6 h-6 text-neutral-700" />
+            </div>
+            <div className="space-y-1.5">
+              <h4 className="font-bold text-neutral-900 text-base sm:text-lg">
                 Family Values &amp; Outlook
               </h4>
               <p className="text-neutral-600 text-xs sm:text-sm leading-relaxed">
@@ -707,52 +836,58 @@ export default function BiodataPage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-stretch">
             {/* Education Card */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="bio-card"
+              className="bio-card flex flex-col justify-between"
             >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-2xl bg-neutral-100 flex items-center justify-center text-neutral-800">
-                  <GraduationCap className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-lg text-neutral-900">Academic Background</h3>
-                  <span className="text-xs text-neutral-500 font-medium">Undergraduation &amp; Junior College</span>
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                <div className="relative pl-6 border-l-2 border-neutral-200">
-                  <span className="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-black" />
-                  <span className="text-xs font-semibold text-neutral-400">2017 &ndash; 2021 &bull; Mumbai</span>
-                  <h4 className="text-base font-bold text-neutral-900 mt-0.5">
-                    Bachelor of Computer Engineering (B.E.)
-                  </h4>
-                  <p className="text-sm font-semibold text-neutral-700">
-                    Xavier Institute of Engineering, Mumbai
-                  </p>
-                  <p className="text-xs text-neutral-500 mt-1 leading-relaxed">
-                    Four-year comprehensive engineering degree focusing on software algorithms, systems design, and computer engineering.
-                  </p>
+              <div>
+                <div className="flex items-center gap-4 mb-8 pb-5 border-b border-neutral-100">
+                  <div className="w-12 h-12 rounded-2xl bg-neutral-100 flex items-center justify-center text-neutral-800 shrink-0">
+                    <GraduationCap className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg sm:text-xl text-neutral-900">Academic Background</h3>
+                    <span className="text-xs text-neutral-500 font-medium">Undergraduation &amp; Junior College</span>
+                  </div>
                 </div>
 
-                <div className="relative pl-6 border-l-2 border-neutral-200">
-                  <span className="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-neutral-300" />
-                  <span className="text-xs font-semibold text-neutral-400">Higher Secondary Education (12th)</span>
-                  <h4 className="text-base font-bold text-neutral-900 mt-0.5">
-                    SIES College of Arts, Science and Commerce
-                  </h4>
-                  <p className="text-sm text-neutral-600">
-                    Mumbai, Maharashtra
-                  </p>
-                  <p className="text-xs text-neutral-500 mt-1 leading-relaxed">
-                    Completed 12th standard with Science and Computer Science foundation.
-                  </p>
+                <div className="space-y-8">
+                  <div className="relative pl-7 border-l-2 border-neutral-200">
+                    <span className="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-black ring-4 ring-white" />
+                    <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wide block mb-1">
+                      2017 &ndash; 2021 &bull; Mumbai
+                    </span>
+                    <h4 className="text-base font-bold text-neutral-900">
+                      Bachelor of Computer Engineering (B.E.)
+                    </h4>
+                    <p className="text-sm font-semibold text-neutral-700 mt-0.5">
+                      Xavier Institute of Engineering, Mumbai
+                    </p>
+                    <p className="text-xs sm:text-sm text-neutral-500 mt-2 leading-relaxed">
+                      Four-year comprehensive engineering degree focusing on software algorithms, systems design, and computer engineering.
+                    </p>
+                  </div>
+
+                  <div className="relative pl-7 border-l-2 border-neutral-200">
+                    <span className="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-neutral-300 ring-4 ring-white" />
+                    <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wide block mb-1">
+                      Higher Secondary Education (12th)
+                    </span>
+                    <h4 className="text-base font-bold text-neutral-900">
+                      SIES College of Arts, Science and Commerce
+                    </h4>
+                    <p className="text-sm font-semibold text-neutral-700 mt-0.5">
+                      Mumbai, Maharashtra
+                    </p>
+                    <p className="text-xs sm:text-sm text-neutral-500 mt-2 leading-relaxed">
+                      Completed 12th standard with Science and Computer Science foundation.
+                    </p>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -763,65 +898,67 @@ export default function BiodataPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="bio-card"
+              className="bio-card flex flex-col justify-between"
             >
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-2xl bg-neutral-100 flex items-center justify-center text-neutral-800">
-                  <Briefcase className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-lg text-neutral-900">Work Experience</h3>
-                  <span className="text-xs text-neutral-500 font-medium">Software Engineering Roles</span>
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                {/* The Family Office */}
-                <div className="relative pl-6 border-l-2 border-neutral-200">
-                  <span className="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-emerald-600" />
-                  <span className="text-xs font-bold text-emerald-600 uppercase tracking-wide">
-                    2024 &ndash; Present &bull; Bengaluru
-                  </span>
-                  <h4 className="text-base font-bold text-neutral-900 mt-0.5">
-                    Software Engineer &bull; Mobile Application Engineer
-                  </h4>
-                  <p className="text-sm font-semibold text-neutral-700">
-                    The Family Office
-                  </p>
-                  <p className="text-xs text-neutral-500 mt-1 leading-relaxed">
-                    Engineering reliable, high-performance mobile applications and seamless financial technology workflows.
-                  </p>
+              <div>
+                <div className="flex items-center gap-4 mb-8 pb-5 border-b border-neutral-100">
+                  <div className="w-12 h-12 rounded-2xl bg-neutral-100 flex items-center justify-center text-neutral-800 shrink-0">
+                    <Briefcase className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg sm:text-xl text-neutral-900">Work Experience</h3>
+                    <span className="text-xs text-neutral-500 font-medium">Software Engineering Roles</span>
+                  </div>
                 </div>
 
-                {/* Neosoft */}
-                <div className="relative pl-6 border-l-2 border-neutral-200">
-                  <span className="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-neutral-300" />
-                  <span className="text-xs font-semibold text-neutral-400">
-                    2021 &ndash; 2024 &bull; Mumbai
-                  </span>
-                  <h4 className="text-base font-bold text-neutral-900 mt-0.5">
-                    Software Engineer
-                  </h4>
-                  <p className="text-sm font-semibold text-neutral-700">
-                    Neosoft Technologies
-                  </p>
-                  <p className="text-xs text-neutral-500 mt-1 leading-relaxed">
-                    Architected robust cross-platform mobile solutions, client architectures, and enterprise feature sets over 3 years.
-                  </p>
-                </div>
+                <div className="space-y-8">
+                  {/* The Family Office */}
+                  <div className="relative pl-7 border-l-2 border-neutral-200">
+                    <span className="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-emerald-600 ring-4 ring-white" />
+                    <span className="text-xs font-bold text-emerald-600 uppercase tracking-wide block mb-1">
+                      2024 &ndash; Present &bull; Bengaluru
+                    </span>
+                    <h4 className="text-base font-bold text-neutral-900">
+                      Software Engineer &bull; Mobile Application Engineer
+                    </h4>
+                    <p className="text-sm font-semibold text-neutral-700 mt-0.5">
+                      The Family Office
+                    </p>
+                    <p className="text-xs sm:text-sm text-neutral-500 mt-2 leading-relaxed">
+                      Engineering reliable, high-performance mobile applications and seamless financial technology workflows.
+                    </p>
+                  </div>
 
-                {/* Independent SaaS Builder */}
-                <div className="relative pl-6 border-l-2 border-blue-200 bg-blue-50/60 p-3.5 rounded-xl -ml-2">
-                  <span className="absolute -left-1.5 top-5 w-3 h-3 rounded-full bg-blue-600" />
-                  <span className="text-[11px] font-bold text-blue-700 uppercase tracking-wide">
-                    Personal Priority &bull; Free Time
-                  </span>
-                  <h4 className="text-sm font-bold text-blue-950 mt-0.5">
-                    Independent SaaS Builder &amp; Creator
-                  </h4>
-                  <p className="text-xs text-blue-900/80 mt-1 leading-relaxed">
-                    Actively architecting, designing, and launching independent software products with long-term compound value.
-                  </p>
+                  {/* Neosoft */}
+                  <div className="relative pl-7 border-l-2 border-neutral-200">
+                    <span className="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-neutral-300 ring-4 ring-white" />
+                    <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wide block mb-1">
+                      2021 &ndash; 2024 &bull; Mumbai
+                    </span>
+                    <h4 className="text-base font-bold text-neutral-900">
+                      Software Engineer
+                    </h4>
+                    <p className="text-sm font-semibold text-neutral-700 mt-0.5">
+                      Neosoft Technologies
+                    </p>
+                    <p className="text-xs sm:text-sm text-neutral-500 mt-2 leading-relaxed">
+                      Architected robust cross-platform mobile solutions, client architectures, and enterprise feature sets over 3 years.
+                    </p>
+                  </div>
+
+                  {/* Independent SaaS Builder */}
+                  <div className="relative pl-7 border-l-2 border-amber-300 bg-amber-50/50 p-4 rounded-2xl -ml-2">
+                    <span className="absolute -left-1.5 top-5 w-3 h-3 rounded-full bg-amber-500 ring-4 ring-white" />
+                    <span className="text-[11px] font-bold text-amber-800 uppercase tracking-wide block mb-1">
+                      Personal Priority &bull; After 9-to-5
+                    </span>
+                    <h4 className="text-sm font-bold text-amber-950">
+                      Independent SaaS Builder &amp; Creator
+                    </h4>
+                    <p className="text-xs text-neutral-600 mt-1.5 leading-relaxed">
+                      Actively architecting, designing, and launching independent software products with long-term compound value and monetizing them.
+                    </p>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -951,7 +1088,7 @@ export default function BiodataPage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-stretch">
             {/* Core Values & Outlook */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -961,27 +1098,33 @@ export default function BiodataPage() {
               className="bio-card flex flex-col justify-between"
             >
               <div>
-                <div className="flex items-center gap-2 mb-4">
-                  <Heart className="w-5 h-5 text-rose-500" />
-                  <h3 className="font-bold text-lg text-neutral-900">Core Qualities &amp; Values</h3>
+                <div className="flex items-center gap-3.5 mb-7 pb-4 border-b border-neutral-100">
+                  <div className="w-11 h-11 rounded-2xl bg-rose-50 flex items-center justify-center text-rose-500 shrink-0">
+                    <Heart className="w-5 h-5 fill-rose-500/20" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg sm:text-xl text-neutral-900">Core Qualities &amp; Values</h3>
+                    <span className="text-xs text-neutral-500 font-medium">Emotional Maturity &amp; Outlook</span>
+                  </div>
                 </div>
-                <ul className="space-y-4 text-sm text-neutral-700 leading-relaxed">
-                  <li className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 mt-2 shrink-0" />
+
+                <ul className="space-y-5 sm:space-y-6 text-sm text-neutral-700 leading-relaxed">
+                  <li className="flex items-start gap-3.5">
+                    <span className="w-2 h-2 rounded-full bg-neutral-900 mt-2 shrink-0" />
                     <span><b>Kind, Empathetic &amp; Grounded:</b> Someone who values warmth, emotional maturity, mutual respect, and simple joys in life.</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 mt-2 shrink-0" />
+                  <li className="flex items-start gap-3.5">
+                    <span className="w-2 h-2 rounded-full bg-neutral-900 mt-2 shrink-0" />
                     <span><b>Family or Working Professional:</b> Values warmth, mutual respect, healthy career-life balance, and creates a welcoming home environment.</span>
                   </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-900 mt-2 shrink-0" />
+                  <li className="flex items-start gap-3.5">
+                    <span className="w-2 h-2 rounded-full bg-neutral-900 mt-2 shrink-0" />
                     <span><b>Clear Communicator:</b> Believes in open conversations, discussing challenges calmly, and growing together through every phase of life.</span>
                   </li>
                 </ul>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-neutral-100 text-xs font-semibold text-neutral-500">
+              <div className="mt-8 pt-6 sm:mt-10 sm:pt-7 border-t border-neutral-100 text-xs font-semibold text-neutral-500">
                 Foundations: Trust &bull; Friendship &bull; Mutual Respect
               </div>
             </motion.div>
@@ -995,36 +1138,41 @@ export default function BiodataPage() {
               className="bio-card flex flex-col justify-between"
             >
               <div>
-                <div className="flex items-center gap-2 mb-4">
-                  <Compass className="w-5 h-5 text-neutral-800" />
-                  <h3 className="font-bold text-lg text-neutral-900">Background &amp; Compatibility</h3>
+                <div className="flex items-center gap-3.5 mb-7 pb-4 border-b border-neutral-100">
+                  <div className="w-11 h-11 rounded-2xl bg-neutral-100 flex items-center justify-center text-neutral-800 shrink-0">
+                    <Compass className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg sm:text-xl text-neutral-900">Background &amp; Compatibility</h3>
+                    <span className="text-xs text-neutral-500 font-medium">Practical Parameters</span>
+                  </div>
                 </div>
 
-                <div className="space-y-4 text-sm">
-                  <div className="flex justify-between py-2 border-b border-neutral-100">
+                <div className="space-y-1 text-sm">
+                  <div className="flex justify-between py-3.5 border-b border-neutral-100">
                     <span className="text-neutral-500">Age Range</span>
                     <span className="font-semibold text-neutral-800">23 &ndash; 27 Years</span>
                   </div>
-                  <div className="flex justify-between py-2 border-b border-neutral-100">
+                  <div className="flex justify-between py-3.5 border-b border-neutral-100">
                     <span className="text-neutral-500">Height</span>
                     <span className="font-semibold text-neutral-800">5&apos; 2&quot; &ndash; 5&apos; 8&quot;</span>
                   </div>
-                  <div className="flex justify-between py-2 border-b border-neutral-100">
+                  <div className="flex justify-between py-3.5 border-b border-neutral-100">
                     <span className="text-neutral-500">Education</span>
                     <span className="font-semibold text-neutral-800 text-right">Graduate / Post-Graduate</span>
                   </div>
-                  <div className="flex justify-between py-2 border-b border-neutral-100">
+                  <div className="flex justify-between py-3.5 border-b border-neutral-100">
                     <span className="text-neutral-500">Career / Profession</span>
                     <span className="font-semibold text-neutral-800 text-right">Working Professional (Open to any career)</span>
                   </div>
-                  <div className="flex justify-between py-2">
+                  <div className="flex justify-between py-3.5">
                     <span className="text-neutral-500">Preferred Location</span>
                     <span className="font-semibold text-neutral-800 text-right">Bengaluru, Mumbai, or open to relocating</span>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-neutral-100 text-xs text-neutral-500 leading-relaxed">
+              <div className="mt-8 pt-6 sm:mt-10 sm:pt-7 border-t border-neutral-100 text-xs text-neutral-500 leading-relaxed">
                 Open-minded and flexible. Shared values and mutual respect matter far more than rigid checkboxes.
               </div>
             </motion.div>
