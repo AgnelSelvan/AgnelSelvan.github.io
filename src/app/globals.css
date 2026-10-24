@@ -117,21 +117,31 @@ body {
   font-size: clamp(1.85rem, 11.5vw, 13.5rem);
   font-weight: 900;
   letter-spacing: -0.055em;
-  color: var(--color-name-text);
   text-transform: uppercase;
   white-space: nowrap;
   line-height: 1;
   text-align: center;
   will-change: transform, opacity;
   pointer-events: auto;
+}
+
+.hero-name-agnel {
+  color: var(--color-name-text);
   cursor: pointer;
+  display: inline-block;
   transition: color 0.35s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.35s ease;
 }
 
-.hero-huge-name:hover,
-.hero-huge-name:active {
+.hero-name-agnel:hover,
+.hero-name-agnel:active,
+.hero-name-agnel.active {
   color: #fd8d00 !important;
   text-shadow: 0 0 45px rgba(253, 141, 0, 0.28);
+}
+
+.hero-name-selvan {
+  color: #000000;
+  display: inline-block;
 }
 
 /* 2. Center Photo Cutout - B&W by default, Color on Hover / Tap */
@@ -918,6 +928,94 @@ body {
     border-radius: 1rem; /* rounded-2xl */
     border: 1px solid rgba(0, 0, 0, 0.06);
   }
+}
+
+/* Family Section Layout - Mirroring About Section with Left Image */
+.family-ambient-glow {
+  position: absolute;
+  top: 15%;
+  left: 5%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(253, 141, 0, 0.07) 0%, rgba(244, 63, 94, 0.04) 50%, transparent 75%);
+  filter: blur(80px);
+  pointer-events: none;
+  border-radius: 9999px;
+  z-index: 0;
+}
+
+.family-ambient-glow-right {
+  position: absolute;
+  bottom: 10%;
+  right: -5%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(244, 63, 94, 0.05) 0%, rgba(253, 141, 0, 0.04) 50%, transparent 75%);
+  filter: blur(80px);
+  pointer-events: none;
+  border-radius: 9999px;
+  z-index: 0;
+}
+
+@media (min-width: 1024px) {
+  .bio-family-section {
+    min-height: calc(100vh - 4.5rem);
+    padding-top: calc(4.5rem + 1rem) !important;
+    padding-bottom: 1.5rem !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .bio-family-grid {
+    height: calc(100vh - 4.5rem - 2.5rem);
+    min-height: 580px;
+  }
+  .bio-family-section .about-photo-wrapper {
+    height: 100%;
+    min-height: 580px;
+    width: 100%;
+    border-radius: 1rem; /* rounded-2xl */
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  .bio-family-section .about-photo-frame {
+    height: 100%;
+    width: 100%;
+    aspect-ratio: unset;
+    border-radius: inherit;
+  }
+}
+
+/* Individual Family Pillar Cards - Generous LTRB Padding & Soft Blur */
+.family-pillar-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 1rem; /* rounded-2xl */
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+  padding: 1.25rem 1.35rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+@media (min-width: 640px) {
+  .family-pillar-card {
+    padding: 1.45rem 1.6rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .family-pillar-card {
+    padding: 1.6rem 1.75rem;
+  }
+}
+
+.family-pillar-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.07);
 }
 
 /* Cards */

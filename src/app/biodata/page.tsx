@@ -44,6 +44,7 @@ export default function BiodataPage() {
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isPhotoColored, setIsPhotoColored] = useState(false);
+  const [isAgnelHovered, setIsAgnelHovered] = useState(false);
   const [cursorHovered, setCursorHovered] = useState(false);
   const [isMouseDown, setIsMouseDown] = useState(false);
 
@@ -180,7 +181,8 @@ export default function BiodataPage() {
   };
 
   // Letter stagger animation config for the HUGE name
-  const fullName = "AGNEL SELVAN";
+  const firstName = "AGNEL";
+  const lastName = "SELVAN";
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -395,18 +397,51 @@ export default function BiodataPage() {
               initial="hidden"
               animate="visible"
               className="hero-huge-name"
-              onMouseEnter={() => setCursorHovered(true)}
-              onMouseLeave={() => setCursorHovered(false)}
             >
-              {fullName.split('').map((char, index) => (
-                <motion.span
-                  key={index}
-                  variants={letterVariants}
-                  className="inline-block"
-                >
-                  {char === ' ' ? '\u00A0' : char}
-                </motion.span>
-              ))}
+              <span
+                className={`hero-name-agnel ${isAgnelHovered ? 'active' : ''}`}
+                onMouseEnter={() => {
+                  setIsAgnelHovered(true);
+                  setCursorHovered(true);
+                }}
+                onMouseLeave={() => {
+                  setIsAgnelHovered(false);
+                  setCursorHovered(false);
+                }}
+              >
+                {firstName.split('').map((char, index) => (
+                  <motion.span
+                    key={`agnel-${index}`}
+                    variants={letterVariants}
+                    className="inline-block"
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </span>
+
+              <motion.span
+                variants={letterVariants}
+                className="inline-block"
+              >
+                {'\u00A0'}
+              </motion.span>
+
+              <span
+                className="hero-name-selvan"
+                onMouseEnter={() => setCursorHovered(true)}
+                onMouseLeave={() => setCursorHovered(false)}
+              >
+                {lastName.split('').map((char, index) => (
+                  <motion.span
+                    key={`selvan-${index}`}
+                    variants={letterVariants}
+                    className="inline-block"
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </span>
             </motion.h1>
           </motion.div>
         </div>
@@ -544,10 +579,10 @@ export default function BiodataPage() {
             <div className="lg:col-span-7 xl:col-span-7 flex flex-col justify-between">
               {/* Title / Header Section - Centered in Available Space */}
               <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, y: 15, filter: 'blur(6px)' }}
+                whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="w-full flex flex-col items-center justify-center text-center mb-2.5 lg:mb-3 px-2"
               >
                 <span className="section-badge inline-flex items-center justify-center gap-1.5 leading-none !mb-1.5 py-0.5 px-2.5 text-[10px] shadow-xs">
@@ -564,10 +599,10 @@ export default function BiodataPage() {
 
               {/* Romantic & Cool Narrative Card - Minimal, Modern, Trustworthy */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.1 }}
+                initial={{ opacity: 0, x: -25, scale: 0.98, filter: 'blur(6px)' }}
+                whileInView={{ opacity: 1, x: 0, scale: 1, filter: 'blur(0px)' }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className="about-card-romantic rounded-2xl flex-1 flex flex-col justify-between"
               >
                 {/* Narrative Story - Clean, Compact & Generously Spaced */}
@@ -676,10 +711,10 @@ export default function BiodataPage() {
 
             {/* Right Column: Romantic Photo Showcase taking Desktop Height - Navbar Height */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.96 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.65, delay: 0.2 }}
+              initial={{ opacity: 0, x: 35, scale: 0.96, filter: 'blur(6px)' }}
+              whileInView={{ opacity: 1, x: 0, scale: 1, filter: 'blur(0px)' }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-5 xl:col-span-5 flex justify-center h-full"
             >
               <div
@@ -715,120 +750,218 @@ export default function BiodataPage() {
       </section>
 
       {/* 04. FAMILY DETAILS */}
-      <section id="family" className="bio-section bg-alt-section">
-        <div className="bio-container">
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="section-header"
-          >
-            <span className="section-badge section-badge-white">
-              Family Background
-            </span>
-            <h2 className="section-title">
-              Warm, Grounded &amp; Close-Knit
-            </h2>
-            <p className="section-sub">
-              Raised with traditional values, mutual respect, and unconditional encouragement.
-            </p>
-          </motion.div>
+      <section id="family" className="bio-section bio-family-section relative overflow-hidden bg-alt-section">
+        {/* Ambient Background Glows */}
+        <div className="family-ambient-glow" />
+        <div className="family-ambient-glow-right" />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-7 lg:gap-8 mb-12 sm:mb-14">
-            {/* Father */}
+        <div className="bio-container relative z-10 w-full">
+          {/* Unified Desktop View: Left Column (Photo) & Right Column (Centered Title + Family Card) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch bio-family-grid">
+            {/* Left Column: Family Photo Showcase taking Desktop Height - Navbar Height */}
             <motion.div
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="bio-card flex flex-col justify-between"
+              initial={{ opacity: 0, x: -35, scale: 0.96, filter: 'blur(6px)' }}
+              whileInView={{ opacity: 1, x: 0, scale: 1, filter: 'blur(0px)' }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+              className="order-2 lg:order-1 lg:col-span-5 xl:col-span-5 flex justify-center h-full"
             >
-              <div className="space-y-2.5">
-                <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider block">
-                  Father
-                </span>
-                <h3 className="text-xl font-bold text-neutral-900">
-                  Father
-                </h3>
-                <p className="text-sm text-neutral-600 leading-relaxed pt-1">
-                  Supportive family head with business / private service background. Instilled values of discipline, honesty, and hard work.
-                </p>
-              </div>
-              <div className="mt-8 pt-5 sm:mt-10 sm:pt-6 border-t border-neutral-100 text-xs font-semibold text-neutral-500">
-                Grounded &bull; Guiding Pillar
+              <div
+                className="about-photo-wrapper w-full h-full group"
+                onMouseEnter={() => setCursorHovered(true)}
+                onMouseLeave={() => setCursorHovered(false)}
+              >
+                <div className="about-photo-frame">
+                  <Image
+                    src="/mine/IMG_7820.webp"
+                    alt="The Selvan Family"
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 45vw"
+                    className="about-photo-img object-cover object-center"
+                    priority={false}
+                  />
+                  {/* Rounded border fade opacity overlay */}
+                  <div className="about-photo-fade-border" />
+
+                  {/* Floating romantic badge with Live Pulsing Dot */}
+                  <div className="about-photo-badge flex items-center gap-2">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                    </span>
+                    <span>The Selvan Family &bull; Mumbai Roots</span>
+                  </div>
+                </div>
               </div>
             </motion.div>
 
-            {/* Mother */}
-            <motion.div
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="bio-card flex flex-col justify-between"
-            >
-              <div className="space-y-2.5">
-                <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider block">
-                  Mother
+            {/* Right Column: Title Section (Centered in Available Space) + Individual Family Structure Cards */}
+            <div className="order-1 lg:order-2 lg:col-span-7 xl:col-span-7 flex flex-col justify-between py-1 lg:py-2">
+              {/* Title / Header Section - Centered in Available Space */}
+              <motion.div
+                initial={{ opacity: 0, y: 15, filter: 'blur(6px)' }}
+                whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full flex flex-col items-center justify-center text-center mb-3 sm:mb-4 px-2"
+              >
+                <span className="section-badge inline-flex items-center justify-center gap-1.5 leading-none !mb-1.5 py-0.5 px-2.5 text-[10px] shadow-xs">
+                  <Users className="w-3 h-3 text-amber-600 shrink-0" />
+                  <span className="leading-none">Family Background &amp; Structure</span>
                 </span>
-                <h3 className="text-xl font-bold text-neutral-900">
-                  Mother
-                </h3>
-                <p className="text-sm text-neutral-600 leading-relaxed pt-1">
-                  Homemaker. The emotional anchor and heart of our family, known for her warmth, hospitality, and devout faith.
+                <h2 className="section-title text-xl sm:text-2xl lg:text-[2rem] text-center font-extrabold tracking-tight">
+                  Warm, Grounded &amp; Close-Knit
+                </h2>
+                <p className="section-sub text-[11px] sm:text-xs text-neutral-600 !mt-1 max-w-md mx-auto text-center leading-normal">
+                  Raised with traditional Catholic moral values, mutual respect, and unconditional encouragement.
                 </p>
-              </div>
-              <div className="mt-8 pt-5 sm:mt-10 sm:pt-6 border-t border-neutral-100 text-xs font-semibold text-neutral-500">
-                Loving &bull; Homemaker
-              </div>
-            </motion.div>
+              </motion.div>
 
-            {/* Siblings & Family Type */}
-            <motion.div
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="bio-card flex flex-col justify-between"
-            >
-              <div className="space-y-2.5">
-                <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider block">
-                  Family Structure
-                </span>
-                <h3 className="text-xl font-bold text-neutral-900">
-                  Nuclear &bull; Close-Knit
-                </h3>
-                <p className="text-sm text-neutral-600 leading-relaxed pt-1">
-                  Close family with loving sibling bond. We celebrate family milestones together, respect individuality, and maintain strong roots in Mumbai.
-                </p>
+              {/* Individual Family Structure & Pillars Cards (Outside standalone cards) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 lg:gap-4.5 my-auto flex-1">
+                {/* 1. Father */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.98, filter: 'blur(4px)' }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ duration: 0.55, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  className="family-pillar-card hover:border-amber-400/40"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2.5 sm:mb-3">
+                      <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider text-neutral-400">
+                        Father
+                      </span>
+                      <div className="w-6 h-6 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center">
+                        <Briefcase className="w-3.5 h-3.5" />
+                      </div>
+                    </div>
+                    <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">
+                      Guiding Pillar
+                    </h3>
+                    <p className="text-xs sm:text-[12.5px] text-neutral-600 leading-relaxed mt-2">
+                      Supportive family head with business &amp; private service background. Instilled values of discipline, honesty, and hard work.
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-black/[0.06] flex items-center justify-between text-[11px] sm:text-xs font-semibold text-neutral-500">
+                    <span>Discipline &bull; Integrity</span>
+                    <span className="text-amber-600 font-bold">&bull; Guiding Pillar</span>
+                  </div>
+                </motion.div>
+
+                {/* 2. Mother */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.98, filter: 'blur(4px)' }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ duration: 0.55, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                  className="family-pillar-card hover:border-rose-400/40"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2.5 sm:mb-3">
+                      <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider text-neutral-400">
+                        Mother
+                      </span>
+                      <div className="w-6 h-6 rounded-lg bg-rose-500/10 text-rose-600 flex items-center justify-center">
+                        <Heart className="w-3.5 h-3.5" />
+                      </div>
+                    </div>
+                    <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">
+                      Heart of the Home
+                    </h3>
+                    <p className="text-xs sm:text-[12.5px] text-neutral-600 leading-relaxed mt-2">
+                      Homemaker and the emotional anchor of our home. Known for her warmth, loving hospitality, and devout faith.
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-black/[0.06] flex items-center justify-between text-[11px] sm:text-xs font-semibold text-neutral-500">
+                    <span>Warmth &bull; Hospitality</span>
+                    <span className="text-rose-600 font-bold">&bull; Anchor</span>
+                  </div>
+                </motion.div>
+
+                {/* 3. Family Structure */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.98, filter: 'blur(4px)' }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ duration: 0.55, delay: 0.26, ease: [0.16, 1, 0.3, 1] }}
+                  className="family-pillar-card hover:border-sky-400/40"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2.5 sm:mb-3">
+                      <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider text-neutral-400">
+                        Family Structure
+                      </span>
+                      <div className="w-6 h-6 rounded-lg bg-sky-500/10 text-sky-600 flex items-center justify-center">
+                        <Users className="w-3.5 h-3.5" />
+                      </div>
+                    </div>
+                    <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">
+                      Nuclear &bull; Close-Knit
+                    </h3>
+                    <p className="text-xs sm:text-[12.5px] text-neutral-600 leading-relaxed mt-2">
+                      Close family with loving sibling bond. We celebrate milestones together, respect individuality, and maintain strong values.
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-black/[0.06] flex items-center justify-between text-[11px] sm:text-xs font-semibold text-neutral-500">
+                    <span>4 Members &bull; Mutual Respect</span>
+                    <span className="text-sky-600 font-bold">&bull; Sibling Bond</span>
+                  </div>
+                </motion.div>
+
+                {/* 4. Heritage & Roots */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.98, filter: 'blur(4px)' }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ duration: 0.55, delay: 0.34, ease: [0.16, 1, 0.3, 1] }}
+                  className="family-pillar-card hover:border-emerald-400/40"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2.5 sm:mb-3">
+                      <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider text-neutral-400">
+                        Heritage &amp; Faith
+                      </span>
+                      <div className="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+                        <ShieldCheck className="w-3.5 h-3.5" />
+                      </div>
+                    </div>
+                    <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">
+                      Mumbai Native &bull; Tamil Roots
+                    </h3>
+                    <p className="text-xs sm:text-[12.5px] text-neutral-600 leading-relaxed mt-2">
+                      Born and brought up in Mumbai with cherished ancestral Tamil Catholic roots. Forward-thinking outlook with high moral standards.
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-black/[0.06] flex items-center justify-between text-[11px] sm:text-xs font-semibold text-neutral-500">
+                    <span>Roman Catholic &bull; Moderate</span>
+                    <span className="text-emerald-600 font-bold">&bull; Cultural Roots</span>
+                  </div>
+                </motion.div>
               </div>
-              <div className="mt-8 pt-5 sm:mt-10 sm:pt-6 border-t border-neutral-100 text-xs font-semibold text-neutral-500">
-                Native Place: Mumbai / Tamil Nadu roots
-              </div>
-            </motion.div>
+
+              {/* Card Footer with Location/Faith & Black Pill Button with Hover Arrow Animation */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="mt-3.5 sm:mt-4 pt-3 sm:pt-3.5 border-t border-black/[0.06] flex flex-wrap items-center justify-between gap-3 px-1"
+              >
+                <div className="flex flex-wrap items-center gap-4 text-[11px] text-neutral-500 font-medium">
+                  <div className="flex items-center gap-1.5">
+                    <MapPin className="w-3.5 h-3.5 text-neutral-700 shrink-0" />
+                    <span>Native: Mumbai &bull; Work: Bengaluru</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <ShieldCheck className="w-3.5 h-3.5 text-neutral-700 shrink-0" />
+                    <span>Roman Catholic Faith &bull; Roots: Tamil Nadu</span>
+                  </div>
+                </div>
+
+              </motion.div>
+            </div>
           </div>
-
-          {/* Family Statement Box */}
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="bio-card flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-6"
-          >
-            <div className="w-12 h-12 rounded-2xl bg-neutral-100 flex items-center justify-center text-neutral-800 shrink-0">
-              <Users className="w-6 h-6 text-neutral-700" />
-            </div>
-            <div className="space-y-1.5">
-              <h4 className="font-bold text-neutral-900 text-base sm:text-lg">
-                Family Values &amp; Outlook
-              </h4>
-              <p className="text-neutral-600 text-xs sm:text-sm leading-relaxed">
-                We are a moderate, forward-thinking Roman Catholic family that blends cultural roots with modern aspirations. We value education, peaceful homes, mutual respect between partners, and treating each other&apos;s families with genuine regard.
-              </p>
-            </div>
-          </motion.div>
         </div>
       </section>
 
