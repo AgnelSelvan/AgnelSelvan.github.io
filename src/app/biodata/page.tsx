@@ -23,6 +23,7 @@ import {
   Building2,
   Laptop,
   Rocket,
+  Camera,
 } from 'lucide-react';
 
 const InstagramIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
@@ -183,6 +184,66 @@ export default function BiodataPage() {
     isHoveredBiodataRef.current = true;
   };
 
+  // Mouse & Touch Dragging + Smooth Auto-scroll for Photo Gallery Ribbon
+  const galleryScrollRef = React.useRef<HTMLDivElement>(null);
+  const isDraggingGalleryRef = React.useRef(false);
+  const startXGalleryRef = React.useRef(0);
+  const scrollLeftGalleryRef = React.useRef(0);
+  const isHoveredGalleryRef = React.useRef(false);
+
+  useEffect(() => {
+    const el = galleryScrollRef.current;
+    if (!el) return;
+
+    let animId: number;
+    const speed = 0.55; // gentle continuous auto-scroll
+
+    const step = () => {
+      if (!isHoveredGalleryRef.current && !isDraggingGalleryRef.current && el) {
+        el.scrollLeft += speed;
+        // Continuous wrap-around loop
+        if (el.scrollLeft >= el.scrollWidth / 2) {
+          el.scrollLeft = 0;
+        }
+      }
+      animId = requestAnimationFrame(step);
+    };
+
+    animId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(animId);
+  }, []);
+
+  const handleGalleryMouseDown = (e: React.MouseEvent) => {
+    const el = galleryScrollRef.current;
+    if (!el) return;
+    isDraggingGalleryRef.current = true;
+    startXGalleryRef.current = e.pageX - el.offsetLeft;
+    scrollLeftGalleryRef.current = el.scrollLeft;
+  };
+
+  const handleGalleryMouseMove = (e: React.MouseEvent) => {
+    if (!isDraggingGalleryRef.current) return;
+    e.preventDefault();
+    const el = galleryScrollRef.current;
+    if (!el) return;
+    const x = e.pageX - el.offsetLeft;
+    const walk = (x - startXGalleryRef.current) * 1.5;
+    el.scrollLeft = scrollLeftGalleryRef.current - walk;
+  };
+
+  const handleGalleryMouseUp = () => {
+    isDraggingGalleryRef.current = false;
+  };
+
+  const handleGalleryMouseLeave = () => {
+    isDraggingGalleryRef.current = false;
+    isHoveredGalleryRef.current = false;
+  };
+
+  const handleGalleryMouseEnter = () => {
+    isHoveredGalleryRef.current = true;
+  };
+
   // Letter stagger animation config for the HUGE name
   const firstName = "AGNEL";
   const lastName = "SELVAN";
@@ -209,43 +270,35 @@ export default function BiodataPage() {
     },
   };
 
-  // Gallery images with descriptions
+  // Gallery images from public/mine/many
   const galleryItems = [
     {
-      src: '/mine/main-v1.png',
+      src: '/mine/many/IMG_2008.webp',
       alt: 'Agnel Selvan Portrait',
-      caption: 'Main Portrait • Software Engineer',
-      tag: 'Portrait',
     },
     {
-      src: 'https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80',
-      alt: 'Kerala Backwaters & Nature',
-      caption: 'Recent road trip across peaceful backwaters in Kerala',
-      tag: 'Travel',
+      src: '/mine/many/IMG_2064.webp',
+      alt: 'Agnel Selvan Lifestyle',
     },
     {
-      src: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80',
-      alt: 'Independent SaaS Workspace',
-      caption: 'Deep focus hours: architecting & shipping independent SaaS apps',
-      tag: 'Passion',
+      src: '/mine/many/IMG_2113.webp',
+      alt: 'Agnel Selvan Portrait',
     },
     {
-      src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
-      alt: 'Warm smile and casual look',
-      caption: 'Weekend coffee, good books, and conversations',
-      tag: 'Lifestyle',
+      src: '/mine/many/IMG_2244_Original.webp',
+      alt: 'Agnel Selvan Festive',
     },
     {
-      src: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80',
-      alt: 'Professional and thoughtful',
-      caption: 'Thoughtful, calm, and grounded approach to life and work',
-      tag: 'Mindset',
+      src: '/mine/many/IMG_2619.webp',
+      alt: 'Agnel Selvan Outdoors',
     },
     {
-      src: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80',
-      alt: 'Road Trip Adventures',
-      caption: 'Scenic drives and exploring countryside escapes',
-      tag: 'Road Trips',
+      src: '/mine/many/IMG_6304.webp',
+      alt: 'Agnel Selvan Portrait',
+    },
+    {
+      src: '/mine/many/new.webp',
+      alt: 'Agnel Selvan Portrait',
     },
   ];
 
@@ -1199,103 +1252,113 @@ export default function BiodataPage() {
       </section>
 
       {/* 07. PHOTO GALLERY */}
-      <section id="gallery" className="bio-section">
-        <div className="bio-container">
+      <section id="gallery" className="bio-section bio-gallery-section relative overflow-hidden bg-alt-section">
+        {/* Ambient Background Glows */}
+        <div className="gallery-ambient-glow" />
+        <div className="gallery-ambient-glow-right" />
+
+        <div className="bio-container relative z-10 w-full">
+          {/* Centered Header with Lots of Whitespace */}
           <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="section-header"
+            initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
+            whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full flex flex-col items-center justify-center text-center mb-6 sm:mb-8 px-4"
           >
-            <span className="section-badge">
-              Moments &amp; Glimpses
+            <span className="section-badge inline-flex items-center justify-center gap-2 leading-none !mb-2.5 py-2 px-4.5 text-xs shadow-xs">
+              <Camera className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+              <span className="leading-none font-semibold">Moments &amp; Perspectives</span>
             </span>
-            <h2 className="section-title">
-              Photo Gallery
+            <h2 className="section-title text-2xl sm:text-3xl lg:text-[2.25rem] text-center font-extrabold tracking-tight">
+              Photo Gallery &amp; Life Moments
             </h2>
-            <p className="section-sub">
-              Click on any photo for an expanded view.
+            <p className="section-sub text-xs sm:text-sm text-neutral-600 !mt-1.5 max-w-lg mx-auto text-center leading-relaxed">
+              A candid glimpse into everyday life, outdoor road trips, festive celebrations, and quiet reflections.
             </p>
           </motion.div>
 
-          {/* Masonry-Style Responsive Grid */}
-          <div className="gallery-grid">
-            {galleryItems.map((item, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.08 }}
-                onClick={() => setSelectedPhoto(item.src)}
-                className="gallery-card"
+          {/* Auto-scrolling & Draggable Horizontal Ribbon */}
+          <div
+            ref={galleryScrollRef}
+            className="gallery-auto-track select-none"
+            onMouseDown={handleGalleryMouseDown}
+            onMouseMove={handleGalleryMouseMove}
+            onMouseUp={handleGalleryMouseUp}
+            onMouseLeave={handleGalleryMouseLeave}
+            onMouseEnter={handleGalleryMouseEnter}
+            onContextMenu={(e) => e.preventDefault()}
+          >
+            {/* Duplicated track for smooth infinite continuous scrolling */}
+            {[...galleryItems, ...galleryItems].map((item, idx) => (
+              <div
+                key={`gallery-${idx}`}
+                className="gallery-auto-card group"
+                onContextMenu={(e) => e.preventDefault()}
+                onDragStart={(e) => e.preventDefault()}
               >
+                {/* Photo Frame: Full rounded-2xl card without chips, titles, or descriptions */}
                 <div
-                  className="gallery-img-box"
-                  style={{ position: 'relative' }}
+                  className="gallery-photo-frame"
+                  onContextMenu={(e) => e.preventDefault()}
+                  onDragStart={(e) => e.preventDefault()}
                 >
                   <Image
                     src={item.src}
                     alt={item.alt}
                     fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="gallery-img"
+                    sizes="(max-width: 640px) 270px, (max-width: 1024px) 300px, 330px"
+                    className="object-cover object-center pointer-events-none select-none group-hover:scale-105 transition-transform duration-500"
+                    priority={idx < 2}
+                    draggable={false}
                   />
-                  <div className="gallery-overlay">
-                    <span className="text-[11px] font-bold tracking-wider uppercase text-blue-300">
-                      {item.tag}
-                    </span>
-                    <p className="text-sm font-semibold mt-1">
-                      {item.caption}
-                    </p>
-                  </div>
+
+                  {/* Subtle hover gradient depth */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+
+                  {/* Anti-copy transparent shield layer */}
+                  <div
+                    className="absolute inset-0 z-10"
+                    onContextMenu={(e) => e.preventDefault()}
+                    onDragStart={(e) => e.preventDefault()}
+                  />
                 </div>
-                <div className="p-4 bg-white flex items-center justify-between text-xs text-neutral-600 font-medium">
-                  <span>{item.tag}</span>
-                  <span className="text-neutral-400 hover:text-black transition-colors">Expand &rarr;</span>
-                </div>
-              </motion.div>
+              </div>
             ))}
           </div>
 
-          {/* Lightbox Modal */}
-          <AnimatePresence>
-            {selectedPhoto && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setSelectedPhoto(null)}
-                className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 md:p-8 cursor-zoom-out"
+          {/* Section Footer with Metadata and Black Pill Button with Hover Arrow Animation */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-6 pt-4 border-t border-black/[0.06] flex flex-wrap items-center justify-between gap-4 px-2"
+          >
+            <div className="flex flex-wrap items-center gap-4 text-xs text-neutral-500 font-medium">
+              <div className="flex items-center gap-1.5">
+                <Camera className="w-3.5 h-3.5 text-neutral-700 shrink-0" />
+                <span>7 Photographs &bull; Candid &amp; Lifestyle Moments</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-neutral-700 shrink-0" />
+                <span>Pause on Hover &bull; Drag or Swipe Freely</span>
+              </div>
+            </div>
+
+            {/* Black Pill Buttons with Hover Arrow Animation */}
+            <div className="flex items-center gap-2.5">
+              <a
+                href="#preferences"
+                className="btn-pill-black !py-1.5 !px-4 !text-xs shadow-xs"
+                onMouseEnter={() => setCursorHovered(true)}
+                onMouseLeave={() => setCursorHovered(false)}
               >
-                <button
-                  onClick={() => setSelectedPhoto(null)}
-                  className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-                  aria-label="Close photo view"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-                <motion.div
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.9, opacity: 0 }}
-                  transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                  className="relative max-w-4xl max-h-[85vh] w-full h-[70vh] rounded-2xl overflow-hidden"
-                  style={{ position: 'relative' }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Image
-                    src={selectedPhoto}
-                    alt="Expanded portrait photo"
-                    fill
-                    sizes="90vw"
-                    className="object-contain"
-                  />
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                <span>Partner Preferences</span>
+                <span className="arrow-icon">&rarr;</span>
+              </a>
+            </div>
+          </motion.div>
         </div>
       </section>
 
