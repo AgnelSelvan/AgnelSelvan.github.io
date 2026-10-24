@@ -20,6 +20,9 @@ import {
   Menu,
   ShieldCheck,
   Code2,
+  Building2,
+  Laptop,
+  Rocket,
 } from 'lucide-react';
 
 const InstagramIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
@@ -209,7 +212,7 @@ export default function BiodataPage() {
   // Gallery images with descriptions
   const galleryItems = [
     {
-      src: '/mine/main.png',
+      src: '/mine/main-v1.png',
       alt: 'Agnel Selvan Portrait',
       caption: 'Main Portrait • Software Engineer',
       tag: 'Portrait',
@@ -468,7 +471,7 @@ export default function BiodataPage() {
           >
             <div className="relative" style={{ position: 'relative' }}>
               <Image
-                src="/mine/main.png"
+                src="/mine/main-v1.png"
                 alt="Agnel Selvan"
                 width={520}
                 height={680}
@@ -965,149 +968,228 @@ export default function BiodataPage() {
         </div>
       </section>
 
-      {/* 05. EDUCATION & CAREER TIMELINE */}
-      <section id="education" className="bio-section">
-        <div id="career" className="scroll-mt-28 bio-container">
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="section-header"
-          >
-            <span className="section-badge">
-              Education &amp; Career
-            </span>
-            <h2 className="section-title">
-              My Professional Journey
-            </h2>
-            <p className="section-sub">
-              Engineering foundation from Mumbai, mobile software engineering, and independent SaaS building.
-            </p>
-          </motion.div>
+      {/* 05. EDUCATION & CAREER / PROFESSIONAL JOURNEY */}
+      <section id="education" className="bio-section bio-career-section relative overflow-hidden bg-alt-section">
+        {/* Anchor for career nav link */}
+        <div id="career" className="absolute top-0 left-0 scroll-mt-28" />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-stretch">
-            {/* Education Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="bio-card flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center gap-4 mb-8 pb-5 border-b border-neutral-100">
-                  <div className="w-12 h-12 rounded-2xl bg-neutral-100 flex items-center justify-center text-neutral-800 shrink-0">
-                    <GraduationCap className="w-6 h-6" />
-                  </div>
+        {/* Ambient Background Glows */}
+        <div className="career-ambient-glow" />
+        <div className="career-ambient-glow-left" />
+
+        <div className="bio-container relative z-10 w-full">
+          {/* Unified Desktop View: Left Column (Content & Standalone Cards) & Right Column (Photo) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch bio-career-grid">
+            {/* Left Column: Title Section + 4 Standalone Career Pillar Cards */}
+            <div className="order-1 lg:order-1 lg:col-span-7 xl:col-span-7 flex flex-col justify-between py-1 lg:py-2">
+              {/* Title / Header Section - Centered in Available Space */}
+              <motion.div
+                initial={{ opacity: 0, y: 15, filter: 'blur(6px)' }}
+                whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full flex flex-col items-center justify-center text-center mb-3 sm:mb-4 px-2"
+              >
+                <span className="section-badge inline-flex items-center justify-center gap-1.5 leading-none !mb-1.5 py-0.5 px-2.5 text-[10px] shadow-xs">
+                  <Briefcase className="w-3 h-3 text-amber-600 shrink-0" />
+                  <span className="leading-none">Education &amp; Professional Journey</span>
+                </span>
+                <h2 className="section-title text-xl sm:text-2xl lg:text-[2rem] text-center font-extrabold tracking-tight">
+                  Craft, Code &amp; Building SaaS
+                </h2>
+                <p className="section-sub text-[11px] sm:text-xs text-neutral-600 !mt-1 max-w-md mx-auto text-center leading-normal">
+                  Engineering foundation from Mumbai, mobile software engineering, and independent SaaS building.
+                </p>
+              </motion.div>
+
+              {/* Individual Career Structure & Pillars Cards (Outside standalone cards) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 lg:gap-4.5 my-auto flex-1">
+                {/* 1. Current Full-Time Role: The Family Office */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.98, filter: 'blur(4px)' }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ duration: 0.55, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  className="career-pillar-card hover:border-emerald-400/40"
+                >
                   <div>
-                    <h3 className="font-bold text-lg sm:text-xl text-neutral-900">Academic Background</h3>
-                    <span className="text-xs text-neutral-500 font-medium">Undergraduation &amp; Junior College</span>
-                  </div>
-                </div>
-
-                <div className="space-y-8">
-                  <div className="relative pl-7 border-l-2 border-neutral-200">
-                    <span className="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-black ring-4 ring-white" />
-                    <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wide block mb-1">
-                      2017 &ndash; 2021 &bull; Mumbai
-                    </span>
-                    <h4 className="text-base font-bold text-neutral-900">
-                      Bachelor of Computer Engineering (B.E.)
-                    </h4>
-                    <p className="text-sm font-semibold text-neutral-700 mt-0.5">
-                      Xavier Institute of Engineering, Mumbai
+                    <div className="flex items-center justify-between mb-2.5 sm:mb-3">
+                      <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider text-emerald-600">
+                        2024 &ndash; Present &bull; Bengaluru
+                      </span>
+                      <div className="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+                        <Building2 className="w-3.5 h-3.5" />
+                      </div>
+                    </div>
+                    <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">
+                      Software Engineer
+                    </h3>
+                    <p className="text-[11px] font-semibold text-neutral-700 mt-0.5">
+                      The Family Office &bull; Mobile Engineering
                     </p>
-                    <p className="text-xs sm:text-sm text-neutral-500 mt-2 leading-relaxed">
-                      Four-year comprehensive engineering degree focusing on software algorithms, systems design, and computer engineering.
-                    </p>
-                  </div>
-
-                  <div className="relative pl-7 border-l-2 border-neutral-200">
-                    <span className="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-neutral-300 ring-4 ring-white" />
-                    <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wide block mb-1">
-                      Higher Secondary Education (12th)
-                    </span>
-                    <h4 className="text-base font-bold text-neutral-900">
-                      SIES College of Arts, Science and Commerce
-                    </h4>
-                    <p className="text-sm font-semibold text-neutral-700 mt-0.5">
-                      Mumbai, Maharashtra
-                    </p>
-                    <p className="text-xs sm:text-sm text-neutral-500 mt-2 leading-relaxed">
-                      Completed 12th standard with Science and Computer Science foundation.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Career Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="bio-card flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center gap-4 mb-8 pb-5 border-b border-neutral-100">
-                  <div className="w-12 h-12 rounded-2xl bg-neutral-100 flex items-center justify-center text-neutral-800 shrink-0">
-                    <Briefcase className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-lg sm:text-xl text-neutral-900">Work Experience</h3>
-                    <span className="text-xs text-neutral-500 font-medium">Software Engineering Roles</span>
-                  </div>
-                </div>
-
-                <div className="space-y-8">
-                  {/* The Family Office */}
-                  <div className="relative pl-7 border-l-2 border-neutral-200">
-                    <span className="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-emerald-600 ring-4 ring-white" />
-                    <span className="text-xs font-bold text-emerald-600 uppercase tracking-wide block mb-1">
-                      2024 &ndash; Present &bull; Bengaluru
-                    </span>
-                    <h4 className="text-base font-bold text-neutral-900">
-                      Software Engineer &bull; Mobile Application Engineer
-                    </h4>
-                    <p className="text-sm font-semibold text-neutral-700 mt-0.5">
-                      The Family Office
-                    </p>
-                    <p className="text-xs sm:text-sm text-neutral-500 mt-2 leading-relaxed">
+                    <p className="text-xs sm:text-[12.5px] text-neutral-600 leading-relaxed mt-2">
                       Engineering reliable, high-performance mobile applications and seamless financial technology workflows.
                     </p>
                   </div>
+                  <div className="mt-4 pt-3 border-t border-black/[0.06] flex items-center justify-between text-[11px] sm:text-xs font-semibold text-neutral-500">
+                    <span>Mobile Apps &bull; Fintech</span>
+                    <span className="text-emerald-600 font-bold">&bull; Full-Time</span>
+                  </div>
+                </motion.div>
 
-                  {/* Neosoft */}
-                  <div className="relative pl-7 border-l-2 border-neutral-200">
-                    <span className="absolute -left-1.5 top-1.5 w-3 h-3 rounded-full bg-neutral-300 ring-4 ring-white" />
-                    <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wide block mb-1">
-                      2021 &ndash; 2024 &bull; Mumbai
-                    </span>
-                    <h4 className="text-base font-bold text-neutral-900">
-                      Software Engineer
-                    </h4>
-                    <p className="text-sm font-semibold text-neutral-700 mt-0.5">
-                      Neosoft Technologies
+                {/* 2. Side Ventures: Independent SaaS Builder */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.98, filter: 'blur(4px)' }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ duration: 0.55, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                  className="career-pillar-card hover:border-amber-400/40"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2.5 sm:mb-3">
+                      <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider text-amber-700">
+                        After 9-to-5 &bull; Personal Priority
+                      </span>
+                      <div className="w-6 h-6 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center">
+                        <Rocket className="w-3.5 h-3.5" />
+                      </div>
+                    </div>
+                    <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">
+                      Independent SaaS Creator
+                    </h3>
+                    <p className="text-[11px] font-semibold text-neutral-700 mt-0.5">
+                      Self-Funded Digital Products
                     </p>
-                    <p className="text-xs sm:text-sm text-neutral-500 mt-2 leading-relaxed">
-                      Architected robust cross-platform mobile solutions, client architectures, and enterprise feature sets over 3 years.
+                    <p className="text-xs sm:text-[12.5px] text-neutral-600 leading-relaxed mt-2">
+                      Actively architecting, designing, and launching independent software products with long-term compound value.
                     </p>
                   </div>
+                  <div className="mt-4 pt-3 border-t border-black/[0.06] flex items-center justify-between text-[11px] sm:text-xs font-semibold text-neutral-500">
+                    <span>Full-Stack &bull; SaaS</span>
+                    <span className="text-amber-600 font-bold">&bull; Builder</span>
+                  </div>
+                </motion.div>
 
-                  {/* Independent SaaS Builder */}
-                  <div className="relative pl-7 border-l-2 border-amber-300 bg-amber-50/50 p-4 rounded-2xl -ml-2">
-                    <span className="absolute -left-1.5 top-5 w-3 h-3 rounded-full bg-amber-500 ring-4 ring-white" />
-                    <span className="text-[11px] font-bold text-amber-800 uppercase tracking-wide block mb-1">
-                      Personal Priority &bull; After 9-to-5
-                    </span>
-                    <h4 className="text-sm font-bold text-amber-950">
-                      Independent SaaS Builder &amp; Creator
-                    </h4>
-                    <p className="text-xs text-neutral-600 mt-1.5 leading-relaxed">
-                      Actively architecting, designing, and launching independent software products with long-term compound value and monetizing them.
+                {/* 3. Prior Role: Neosoft Technologies */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.98, filter: 'blur(4px)' }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ duration: 0.55, delay: 0.26, ease: [0.16, 1, 0.3, 1] }}
+                  className="career-pillar-card hover:border-sky-400/40"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2.5 sm:mb-3">
+                      <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider text-neutral-400">
+                        2021 &ndash; 2024 &bull; Mumbai
+                      </span>
+                      <div className="w-6 h-6 rounded-lg bg-sky-500/10 text-sky-600 flex items-center justify-center">
+                        <Code2 className="w-3.5 h-3.5" />
+                      </div>
+                    </div>
+                    <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">
+                      Software Engineer
+                    </h3>
+                    <p className="text-[11px] font-semibold text-neutral-700 mt-0.5">
+                      Neosoft Technologies &bull; 3 Years
                     </p>
+                    <p className="text-xs sm:text-[12.5px] text-neutral-600 leading-relaxed mt-2">
+                      Architected robust cross-platform mobile solutions, client architectures, and enterprise feature sets.
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-black/[0.06] flex items-center justify-between text-[11px] sm:text-xs font-semibold text-neutral-500">
+                    <span>Cross-Platform &bull; Mobile</span>
+                    <span className="text-sky-600 font-bold">&bull; Enterprise</span>
+                  </div>
+                </motion.div>
+
+                {/* 4. Academic Foundation: Xavier Institute of Engineering */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20, scale: 0.98, filter: 'blur(4px)' }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ duration: 0.55, delay: 0.34, ease: [0.16, 1, 0.3, 1] }}
+                  className="career-pillar-card hover:border-purple-400/40"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2.5 sm:mb-3">
+                      <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider text-neutral-400">
+                        2017 &ndash; 2021 &bull; Mumbai
+                      </span>
+                      <div className="w-6 h-6 rounded-lg bg-purple-500/10 text-purple-600 flex items-center justify-center">
+                        <GraduationCap className="w-3.5 h-3.5" />
+                      </div>
+                    </div>
+                    <h3 className="text-sm sm:text-base font-bold text-neutral-900 leading-snug">
+                      B.E. Computer Engineering
+                    </h3>
+                    <p className="text-[11px] font-semibold text-neutral-700 mt-0.5">
+                      Xavier Institute of Engineering
+                    </p>
+                    <p className="text-xs sm:text-[12.5px] text-neutral-600 leading-relaxed mt-2">
+                      Comprehensive 4-year degree focusing on software algorithms, systems design, and computer engineering foundation.
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-3 border-t border-black/[0.06] flex items-center justify-between text-[11px] sm:text-xs font-semibold text-neutral-500">
+                    <span>Xavier &bull; Mumbai Univ</span>
+                    <span className="text-purple-600 font-bold">&bull; First Class</span>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Card Footer with Details */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="mt-3.5 sm:mt-4 pt-3 sm:pt-3.5 border-t border-black/[0.06] flex flex-wrap items-center justify-between gap-3 px-1"
+              >
+                <div className="flex flex-wrap items-center gap-4 text-[11px] text-neutral-500 font-medium">
+                  <div className="flex items-center gap-1.5">
+                    <Laptop className="w-3.5 h-3.5 text-neutral-700 shrink-0" />
+                    <span>Specialization: Mobile Apps &bull; React Native &bull; TypeScript</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <MapPin className="w-3.5 h-3.5 text-neutral-700 shrink-0" />
+                    <span>Work: Bengaluru &bull; Native: Mumbai</span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Right Column: Work Photo Showcase taking Desktop Height - Navbar Height */}
+            <motion.div
+              initial={{ opacity: 0, x: 35, scale: 0.96, filter: 'blur(6px)' }}
+              whileInView={{ opacity: 1, x: 0, scale: 1, filter: 'blur(0px)' }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+              className="order-2 lg:order-2 lg:col-span-5 xl:col-span-5 flex justify-center h-full"
+            >
+              <div
+                className="about-photo-wrapper w-full h-full group"
+                onMouseEnter={() => setCursorHovered(true)}
+                onMouseLeave={() => setCursorHovered(false)}
+              >
+                <div className="about-photo-frame">
+                  <Image
+                    src="/mine/work.webp"
+                    alt="Agnel Selvan at Work"
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 45vw"
+                    className="about-photo-img object-cover object-center"
+                    priority={false}
+                  />
+                  {/* Rounded border fade opacity overlay */}
+                  <div className="about-photo-fade-border" />
+
+                  {/* Floating romantic/professional badge with Live Pulsing Dot */}
+                  <div className="about-photo-badge flex items-center gap-2">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                    </span>
+                    <span>Software Engineer &bull; The Family Office</span>
                   </div>
                 </div>
               </div>
