@@ -1562,164 +1562,87 @@ export default function BiodataPage() {
             </p>
           </motion.div>
 
-          {/* 3 Simple & Subtle Contact Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {/* 1. WhatsApp */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: 0.05 }}
-              className="contact-pillar-card text-center flex flex-col justify-between"
-            >
-              <div>
-                <div className="w-8 h-8 mx-auto rounded-full bg-black/[0.04] text-neutral-700 flex items-center justify-center mb-3">
-                  <MessageCircle className="w-4 h-4" />
-                </div>
-                <h3 className="text-sm font-bold text-neutral-900">
-                  WhatsApp
-                </h3>
-                <p className="text-xs text-neutral-500 mt-1">
-                  Instant messaging &amp; biodata exchange
-                </p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-black/[0.05]">
-                <a
-                  href="https://wa.me/919167877725?text=Hello%20Agnel,%20connecting%20regarding%20your%20biodata"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-neutral-800 hover:text-black transition-colors"
-                  onMouseEnter={() => setCursorHovered(true)}
-                  onMouseLeave={() => setCursorHovered(false)}
-                >
-                  <span>Chat on WhatsApp</span>
-                  <span>&rarr;</span>
-                </a>
-              </div>
-            </motion.div>
-
-            {/* 2. Direct Phone Call */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="contact-pillar-card text-center flex flex-col justify-between"
-            >
-              <div>
-                <div className="w-8 h-8 mx-auto rounded-full bg-black/[0.04] text-neutral-700 flex items-center justify-center mb-3">
-                  <Phone className="w-4 h-4" />
-                </div>
-                <h3 className="text-sm font-bold text-neutral-900">
-                  Direct Call
-                </h3>
-                <p className="text-xs text-neutral-500 mt-1">
-                  +91 91678 77725 &bull; Parents welcome
-                </p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-black/[0.05]">
-                <a
-                  href="tel:+919167877725"
-                  className="inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-neutral-800 hover:text-black transition-colors"
-                  onMouseEnter={() => setCursorHovered(true)}
-                  onMouseLeave={() => setCursorHovered(false)}
-                >
-                  <span>Call Agnel</span>
-                  <span>&rarr;</span>
-                </a>
-              </div>
-            </motion.div>
-
-            {/* 3. Email Correspondence */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="contact-pillar-card text-center flex flex-col justify-between"
-            >
-              <div>
-                <div className="w-8 h-8 mx-auto rounded-full bg-black/[0.04] text-neutral-700 flex items-center justify-center mb-3">
-                  <Mail className="w-4 h-4" />
-                </div>
-                <h3 className="text-sm font-bold text-neutral-900">
-                  Email
-                </h3>
-                <p className="text-xs text-neutral-500 mt-1">
-                  agnelselvan007@gmail.com
-                </p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-black/[0.05]">
-                <a
-                  href="mailto:agnelselvan007@gmail.com?subject=Regarding%20Marriage%20Biodata%20-%20Agnel%20Selvan"
-                  className="inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-neutral-800 hover:text-black transition-colors"
-                  onMouseEnter={() => setCursorHovered(true)}
-                  onMouseLeave={() => setCursorHovered(false)}
-                >
-                  <span>Send Email</span>
-                  <span>&rarr;</span>
-                </a>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Simple Social Media Icons */}
+          {/* Unified Social & Direct Connection Icons */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-8 flex flex-col items-center justify-center gap-2.5"
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="my-8 flex flex-col items-center justify-center gap-4"
           >
-            <span className="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider">
-              Social Profiles
-            </span>
-            <div className="flex items-center justify-center gap-3">
-              <a
-                href="https://www.instagram.com/agnel.selvan/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="w-10 h-10 rounded-full border border-black/[0.08] bg-white/90 text-neutral-600 hover:text-pink-600 hover:border-black/20 flex items-center justify-center transition-all shadow-2xs"
-                onMouseEnter={() => setCursorHovered(true)}
-                onMouseLeave={() => setCursorHovered(false)}
-              >
-                <InstagramIcon className="w-4 h-4" />
-              </a>
-
-              <a
-                href="https://linkedin.com/in/agnel-selvan"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="w-10 h-10 rounded-full border border-black/[0.08] bg-white/90 text-neutral-600 hover:text-blue-600 hover:border-black/20 flex items-center justify-center transition-all shadow-2xs"
-                onMouseEnter={() => setCursorHovered(true)}
-                onMouseLeave={() => setCursorHovered(false)}
-              >
-                <LinkedinIcon className="w-4 h-4" />
-              </a>
-
+            <div className="flex flex-wrap items-center justify-center gap-3.5 sm:gap-4">
+              {/* WhatsApp */}
               <a
                 href="https://wa.me/919167877725?text=Hello%20Agnel,%20connecting%20regarding%20your%20biodata"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="WhatsApp"
-                className="w-10 h-10 rounded-full border border-black/[0.08] bg-white/90 text-neutral-600 hover:text-emerald-600 hover:border-black/20 flex items-center justify-center transition-all shadow-2xs"
+                aria-label="Chat on WhatsApp (+91 91678 77725)"
+                title="WhatsApp: +91 91678 77725"
+                className="w-12 h-12 sm:w-13 sm:h-13 rounded-full border border-black/[0.08] bg-white text-neutral-700 hover:text-emerald-600 hover:border-emerald-300 hover:bg-emerald-50/50 flex items-center justify-center transition-all shadow-2xs hover:scale-105"
                 onMouseEnter={() => setCursorHovered(true)}
                 onMouseLeave={() => setCursorHovered(false)}
               >
-                <MessageCircle className="w-4 h-4" />
+                <MessageCircle className="w-5 h-5" />
               </a>
 
+              {/* Direct Call */}
               <a
-                href="mailto:agnelselvan007@gmail.com?subject=Regarding%20Marriage%20Biodata%20-%20Agnel%20Selvan"
-                aria-label="Email"
-                className="w-10 h-10 rounded-full border border-black/[0.08] bg-white/90 text-neutral-600 hover:text-black hover:border-black/20 flex items-center justify-center transition-all shadow-2xs"
+                href="tel:+919167877725"
+                aria-label="Direct Phone Call (+91 91678 77725)"
+                title="Call Agnel: +91 91678 77725"
+                className="w-12 h-12 sm:w-13 sm:h-13 rounded-full border border-black/[0.08] bg-white text-neutral-700 hover:text-amber-600 hover:border-amber-300 hover:bg-amber-50/50 flex items-center justify-center transition-all shadow-2xs hover:scale-105"
                 onMouseEnter={() => setCursorHovered(true)}
                 onMouseLeave={() => setCursorHovered(false)}
               >
-                <Mail className="w-4 h-4" />
+                <Phone className="w-5 h-5" />
               </a>
+
+              {/* Email */}
+              <a
+                href="mailto:agnelselvan007@gmail.com?subject=Regarding%20Marriage%20Biodata%20-%20Agnel%20Selvan"
+                aria-label="Send Email (agnelselvan007@gmail.com)"
+                title="Email: agnelselvan007@gmail.com"
+                className="w-12 h-12 sm:w-13 sm:h-13 rounded-full border border-black/[0.08] bg-white text-neutral-700 hover:text-sky-600 hover:border-sky-300 hover:bg-sky-50/50 flex items-center justify-center transition-all shadow-2xs hover:scale-105"
+                onMouseEnter={() => setCursorHovered(true)}
+                onMouseLeave={() => setCursorHovered(false)}
+              >
+                <Mail className="w-5 h-5" />
+              </a>
+
+              {/* Instagram */}
+              <a
+                href="https://www.instagram.com/agnel.selvan/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram (@agnel.selvan)"
+                title="Instagram: @agnel.selvan"
+                className="w-12 h-12 sm:w-13 sm:h-13 rounded-full border border-black/[0.08] bg-white text-neutral-700 hover:text-pink-600 hover:border-pink-300 hover:bg-pink-50/50 flex items-center justify-center transition-all shadow-2xs hover:scale-105"
+                onMouseEnter={() => setCursorHovered(true)}
+                onMouseLeave={() => setCursorHovered(false)}
+              >
+                <InstagramIcon className="w-5 h-5" />
+              </a>
+
+              {/* LinkedIn */}
+              <a
+                href="https://linkedin.com/in/agnel-selvan"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn (Agnel Selvan)"
+                title="LinkedIn: Agnel Selvan"
+                className="w-12 h-12 sm:w-13 sm:h-13 rounded-full border border-black/[0.08] bg-white text-neutral-700 hover:text-blue-600 hover:border-blue-300 hover:bg-blue-50/50 flex items-center justify-center transition-all shadow-2xs hover:scale-105"
+                onMouseEnter={() => setCursorHovered(true)}
+                onMouseLeave={() => setCursorHovered(false)}
+              >
+                <LinkedinIcon className="w-5 h-5" />
+              </a>
+            </div>
+
+            {/* Subtle Contact Handle Reference */}
+            <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-neutral-500 font-medium">
+              <span>+91 91678 77725</span>
+              <span>&bull;</span>
+              <span>agnelselvan007@gmail.com</span>
             </div>
           </motion.div>
 
