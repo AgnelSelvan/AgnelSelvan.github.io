@@ -653,23 +653,23 @@ body {
   background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-radius: 1.75rem;
+  border-radius: 1rem;
   border: 1px solid rgba(232, 223, 226, 0.85);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
-  padding: 1.75rem;
+  padding: 1.25rem;
 }
 
 @media (min-width: 640px) {
   .about-card-romantic {
-    padding: 2.25rem;
+    padding: 1.35rem 1.5rem;
   }
 }
 
 @media (min-width: 1024px) {
   .about-card-romantic {
-    padding: 2.75rem;
+    padding: 1.35rem 1.65rem;
   }
 }
 
@@ -824,8 +824,8 @@ body {
 .fact-pill-inline {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0.95rem;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
   background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -836,6 +836,7 @@ body {
   flex-shrink: 0;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: grab;
+  font-size: 0.75rem;
 }
 
 .fact-pill-inline:active {
@@ -851,13 +852,14 @@ body {
 
 .inline-highlight-tag {
   display: inline-block;
-  padding: 0.05rem 0.4rem;
+  padding: 0.05rem 0.35rem;
   margin: 0 0.1rem;
-  border-radius: 0.45rem;
+  border-radius: 0.35rem;
   background: rgba(253, 141, 0, 0.08);
   border: 1px solid rgba(253, 141, 0, 0.22);
   color: #111827;
   font-weight: 600;
+  font-size: 0.82rem;
   transition: all 0.2s ease;
 }
 
@@ -877,11 +879,11 @@ body {
   }
   .bio-about-grid {
     height: calc(100vh - 4.5rem - 1.25rem);
-    min-height: 620px;
+    min-height: 600px;
   }
   .bio-about-section .about-photo-wrapper {
     height: calc(100vh - 4.5rem - 1.25rem);
-    min-height: 620px;
+    min-height: 600px;
     width: 100%;
     border-radius: 1rem; /* rounded-2xl */
     border: 1px solid rgba(0, 0, 0, 0.08);
@@ -896,7 +898,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 2.25rem 2.5rem;
+    padding: 1.35rem 1.65rem;
     border-radius: 1rem; /* rounded-2xl */
     border: 1px solid rgba(0, 0, 0, 0.06);
   }

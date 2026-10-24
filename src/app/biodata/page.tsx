@@ -544,34 +544,34 @@ export default function BiodataPage() {
             <div className="lg:col-span-7 xl:col-span-7 flex flex-col justify-between">
               {/* Title / Header Section - Centered in Available Space */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="w-full flex flex-col items-center justify-center text-center mb-3 lg:mb-4 px-2"
+                className="w-full flex flex-col items-center justify-center text-center mb-2.5 lg:mb-3 px-2"
               >
-                <span className="section-badge inline-flex items-center justify-center gap-1.5 leading-none !mb-2 shadow-xs">
-                  <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500/20 shrink-0" />
+                <span className="section-badge inline-flex items-center justify-center gap-1.5 leading-none !mb-1.5 py-0.5 px-2.5 text-[10px] shadow-xs">
+                  <Heart className="w-3 h-3 text-rose-500 fill-rose-500/20 shrink-0" />
                   <span className="leading-none">About Me &amp; Outlook</span>
                 </span>
-                <h2 className="section-title text-2xl sm:text-3xl lg:text-[2.25rem] text-center font-extrabold tracking-tight">
+                <h2 className="section-title text-xl sm:text-2xl lg:text-[2rem] text-center font-extrabold tracking-tight">
                   Who am I?
                 </h2>
-                <p className="section-sub text-xs sm:text-sm text-neutral-600 !mt-1 max-w-lg mx-auto text-center leading-normal">
+                <p className="section-sub text-[11px] sm:text-xs text-neutral-600 !mt-1 max-w-md mx-auto text-center leading-normal">
                   Software engineer born &amp; raised in Mumbai, based in Bengaluru. Grounded, calm, ambitious, and looking forward to building a loving life partnership.
                 </p>
               </motion.div>
 
               {/* Romantic & Cool Narrative Card - Minimal, Modern, Trustworthy */}
               <motion.div
-                initial={{ opacity: 0, y: 25 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="about-card-romantic rounded-2xl flex-1 flex flex-col justify-between"
               >
-                {/* Narrative Story - Clean & Generously Spaced */}
-                <div className="space-y-4 sm:space-y-5 text-neutral-700 text-sm sm:text-[0.95rem] leading-relaxed">
+                {/* Narrative Story - Clean, Compact & Generously Spaced */}
+                <div className="space-y-2.5 text-neutral-600 text-xs sm:text-[0.84rem] leading-relaxed">
                   <p>
                     Hello! I was born and brought up in <span className="inline-highlight-tag">Mumbai</span> in a Roman Catholic family with strong moral and family values. After completing my B.E. in Computer Engineering from <span className="inline-highlight-tag">Xavier Institute of Engineering</span>, I moved to <span className="inline-highlight-tag">Bengaluru</span>, where I currently work full-time as a Software Engineer at <span className="inline-highlight-tag">The Family Office</span>.
                   </p>
@@ -581,13 +581,13 @@ export default function BiodataPage() {
                 </div>
 
                 {/* Essential Biodata Details Ribbon - Evenly Spaced & Draggable */}
-                <div className="my-6 sm:my-8 pt-6 sm:pt-7 border-t border-black/[0.06]">
-                  <div className="flex items-center justify-between gap-2 mb-3.5 px-0.5">
-                    <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-neutral-800">
+                <div className="my-3 sm:my-3.5 pt-3 sm:pt-3.5 pb-2.5 sm:pb-3 border-t border-black/[0.06]">
+                  <div className="flex items-center justify-between gap-2 mb-2.5 px-0.5">
+                    <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-neutral-800">
                       <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
                       <span>Essential Biodata Details</span>
                     </div>
-                    <span className="text-[11px] font-medium text-neutral-400 hidden sm:inline-flex items-center gap-1.5">
+                    <span className="text-[10px] font-medium text-neutral-400 hidden sm:inline-flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                       Drag or scroll &bull; Hover to pause
                     </span>
@@ -603,25 +603,25 @@ export default function BiodataPage() {
                     onMouseLeave={handleBiodataMouseLeave}
                     onMouseEnter={handleBiodataMouseEnter}
                   >
-                    <div className="flex items-center gap-2.5 flex-nowrap w-max py-1 select-none">
+                    <div className="flex items-center gap-2 flex-nowrap w-max py-0.5 select-none">
                       {essentialFacts.map((fact, idx) => (
                         <div key={`fact-1-${idx}`} className="fact-pill-inline select-none">
-                          <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
+                          <span className="text-[9px] font-bold text-neutral-400 uppercase tracking-wider">
                             {fact.label}
                           </span>
                           <span className="text-neutral-300 font-light">&bull;</span>
-                          <span className="text-xs font-semibold text-neutral-800">
+                          <span className="text-[11px] font-semibold text-neutral-800">
                             {fact.value}
                           </span>
                         </div>
                       ))}
                       {essentialFacts.map((fact, idx) => (
                         <div key={`fact-2-${idx}`} className="fact-pill-inline select-none" aria-hidden="true">
-                          <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider">
+                          <span className="text-[9px] font-bold text-neutral-400 uppercase tracking-wider">
                             {fact.label}
                           </span>
                           <span className="text-neutral-300 font-light">&bull;</span>
-                          <span className="text-xs font-semibold text-neutral-800">
+                          <span className="text-[11px] font-semibold text-neutral-800">
                             {fact.value}
                           </span>
                         </div>
@@ -631,14 +631,14 @@ export default function BiodataPage() {
                 </div>
 
                 {/* Card Footer with Location/Faith & Black Pill Button with Hover Arrow Animation */}
-                <div className="mt-auto pt-5 sm:pt-6 border-t border-black/[0.06] flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex flex-wrap items-center gap-5 text-xs text-neutral-500 font-medium">
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-neutral-700 shrink-0" />
+                <div className="mt-auto pt-3 sm:pt-3.5 border-t border-black/[0.06] flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex flex-wrap items-center gap-4 text-[11px] text-neutral-500 font-medium">
+                    <div className="flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-neutral-700 shrink-0" />
                       <span>Born in Mumbai &bull; Based in Bengaluru</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <ShieldCheck className="w-4 h-4 text-neutral-700 shrink-0" />
+                    <div className="flex items-center gap-1.5">
+                      <ShieldCheck className="w-3.5 h-3.5 text-neutral-700 shrink-0" />
                       <span>Roman Catholic Faith &bull; Roots: Tamil Nadu</span>
                     </div>
                   </div>
@@ -646,7 +646,7 @@ export default function BiodataPage() {
                   {/* Black Pill Button with Hover Arrow Animation */}
                   <a
                     href="#family"
-                    className="btn-pill-black"
+                    className="btn-pill-black !py-1.5 !px-3.5 !text-xs"
                     onMouseEnter={() => setCursorHovered(true)}
                     onMouseLeave={() => setCursorHovered(false)}
                   >
