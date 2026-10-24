@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -52,6 +52,27 @@ const TwitterIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
+  // Close mobile drawer on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const projects = [
     {
@@ -219,72 +240,185 @@ export default function Home() {
           {/* Mobile Menu Trigger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-neutral-300 hover:text-white hover:bg-white/5 transition-colors"
+            className="md:hidden w-9 h-9 flex items-center justify-center rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.1] text-neutral-200 transition-all active:scale-95 shadow-xs"
             aria-label="Toggle navigation menu"
           >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            <Menu className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Mobile Dropdown Menu */}
+        {/* Mobile Slide-in Drawer */}
         <AnimatePresence>
           {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="md:hidden border-b border-white/[0.08] bg-[#0A0D15] px-6 py-5 flex flex-col gap-4 text-sm font-medium"
-            >
-              <a
-                href="#about"
+            <>
+              {/* Backdrop Blur */}
+              <motion.div
+                key="home-drawer-backdrop"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-neutral-300 hover:text-white py-1"
+                className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm md:hidden"
+                aria-hidden="true"
+              />
+
+              {/* Drawer Sheet */}
+              <motion.div
+                key="home-drawer-sheet"
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ type: 'spring', damping: 28, stiffness: 280 }}
+                className="fixed top-0 right-0 bottom-0 w-[86vw] max-w-[340px] z-[101] bg-[#0A0D15] border-l border-white/[0.1] shadow-2xl flex flex-col justify-between overflow-y-auto md:hidden"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Navigation Menu"
               >
-                About
-              </a>
-              <a
-                href="#experience"
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-neutral-300 hover:text-white py-1"
-              >
-                Experience
-              </a>
-              <a
-                href="#expertise"
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-neutral-300 hover:text-white py-1"
-              >
-                Expertise
-              </a>
-              <a
-                href="#work"
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-neutral-300 hover:text-white py-1"
-              >
-                Work
-              </a>
-              <a
-                href="#articles"
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-neutral-300 hover:text-white py-1"
-              >
-                Articles
-              </a>
-              <Link
-                href="/email-sender"
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-neutral-300 hover:text-white py-1"
-              >
-                Bulk Sender Tool
-              </Link>
-              <a
-                href="#contact"
-                onClick={() => setMobileMenuOpen(false)}
-                className="mt-2 text-center py-2.5 rounded-xl font-bold bg-white text-black"
-              >
-                Get in Touch
-              </a>
-            </motion.div>
+                {/* Header */}
+                <div className="p-5 pb-4 border-b border-white/[0.08] flex items-center justify-between bg-white/[0.02]">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-amber-400 to-orange-500 text-black flex items-center justify-center font-bold text-xs shadow-xs">
+                      AS
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold text-white leading-tight">Agnel Selvan</h3>
+                      <p className="text-[11px] font-medium text-neutral-400">Software Engineer</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-8 h-8 rounded-full bg-white/[0.08] hover:bg-white/[0.15] text-neutral-300 hover:text-white border border-white/[0.1] flex items-center justify-center transition active:scale-95"
+                    aria-label="Close menu"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Navigation Links */}
+                <div className="px-4 py-5 flex-1 flex flex-col gap-1.5 overflow-y-auto">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 px-3 pb-1">
+                    Navigation
+                  </span>
+                  {[
+                    { name: 'About', href: '#about', icon: Terminal, num: '01' },
+                    { name: 'Experience', href: '#experience', icon: Briefcase, num: '02' },
+                    { name: 'Expertise & Stack', href: '#expertise', icon: Layers, num: '03' },
+                    { name: 'Featured Work', href: '#work', icon: Code2, num: '04' },
+                    { name: 'Articles & Writing', href: '#articles', icon: FileText, num: '05' },
+                  ].map((item, idx) => {
+                    const IconComponent = item.icon;
+                    return (
+                      <a
+                        key={idx}
+                        href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-neutral-300 hover:text-white bg-white/[0.02] hover:bg-white/[0.06] border border-transparent hover:border-white/[0.08] transition-all group active:scale-[0.99]"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-7 h-7 rounded-lg bg-white/[0.05] text-amber-400 flex items-center justify-center group-hover:bg-amber-400 group-hover:text-black transition-colors">
+                            <IconComponent className="w-3.5 h-3.5" />
+                          </div>
+                          <span className="text-xs font-semibold">{item.name}</span>
+                        </div>
+                        <span className="text-[10px] font-mono font-medium text-neutral-500 group-hover:text-neutral-300">
+                          {item.num}
+                        </span>
+                      </a>
+                    );
+                  })}
+
+                  {/* Biodata & Utilities */}
+                  <div className="pt-3 mt-1 border-t border-white/[0.08]">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-500 px-3 pb-1.5 block">
+                      Quick Portals
+                    </span>
+                    <Link
+                      href="/biodata"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-neutral-200 hover:text-white bg-gradient-to-r from-rose-500/10 to-amber-500/10 hover:from-rose-500/20 hover:to-amber-500/20 border border-rose-500/20 transition-all group mb-1.5"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-7 h-7 rounded-lg bg-rose-500/20 text-rose-300 flex items-center justify-center">
+                          <Sparkles className="w-3.5 h-3.5" />
+                        </div>
+                        <div>
+                          <div className="text-xs font-bold text-white">Matrimonial Biodata</div>
+                          <div className="text-[10px] text-neutral-400">Personal &amp; Family Profile</div>
+                        </div>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-rose-400 group-hover:translate-x-0.5 transition-transform" />
+                    </Link>
+
+                    <Link
+                      href="/email-sender"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center justify-between px-3.5 py-2 rounded-xl text-neutral-400 hover:text-neutral-200 bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.04] transition-all group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-7 h-7 rounded-lg bg-white/[0.05] text-neutral-400 flex items-center justify-center">
+                          <Mail className="w-3.5 h-3.5" />
+                        </div>
+                        <span className="text-xs font-medium">Bulk Email Sender</span>
+                      </div>
+                      <ChevronRight className="w-3.5 h-3.5 text-neutral-500 group-hover:translate-x-0.5 transition-transform" />
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Footer */}
+                <div className="p-4 bg-white/[0.02] border-t border-white/[0.08] flex flex-col gap-3">
+                  <a
+                    href="#contact"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-full bg-white hover:bg-neutral-100 text-black text-xs font-bold shadow-xs transition active:scale-[0.99]"
+                  >
+                    <span>Get in Touch</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </a>
+
+                  {/* Social Profile Row */}
+                  <div className="flex items-center justify-center gap-2 pt-1">
+                    <a
+                      href="tel:+919167877725"
+                      aria-label="Direct Phone Call"
+                      className="w-8 h-8 rounded-full border border-white/[0.1] bg-white/[0.05] text-neutral-300 hover:text-white hover:bg-white/[0.1] flex items-center justify-center transition"
+                    >
+                      <Phone className="w-3.5 h-3.5" />
+                    </a>
+                    <a
+                      href="mailto:agnelselvan007@gmail.com"
+                      aria-label="Email Agnel"
+                      className="w-8 h-8 rounded-full border border-white/[0.1] bg-white/[0.05] text-neutral-300 hover:text-white hover:bg-white/[0.1] flex items-center justify-center transition"
+                    >
+                      <Mail className="w-3.5 h-3.5" />
+                    </a>
+                    <a
+                      href="https://linkedin.com/in/agnel-selvan"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="LinkedIn Profile"
+                      className="w-8 h-8 rounded-full border border-white/[0.1] bg-white/[0.05] text-neutral-300 hover:text-white hover:bg-white/[0.1] flex items-center justify-center transition"
+                    >
+                      <LinkedinIcon className="w-3.5 h-3.5" />
+                    </a>
+                    <a
+                      href="https://github.com/AgnelSelvan"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="GitHub Profile"
+                      className="w-8 h-8 rounded-full border border-white/[0.1] bg-white/[0.05] text-neutral-300 hover:text-white hover:bg-white/[0.1] flex items-center justify-center transition"
+                    >
+                      <GithubIcon className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+
+                  <p className="text-[10px] text-center text-neutral-500 font-medium">
+                    &bull; Bengaluru, India &bull;
+                  </p>
+                </div>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </header>

@@ -182,8 +182,9 @@ body {
   max-height: 840px;
   object-fit: contain;
   filter: drop-shadow(0 24px 35px rgba(15, 23, 42, 0.16)) grayscale(100%);
+  animation: heroPhotoBreathe 6.5s ease-in-out infinite;
   transition: filter 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease;
-  will-change: filter;
+  will-change: filter, transform;
 }
 
 .hero-photo-box:hover .hero-photo-img,
@@ -734,11 +735,14 @@ body {
   height: 100%;
   object-fit: cover;
   object-position: center 20%;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: photoBreathe 7.5s ease-in-out infinite;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+  will-change: transform;
 }
 
 .about-photo-wrapper:hover .about-photo-img {
-  transform: scale(1.035);
+  animation-play-state: paused;
+  transform: scale(1.055) translateY(-2px);
 }
 
 /* Border fade opacity effect */
@@ -752,22 +756,45 @@ body {
   transition: opacity 0.3s ease;
 }
 
+/* Specular Shimmer Sheen Sweep Across Photo Frames */
+.about-photo-shimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 35%,
+    rgba(255, 255, 255, 0.28) 50%,
+    rgba(255, 255, 255, 0.08) 65%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 3;
+  animation: photoShimmerSweep 8.5s ease-in-out infinite;
+  will-change: transform;
+}
+
 .about-photo-badge {
   position: absolute;
   bottom: 1.25rem;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 3;
+  z-index: 4;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.55rem 1.15rem;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-radius: 9999px;
   border: 1px solid rgba(253, 141, 0, 0.3);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.08);
+  animation: badgeLevitate 4.5s ease-in-out infinite;
+  will-change: transform;
   font-size: 0.78rem;
   font-weight: 600;
   color: #111827;
@@ -1501,6 +1528,106 @@ body {
     opacity: 0.45;
     transform: scale(0.8);
   }
+}
+
+/* Organic Image Breathing Animations */
+@keyframes heroPhotoBreathe {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.022) translateY(-6px);
+  }
+}
+
+@keyframes photoBreathe {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.03) translateY(-4px);
+  }
+}
+
+@keyframes photoShimmerSweep {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.35;
+  }
+  28% {
+    transform: translateX(220%) skewX(-20deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(220%) skewX(-20deg);
+    opacity: 0;
+  }
+}
+
+@keyframes badgeLevitate {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-5px);
+  }
+}
+
+@keyframes ambientBreathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.65;
+  }
+  50% {
+    transform: scale(1.14) translate(14px, -10px);
+    opacity: 0.95;
+  }
+}
+
+@keyframes galleryCardBreathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+/* Ambient Background Breathing Glows */
+.about-ambient-glow,
+.family-ambient-glow,
+.career-ambient-glow,
+.gallery-ambient-glow,
+.preferences-ambient-glow,
+.contact-ambient-glow {
+  animation: ambientBreathe 10s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+}
+
+.about-ambient-glow-left,
+.family-ambient-glow-left,
+.career-ambient-glow-left,
+.gallery-ambient-glow-right,
+.preferences-ambient-glow-right,
+.contact-ambient-glow-left {
+  animation: ambientBreathe 12s ease-in-out infinite alternate-reverse;
+  will-change: transform, opacity;
+}
+
+.gallery-photo-card {
+  animation: galleryCardBreathe 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+.gallery-photo-card:nth-child(even) {
+  animation-delay: 2.3s;
+}
+
+.gallery-photo-card:nth-child(3n) {
+  animation-delay: 4.6s;
 }
 
 /* Print Stylesheet */

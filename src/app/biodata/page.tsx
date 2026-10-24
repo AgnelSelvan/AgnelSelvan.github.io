@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence, useMotionValue, useSpring, type Variants } from 'framer-motion';
+import Link from 'next/link';
+import { motion, AnimatePresence, useMotionValue, useSpring, useScroll, type Variants } from 'framer-motion';
 import {
   Phone,
   Mail,
@@ -24,6 +25,8 @@ import {
   Laptop,
   Rocket,
   Camera,
+  User,
+  ChevronRight,
 } from 'lucide-react';
 
 const InstagramIcon = ({ className = "w-3.5 h-3.5" }: { className?: string }) => (
@@ -58,6 +61,10 @@ export default function BiodataPage() {
   const cursorXSpring = useSpring(cursorX, { damping: 28, stiffness: 450 });
   const cursorYSpring = useSpring(cursorY, { damping: 28, stiffness: 450 });
 
+  // Creative Animation: Global Top Scroll Progress Bar
+  const { scrollYProgress } = useScroll();
+  const scrollProgressScale = useSpring(scrollYProgress, { damping: 30, stiffness: 200 });
+
   useEffect(() => {
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX);
@@ -86,10 +93,25 @@ export default function BiodataPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Keyboard navigation for lightbox
+  // Lock body scroll when mobile menu or photo lightbox is open
+  useEffect(() => {
+    if (isMenuOpen || selectedPhoto) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen, selectedPhoto]);
+
+  // Keyboard navigation for lightbox & mobile drawer
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSelectedPhoto(null);
+      if (e.key === 'Escape') {
+        setSelectedPhoto(null);
+        setIsMenuOpen(false);
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
@@ -304,6 +326,12 @@ export default function BiodataPage() {
 
   return (
     <div className="min-h-screen bg-[#FBF7F8] text-[#111827]">
+      {/* Creative Animation: Global Top Scroll Progress Bar */}
+      <motion.div
+        style={{ scaleX: scrollProgressScale }}
+        className="fixed top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-rose-500 via-amber-500 to-emerald-500 origin-left z-[9999] pointer-events-none"
+      />
+
       {/* Precision contact-centered custom cursor system */}
       <div className="cursor-canvas-fixed">
         {/* Outer Spring Follower Ring */}
@@ -389,10 +417,10 @@ export default function BiodataPage() {
             {/* Mobile Hamburger Toggle */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden p-2 rounded-full text-neutral-800 hover:bg-black/5"
+              className="lg:hidden w-9 h-9 flex items-center justify-center rounded-full bg-white/80 border border-neutral-200/80 text-neutral-800 hover:bg-white transition-all shadow-2xs active:scale-95"
               aria-label="Toggle Navigation Menu"
             >
-              {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              <Menu className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -400,30 +428,163 @@ export default function BiodataPage() {
         {/* Mobile Navigation Drawer */}
         <AnimatePresence>
           {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden bg-[#F7F1F2] border-b border-[#E8DFE2] px-6 py-5 flex flex-col gap-3.5"
-            >
-              {[
-                { name: 'About Agnel', href: '#about' },
-                { name: 'Family Details', href: '#family' },
-                { name: 'Education & Career', href: '#education' },
-                { name: 'Photo Gallery', href: '#gallery' },
-                { name: 'Partner Preferences', href: '#preferences' },
-                { name: 'Contact Information', href: '#contact' },
-              ].map((item, idx) => (
-                <a
-                  key={idx}
-                  href={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="text-sm font-semibold text-neutral-800 py-1.5 border-b border-neutral-200/60"
-                >
-                  {item.name}
-                </a>
-              ))}
-            </motion.div>
+            <>
+              {/* Backdrop Blur Overlay */}
+              <motion.div
+                key="mobile-drawer-backdrop"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                onClick={() => setIsMenuOpen(false)}
+                className="fixed inset-0 z-[100] bg-neutral-950/40 backdrop-blur-sm lg:hidden"
+                aria-hidden="true"
+              />
+
+              {/* Slide-in Drawer Sheet */}
+              <motion.div
+                key="mobile-drawer-sheet"
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ type: 'spring', damping: 28, stiffness: 280 }}
+                className="fixed top-0 right-0 bottom-0 w-[86vw] max-w-[340px] z-[101] bg-[#FAF5F6] border-l border-[#EADFE2] shadow-2xl flex flex-col justify-between overflow-y-auto lg:hidden"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Navigation Menu"
+              >
+                {/* Drawer Header */}
+                <div className="p-5 pb-4 border-b border-[#E8DFE2]/80 flex items-center justify-between bg-white/50">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                      AS
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold text-neutral-900 leading-tight">Agnel Selvan</h3>
+                      <p className="text-[11px] font-medium text-neutral-500">Biodata &bull; 2026</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setIsMenuOpen(false)}
+                    className="w-8 h-8 rounded-full bg-white hover:bg-neutral-100 text-neutral-600 hover:text-neutral-900 border border-neutral-200/80 flex items-center justify-center transition shadow-2xs active:scale-95"
+                    aria-label="Close menu"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Nav Links */}
+                <div className="px-4 py-5 flex-1 flex flex-col gap-1.5 overflow-y-auto">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 px-3 pb-1">
+                    Sections
+                  </span>
+                  {[
+                    { name: 'About Agnel', href: '#about', icon: User, num: '01' },
+                    { name: 'Family Details', href: '#family', icon: Users, num: '02' },
+                    { name: 'Education & Career', href: '#education', icon: GraduationCap, num: '03' },
+                    { name: 'Photo Gallery', href: '#gallery', icon: Camera, num: '04' },
+                    { name: 'Partner Preferences', href: '#preferences', icon: Heart, num: '05' },
+                    { name: 'Connect & Contact', href: '#contact', icon: Mail, num: '06' },
+                  ].map((item, idx) => {
+                    const IconComponent = item.icon;
+                    return (
+                      <a
+                        key={idx}
+                        href={item.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-neutral-700 hover:text-neutral-950 bg-white/40 hover:bg-white border border-transparent hover:border-[#E8DFE2] transition-all group active:scale-[0.99] shadow-2xs"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-7 h-7 rounded-lg bg-[#F0E6E8] text-neutral-700 flex items-center justify-center group-hover:bg-neutral-900 group-hover:text-white transition-colors">
+                            <IconComponent className="w-3.5 h-3.5" />
+                          </div>
+                          <span className="text-xs font-semibold">{item.name}</span>
+                        </div>
+                        <span className="text-[10px] font-mono font-medium text-neutral-400 group-hover:text-neutral-600">
+                          {item.num}
+                        </span>
+                      </a>
+                    );
+                  })}
+
+                  <div className="pt-3 mt-1 border-t border-[#E8DFE2]/60">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-neutral-400 px-3 pb-1.5 block">
+                      Professional
+                    </span>
+                    <Link
+                      href="/"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-neutral-700 hover:text-neutral-950 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 transition-all group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-800 flex items-center justify-center">
+                          <Briefcase className="w-3.5 h-3.5" />
+                        </div>
+                        <div>
+                          <div className="text-xs font-bold text-neutral-900">Career Portfolio</div>
+                          <div className="text-[10px] text-neutral-500">Engineering Work &amp; Resume</div>
+                        </div>
+                      </div>
+                      <ChevronRight className="w-4 h-4 text-amber-700 group-hover:translate-x-0.5 transition-transform" />
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Drawer Footer */}
+                <div className="p-4 bg-white/70 border-t border-[#E8DFE2] flex flex-col gap-3">
+                  <a
+                    href="https://wa.me/919167877725?text=Hello%20Agnel,%20connecting%20regarding%20your%20biodata"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-full bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-semibold shadow-xs transition active:scale-[0.99]"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Connect on WhatsApp</span>
+                  </a>
+
+                  {/* Quick Contact Icons */}
+                  <div className="flex items-center justify-center gap-2 pt-1">
+                    <a
+                      href="tel:+919167877725"
+                      aria-label="Direct Phone Call"
+                      className="w-8 h-8 rounded-full border border-neutral-200/80 bg-white text-neutral-700 flex items-center justify-center hover:bg-neutral-100 transition shadow-2xs"
+                    >
+                      <Phone className="w-3.5 h-3.5" />
+                    </a>
+                    <a
+                      href="mailto:agnelselvan007@gmail.com"
+                      aria-label="Email Agnel"
+                      className="w-8 h-8 rounded-full border border-neutral-200/80 bg-white text-neutral-700 flex items-center justify-center hover:bg-neutral-100 transition shadow-2xs"
+                    >
+                      <Mail className="w-3.5 h-3.5" />
+                    </a>
+                    <a
+                      href="https://www.instagram.com/agnel.selvan/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Instagram Profile"
+                      className="w-8 h-8 rounded-full border border-neutral-200/80 bg-white text-neutral-700 flex items-center justify-center hover:bg-neutral-100 transition shadow-2xs"
+                    >
+                      <InstagramIcon className="w-3.5 h-3.5" />
+                    </a>
+                    <a
+                      href="https://linkedin.com/in/agnel-selvan"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="LinkedIn Profile"
+                      className="w-8 h-8 rounded-full border border-neutral-200/80 bg-white text-neutral-700 flex items-center justify-center hover:bg-neutral-100 transition shadow-2xs"
+                    >
+                      <LinkedinIcon className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+
+                  <p className="text-[10px] text-center text-neutral-400 font-medium">
+                    &bull; Bengaluru &bull; Mumbai &bull;
+                  </p>
+                </div>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </header>
@@ -628,7 +789,13 @@ export default function BiodataPage() {
         <div className="about-ambient-glow" />
         <div className="about-ambient-glow-left" />
 
-        <div className="bio-container relative z-10 w-full">
+        <motion.div
+          initial={{ opacity: 0, y: 32, filter: 'blur(6px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          className="bio-container relative z-10 w-full"
+        >
           {/* Unified Desktop View: Left Column (Centered Title + Cool Card) & Right Column (Desktop Height - Navbar Height Photo) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch bio-about-grid">
             {/* Left Column: Title Section (Centered in Available Space) + Cool Story & One-Line Auto-Scrollable Marquee */}
@@ -787,6 +954,8 @@ export default function BiodataPage() {
                     className="about-photo-img"
                     priority={false}
                   />
+                  {/* Creative Animation: Specular Light Sheen Sweep */}
+                  <div className="about-photo-shimmer" />
                   {/* Rounded border fade opacity overlay */}
                   <div className="about-photo-fade-border" />
 
@@ -802,7 +971,7 @@ export default function BiodataPage() {
               </div>
             </motion.div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* 04. FAMILY DETAILS */}
@@ -811,7 +980,13 @@ export default function BiodataPage() {
         <div className="family-ambient-glow" />
         <div className="family-ambient-glow-right" />
 
-        <div className="bio-container relative z-10 w-full">
+        <motion.div
+          initial={{ opacity: 0, y: 32, filter: 'blur(6px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          className="bio-container relative z-10 w-full"
+        >
           {/* Unified Desktop View: Left Column (Photo) & Right Column (Centered Title + Family Card) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch bio-family-grid">
             {/* Left Column: Family Photo Showcase taking Desktop Height - Navbar Height */}
@@ -836,6 +1011,8 @@ export default function BiodataPage() {
                     className="about-photo-img object-cover object-center"
                     priority={false}
                   />
+                  {/* Creative Animation: Specular Light Sheen Sweep */}
+                  <div className="about-photo-shimmer" />
                   {/* Rounded border fade opacity overlay */}
                   <div className="about-photo-fade-border" />
 
@@ -1018,7 +1195,7 @@ export default function BiodataPage() {
               </motion.div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* 05. EDUCATION & CAREER / PROFESSIONAL JOURNEY */}
@@ -1030,7 +1207,13 @@ export default function BiodataPage() {
         <div className="career-ambient-glow" />
         <div className="career-ambient-glow-left" />
 
-        <div className="bio-container relative z-10 w-full">
+        <motion.div
+          initial={{ opacity: 0, y: 32, filter: 'blur(6px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          className="bio-container relative z-10 w-full"
+        >
           {/* Unified Desktop View: Left Column (Content & Standalone Cards) & Right Column (Photo) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch bio-career-grid">
             {/* Left Column: Title Section + 4 Standalone Career Pillar Cards */}
@@ -1233,6 +1416,8 @@ export default function BiodataPage() {
                     className="about-photo-img object-cover object-center"
                     priority={false}
                   />
+                  {/* Creative Animation: Specular Light Sheen Sweep */}
+                  <div className="about-photo-shimmer" />
                   {/* Rounded border fade opacity overlay */}
                   <div className="about-photo-fade-border" />
 
@@ -1248,7 +1433,7 @@ export default function BiodataPage() {
               </div>
             </motion.div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* 07. PHOTO GALLERY */}
@@ -1257,7 +1442,13 @@ export default function BiodataPage() {
         <div className="gallery-ambient-glow" />
         <div className="gallery-ambient-glow-right" />
 
-        <div className="bio-container relative z-10 w-full">
+        <motion.div
+          initial={{ opacity: 0, y: 32, filter: 'blur(6px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          className="bio-container relative z-10 w-full"
+        >
           {/* Centered Header with Lots of Whitespace */}
           <motion.div
             initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
@@ -1359,7 +1550,7 @@ export default function BiodataPage() {
               </a>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       </section>
 
       {/* 08. PARTNER EXPECTATIONS & VALUES */}
@@ -1367,7 +1558,13 @@ export default function BiodataPage() {
         {/* Ambient Subtle Background Glow */}
         <div className="preferences-ambient-glow" />
 
-        <div className="bio-container relative z-10 w-full max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 32, filter: 'blur(6px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          className="bio-container relative z-10 w-full max-w-4xl mx-auto"
+        >
           {/* Header Section - Minimal & Subtle */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -1533,7 +1730,7 @@ export default function BiodataPage() {
               <span className="arrow-icon">&rarr;</span>
             </a>
           </motion.div>
-        </div>
+        </motion.div>
       </section>
 
       {/* 09. CONTACT / EXPRESS INTEREST SECTION */}
@@ -1541,7 +1738,13 @@ export default function BiodataPage() {
         {/* Ambient Subtle Background Glow */}
         <div className="contact-ambient-glow" />
 
-        <div className="bio-container relative z-10 w-full max-w-3xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 32, filter: 'blur(6px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          className="bio-container relative z-10 w-full max-w-3xl mx-auto"
+        >
           {/* Centered Header Section */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -1675,7 +1878,7 @@ export default function BiodataPage() {
               <span className="arrow-icon">&uarr;</span>
             </a>
           </motion.div>
-        </div>
+        </motion.div>
       </section>
 
       {/* 10. MINIMAL FOOTER */}
