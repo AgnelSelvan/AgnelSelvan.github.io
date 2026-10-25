@@ -24,6 +24,8 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  background-color: var(--bg-primary);
 }
 
 body {
@@ -338,9 +340,19 @@ body {
   }
 }
 
-/* Remove default mouse pointer on desktop and show custom circle cursor */
+/* Remove default mouse pointer on desktop and show custom circle cursor ONLY when custom cursor is present */
 @media (pointer: fine) {
-  html, body, a, button, input, [role="button"], select, textarea, label, summary, [type="button"], [type="submit"] {
+  body:has(.cursor-canvas-fixed),
+  body:has(.cursor-canvas-fixed) a,
+  body:has(.cursor-canvas-fixed) button,
+  body:has(.cursor-canvas-fixed) input,
+  body:has(.cursor-canvas-fixed) [role="button"],
+  body:has(.cursor-canvas-fixed) select,
+  body:has(.cursor-canvas-fixed) textarea,
+  body:has(.cursor-canvas-fixed) label,
+  body:has(.cursor-canvas-fixed) summary,
+  body:has(.cursor-canvas-fixed) [type="button"],
+  body:has(.cursor-canvas-fixed) [type="submit"] {
     cursor: none !important;
   }
 }

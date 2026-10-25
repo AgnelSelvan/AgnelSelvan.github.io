@@ -34,8 +34,9 @@ export function CareerSection({
       aria-label="Professional Career & Education Journey"
       className="bio-section relative overflow-hidden bg-[#F7F1F2]"
     >
-      {/* Anchor for education nav links */}
+      {/* Anchors for nav links */}
       <div id="education" className="absolute top-0 left-0 scroll-mt-28" />
+      <div id="experience" className="absolute top-0 left-0 scroll-mt-28" />
 
       {/* Background Decorative Ambient Glows */}
       <div

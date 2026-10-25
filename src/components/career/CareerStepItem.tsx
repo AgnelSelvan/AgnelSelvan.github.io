@@ -14,17 +14,17 @@ export interface CareerStepItemProps {
   showIncome?: boolean;
 }
 
-function getStepIcon(step: CareerStep) {
+function renderStepIcon(step: CareerStep, className: string) {
   if (step.category === "education" || step.id.includes("xavier") || step.id.includes("engineering")) {
-    return GraduationCap;
+    return <GraduationCap className={className} />;
   }
   if (step.id.includes("neosoft")) {
-    return Code2;
+    return <Code2 className={className} />;
   }
   if (step.id.includes("family")) {
-    return Building2;
+    return <Building2 className={className} />;
   }
-  return Briefcase;
+  return <Briefcase className={className} />;
 }
 
 export function CareerStepItem({
@@ -50,8 +50,6 @@ export function CareerStepItem({
   const formattedEnd = formatCareerDate(step.endDate);
   const dateRangeDisplay = `${formattedStart} - ${formattedEnd}`;
   const duration = calculateDuration(step.startDate, step.endDate);
-
-  const StepIcon = getStepIcon(step);
 
   const cardVariants: Variants = {
     hidden: shouldReduceMotion
@@ -212,7 +210,7 @@ export function CareerStepItem({
               )}
               aria-hidden="true"
             >
-              <StepIcon className="w-4 h-4 lg:w-4.5 lg:h-4.5" />
+              {renderStepIcon(step, "w-4 h-4 lg:w-4.5 lg:h-4.5")}
             </div>
           </motion.div>
         </div>
@@ -239,7 +237,7 @@ export function CareerStepItem({
             )}
             aria-hidden="true"
           >
-            <StepIcon className="w-3.5 h-3.5" />
+            {renderStepIcon(step, "w-3.5 h-3.5")}
           </div>
         </motion.div>
 
