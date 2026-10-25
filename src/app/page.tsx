@@ -803,7 +803,7 @@ export default function Home() {
 
             {/* Right Column: Narrative Story & Key Highlights */}
             <div className="lg:col-span-7 flex flex-col justify-between gap-6">
-              <div className="p-7 sm:p-8 rounded-3xl bg-white/90 backdrop-blur-sm border border-[#E8DFE2] shadow-2xs flex-1 flex flex-col justify-between">
+              <div className="p-7 sm:p-8 rounded-3xl bg-white/90 backdrop-blur-sm border border-[#E8DFE2] shadow-2xs flex-1 flex flex-col justify-between" style={{ padding: "20px 20px" }}>
                 <div className="space-y-4 text-neutral-600 text-sm sm:text-[0.95rem] leading-relaxed">
                   <p>
                     Hello! I am a Software Engineer based in <span className="inline-highlight-tag">Bengaluru</span>, originally born and raised in <span className="inline-highlight-tag">Mumbai</span>. After graduating in Computer Engineering from <span className="inline-highlight-tag">Xavier Institute of Engineering</span> (Mumbai University), I dedicated my career to architecting digital platforms that blend user delight with architectural robustness.
@@ -818,19 +818,19 @@ export default function Home() {
 
                 {/* Key Metric Highlights Grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 mt-6 pt-6 border-t border-[#E8DFE2]">
-                  <div className="p-3.5 rounded-2xl bg-[#FCF8F9] border border-[#E8DFE2]/70">
+                  <div className="p-3.5 rounded-2xl bg-[#FCF8F9] border border-[#E8DFE2]/70" style={{ padding: "8px 20px" }}>
                     <div className="text-xl sm:text-2xl font-black text-neutral-900">4+ Years</div>
                     <div className="text-[11px] text-neutral-500 mt-0.5">Production Experience</div>
                   </div>
-                  <div className="p-3.5 rounded-2xl bg-[#FCF8F9] border border-[#E8DFE2]/70">
+                  <div className="p-3.5 rounded-2xl bg-[#FCF8F9] border border-[#E8DFE2]/70" style={{ padding: "8px 20px" }}>
                     <div className="text-xl sm:text-2xl font-black text-neutral-900">55+</div>
                     <div className="text-[11px] text-neutral-500 mt-0.5">Open Source Repos</div>
                   </div>
-                  <div className="p-3.5 rounded-2xl bg-[#FCF8F9] border border-[#E8DFE2]/70">
+                  <div className="p-3.5 rounded-2xl bg-[#FCF8F9] border border-[#E8DFE2]/70" style={{ padding: "8px 20px" }}>
                     <div className="text-base sm:text-lg font-bold text-neutral-900 truncate">Family Office</div>
                     <div className="text-[11px] text-neutral-500 mt-0.5">Current Role</div>
                   </div>
-                  <div className="p-3.5 rounded-2xl bg-[#FCF8F9] border border-[#E8DFE2]/70">
+                  <div className="p-3.5 rounded-2xl bg-[#FCF8F9] border border-[#E8DFE2]/70" style={{ padding: "8px 20px" }}>
                     <div className="text-xl sm:text-2xl font-black text-neutral-900">100k+</div>
                     <div className="text-[11px] text-neutral-500 mt-0.5">Users Reached</div>
                   </div>
@@ -855,6 +855,7 @@ export default function Home() {
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold bg-white border border-[#E8DFE2] text-neutral-700 hover:bg-neutral-50 transition shadow-2xs cursor-pointer"
                   onMouseEnter={() => setCursorHovered(true)}
                   onMouseLeave={() => setCursorHovered(false)}
+                  style={{ padding: "8px 20px" }}
                 >
                   <GithubIcon className="w-3.5 h-3.5" />
                   <span>GitHub Profile</span>
@@ -899,6 +900,7 @@ export default function Home() {
                   viewport={{ once: true, margin: '-50px' }}
                   transition={{ duration: 0.6, delay: idx * 0.1 }}
                   className="p-7 sm:p-8 rounded-3xl bg-white/90 backdrop-blur-sm border border-[#E8DFE2] shadow-2xs hover:border-[#fd8d00]/40 hover:shadow-sm transition-all flex flex-col justify-between"
+                  style={{ padding: "8px 20px" }}
                   onMouseEnter={() => setCursorHovered(true)}
                   onMouseLeave={() => setCursorHovered(false)}
                 >
@@ -913,10 +915,11 @@ export default function Home() {
                       </div>
                     </div>
 
-                    <div className="flex flex-wrap gap-2 pt-2">
+                    <div className="flex flex-wrap gap-2 pt-2" style={{ padding: "10px 0px" }}>
                       {group.items.map((item, itemIdx) => (
                         <span
                           key={itemIdx}
+                          style={{ padding: "4px 10px" }}
                           className="text-xs px-3 py-1.5 rounded-xl bg-neutral-100/80 border border-neutral-200/80 text-neutral-800 font-medium"
                         >
                           {item}
@@ -972,6 +975,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             {projects.map((proj, idx) => (
               <motion.a
+                style={{ padding: "8px 20px" }}
                 key={idx}
                 href={proj.link}
                 target="_blank"
@@ -986,15 +990,15 @@ export default function Home() {
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-amber-600 bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-amber-600 bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/20" style={{ padding: "8px 20px" }}>
                       {proj.category}
                     </span>
-                    <span className="text-xs px-2.5 py-0.5 rounded-full bg-neutral-100 text-neutral-600 border border-neutral-200 font-medium">
+                    <span className="text-xs px-2.5 py-0.5 rounded-full bg-neutral-100 text-neutral-600 border border-neutral-200 font-medium" style={{ padding: "8px 20px" }}>
                       {proj.stats}
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold text-neutral-900 group-hover:text-amber-600 transition-colors flex items-center justify-between">
+                  <h3 className="text-xl font-bold text-neutral-900 group-hover:text-amber-600 transition-colors flex items-center justify-between" style={{ padding: "8px 0px" }}>
                     <span>{proj.title}</span>
                     <ExternalLink className="w-4 h-4 text-neutral-400 group-hover:text-neutral-900 transition-colors shrink-0 ml-2" />
                   </h3>
@@ -1004,7 +1008,7 @@ export default function Home() {
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-neutral-100 flex items-center justify-between text-xs font-semibold text-neutral-500 group-hover:text-neutral-900">
+                <div className="mt-6 pt-4 border-t border-neutral-100 flex items-center justify-between text-xs font-semibold text-neutral-500 group-hover:text-neutral-900" style={{ padding: "8px 0px" }}>
                   <span>View Repository &amp; Code</span>
                   <span className="text-neutral-900 group-hover:translate-x-1 transition-transform">&rarr;</span>
                 </div>
@@ -1024,7 +1028,7 @@ export default function Home() {
           {/* Section Header */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
             <div>
-              <span className="text-xs font-bold tracking-widest text-neutral-500 uppercase px-3.5 py-1.5 rounded-full bg-white/80 border border-neutral-200/80 shadow-2xs mb-3.5 inline-block">
+              <span className="text-xs font-bold tracking-widest text-neutral-500 uppercase px-3.5 py-1.5 rounded-full bg-white/80 border border-neutral-200/80 shadow-2xs mb-3.5 inline-block" style={{ padding: "8px 20px" }}>
                 PUBLICATIONS &amp; WRITING
               </span>
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-neutral-900 leading-tight">
@@ -1057,6 +1061,7 @@ export default function Home() {
                 className="group p-5 sm:p-6 rounded-2xl bg-white/90 backdrop-blur-sm border border-[#E8DFE2] hover:border-neutral-400 hover:shadow-xs transition-all flex items-center justify-between gap-4 cursor-pointer"
                 onMouseEnter={() => setCursorHovered(true)}
                 onMouseLeave={() => setCursorHovered(false)}
+                style={{ padding: "8px 20px", margin: "8px 0px" }}
               >
                 <div className="flex items-center gap-3.5">
                   <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center shrink-0">
@@ -1099,6 +1104,7 @@ export default function Home() {
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs sm:text-sm font-bold bg-neutral-900 text-white hover:bg-neutral-800 transition-all shadow-md cursor-pointer"
               onMouseEnter={() => setCursorHovered(true)}
               onMouseLeave={() => setCursorHovered(false)}
+              style={{ padding: "8px 20px" }}
             >
               <Mail className="w-4 h-4" />
               <span>agnelselvan007@gmail.com</span>
@@ -1109,6 +1115,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-800 transition-all cursor-pointer shadow-2xs"
               onMouseEnter={() => setCursorHovered(true)}
+              style={{ padding: "8px 20px" }}
               onMouseLeave={() => setCursorHovered(false)}
             >
               <MessageCircle className="w-4 h-4 text-emerald-600" />
@@ -1119,6 +1126,7 @@ export default function Home() {
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-xs sm:text-sm font-semibold bg-white border border-[#E8DFE2] text-neutral-800 hover:bg-neutral-50 transition-all cursor-pointer shadow-2xs"
               onMouseEnter={() => setCursorHovered(true)}
               onMouseLeave={() => setCursorHovered(false)}
+              style={{ padding: "8px 20px" }}
             >
               <Phone className="w-4 h-4 text-neutral-600" />
               <span>+91 91678 77725</span>
@@ -1134,6 +1142,7 @@ export default function Home() {
               className="w-12 h-12 rounded-full border border-neutral-200/90 bg-white text-neutral-700 hover:text-neutral-900 hover:border-neutral-400 hover:bg-neutral-50 flex items-center justify-center transition shadow-2xs cursor-pointer hover:scale-105"
               onMouseEnter={() => setCursorHovered(true)}
               onMouseLeave={() => setCursorHovered(false)}
+
             >
               <GithubIcon className="w-5 h-5" />
             </a>
